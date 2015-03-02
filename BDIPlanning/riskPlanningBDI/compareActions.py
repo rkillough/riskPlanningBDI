@@ -37,11 +37,11 @@ a4 = action("cross4lane",[s7,s8])
 
 
 #THis demonstrates that variance isnt that great of a risk measure
-s9 = state("lose",0,0.5)
-s10 = state("win",500,0.5)
+s9 = state("lose",0,0.8)
+s10 = state("win",100,0.2)
 
-s11 = state("lose",500,0.5)
-s12 = state("win",1000,0.5)
+s11 = state("lose",0,0.9)
+s12 = state("win",100,0.1)
 
 a5 = action(".2 chance of $100",[s9,s10])
 a6 = action(".1 chance of $100",[s11,s12])
@@ -81,7 +81,7 @@ def otherVariance(action):
 	variance = (Sum_sqr - (Sum*Sum)/n)/n
 	return variance
 
-
+#This is the non-naive variance algorithm, I am so far unable to find any different results than the naive one
 def shifted_data_variance(action):
 
 	data = action.states
@@ -102,18 +102,45 @@ def shifted_data_variance(action):
 	# use (n-1) if data are samples of a larger population
 	return variance
 
+#This algorithm computes variance for an action but only considers negative values plus a fake zero value
+#If a zero value is already present anyway, then a new one is not added, I don't know if this is corrent behavior yet
+def lossOnlyVariance(action):
+
+	applicableStates = []	
+	#remove states which contain postive rewards, we are not interested in these
+	for s in action.states:
+		if (s.reward < 0):
+			applicableStates.append(s)
+
+	if(len(applicableStates) > 0):
+		total = 0
+		for s in applicableStates:
+			val = s.prob * s.reward
+			total = total + val
+	
+		avgLoss = total/ (len(applicableStates)+1)	#this +1 is effectively adding an additional zero value
+		
+		totalVariance = 0
+		for s in applicableStates:
+			variance = math.pow((s.reward*s.prob)-avgLoss, 2)
+			totalVariance = totalVariance + variance
+	
+		avgVariance = totalVariance / len(applicableStates)
+		return avgVariance
+	else:
+		return 0
 
 def compareActions(action1, action2):
 
 	if(checkValidAction(action1)):
 		print("Utility of "+action1.name+": "+str(calculateUtility(action1)))
 		print("Variance (risk) of "+action1.name+": "+str(calculateVariance(action1)))
-		#print(shifted_data_variance(action1))
+		print("Loss only variance: "+str(lossOnlyVariance(action1)))
 
 	if(checkValidAction(action2)):
 		print("Utility of "+action2.name+": "+str(calculateUtility(action2)))
 		print("Variance (risk) of "+action2.name+": "+str(calculateVariance(action2)))
-		#print(shifted_data_variance(action2))
+		print("Loss only variance: "+str(lossOnlyVariance(action2)))
 
 
 #Make sure all the probabilities of the outcomes add up to 1
@@ -129,6 +156,6 @@ def checkValidAction(action):
 		print("Inconsistent probabilities")
 		return False
 
-compareActions(a5,a6)
+compareActions(a1,a2)
 
 
