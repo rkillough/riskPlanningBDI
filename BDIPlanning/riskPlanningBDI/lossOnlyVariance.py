@@ -1,3 +1,4 @@
+import math
 import sys
 
 data = [0]	#this is important for loss only, addition zero value must be included for reference
@@ -44,6 +45,7 @@ def computeLOVariance(r,p):
 	
 		if(k>1):
 			Variance = S/(k-1)
+			#standarddeviation = math.sqrt(S/(k-1))
 		else:
 			Variance  = 0
 
