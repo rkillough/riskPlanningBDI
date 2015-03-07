@@ -17,12 +17,15 @@ class state:
 		self.prob = prob
 
 #S0
-s1 = state("shot",-2000,0.05)	
-s2 = state("notshot",50,0.95)	
+s1 = state("shot",-2000,0.05)
+sa = state("injured",-1000,0.1)
+sb = state("PTSD",-900,0.15)	
+s2 = state("kill someone",-100,0.2)
+sc = state("help someone",100,0.5)	
 s3 = state("burnt",-15,0.95)	
 s4 = state("notburnt",0,0.05)
 	
-a1 = action("army",[s1,s2])
+a1 = action("army",[s1,s2,sa,sb,sc])
 a2 = action("cookery",[s3,s4])
 
 
@@ -116,9 +119,11 @@ def lossOnlyVariance(action):
 		total = 0
 		for s in applicableStates:
 			val = s.prob * s.reward
+			print(val)
 			total = total + val
 	
 		avgLoss = total/ (len(applicableStates)+1)	#this +1 is effectively adding an additional zero value
+		print ("avg: "+str(avgLoss))
 		
 		totalVariance = 0
 		for s in applicableStates:
