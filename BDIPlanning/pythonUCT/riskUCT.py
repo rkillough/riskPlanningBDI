@@ -18,7 +18,7 @@
 from math import *
 import random
 
-T = 0.4		#40% utility tolerance threshold
+T = 100		#100% utility tolerance threshold, this will just show all ranked results because were testing, but this can be lowered to reduce the number of results returned to the agent
 
 class AssessedAction():
 	def __init__(self,a,u,r):
@@ -138,7 +138,9 @@ class Node:
             lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits to vary the amount of
             exploration versus exploitation.
         """
-	
+		
+		#NOTE: as mentioned above, we are unable to alter the e/e bias without adding a constant UCTK (reffered to in the paper as Cp where Cp>0.
+			
         s = sorted(self.childNodes, key = lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits))[-1]
 	
         return s
@@ -244,9 +246,9 @@ def UCTPlayGame():
     while (state.GetMoves() != []):
         print str(state)
         if state.playerJustMoved == 1:
-            AAList = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
+            AAList = UCT(rootstate = state, itermax = 1000, verbose = True) # play with values for itermax and verbose = True
         else:
-            AAList = UCT(rootstate = state, itermax = 100, verbose = False)
+            AAList = UCT(rootstate = state, itermax = 100, verbose = True)
         #print "Best Move: " + str(m) + "\n"
 
 		#print the list of moves and associated utilities (here the utilities are simply visits, I'm not sure if this is the correct measure)
@@ -257,6 +259,7 @@ def UCTPlayGame():
         m = AAList[0].action
 
         state.DoMove(m)
+        raw_input()
 
     if state.GetResult(state.playerJustMoved) == 1.0:
         print "Player " + str(state.playerJustMoved) + " wins!"
