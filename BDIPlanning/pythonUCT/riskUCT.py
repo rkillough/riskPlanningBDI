@@ -18,13 +18,13 @@
 from math import *
 import random
 
-T = 100		#100% utility tolerance threshold, this will just show all ranked results because were testing, but this can be lowered to reduce the number of results returned to the agent
+T = 100     #100% utility tolerance threshold, this will just show all ranked results because were testing, but this can be lowered to reduce the number of results returned to the agent
 
 class AssessedAction():
-	def __init__(self,a,u,r):
-		self.action = a
-		self.utility = u
-		self.risk = r
+    def __init__(self,a,u,r):
+        self.action = a
+        self.utility = u
+        self.risk = r
 
 
 
@@ -118,6 +118,96 @@ class OXOState:
             if i % 3 == 2: s += "\n"
         return s
 
+class state():
+    def __init__(self,name,actions):
+        self.name = name
+        self.actions = actions
+
+class action():
+    #three lists
+    #outcomes: a list of states
+    #probs: a list of the probabilties of the index corresponding state being the outcome
+    #rewards: a list of the reward received if we arrive in the index corresponding state
+    def __init__(self,name,outcomes,probs,rewards):
+        self.name = name
+        self.outcomes = outcomes
+        self.probs = probs
+        self.rewards = rewards
+
+#construct nuclear scenario
+s0 = state("s0",[])
+s1 = state("s1",[])
+s2 = state("s2",[])
+s3 = state("s3",[])
+s4 = state("s4",[])
+s5 = state("s5",[])
+s6 = state("s6",[])
+
+a0 = action("a0", [s2,s6], [0.4,0.6], [-5,-1000])
+a1 = action("a1", [s1,s6], [0.9,0.1], [-20,-1000])
+a2 = action("a2", [s5,s6], [0.1,0.9], [100,-1000])
+a3 = action("a3", [s3,s6], [0.7,0.3], [-5,-1000])
+a4 = action("a4", [s5,s6], [0.3,0.7], [100,-1000])
+a5 = action("a5", [s2,s6], [0.6,0.4], [-5,-1000])
+a6 = action("a6", [s3,s6], [0.6,0.4], [-5,-1000])
+a7 = action("a7", [s4,s6], [0.9,0.1], [-3,-1000])
+a8 = action("a8", [s5,s6], [0.8,0.2], [80,-1000])
+a9 = action("a9", [s5,s6], [0.2,0.8], [100,-1000])
+
+s0.actions = [a0,a1]
+s1.actions = [a2,a3]
+s2.actions = [a6,a7]
+s3.actions = [a4,a5]
+s4.actions = [a8,a9]
+#s5.actions = []	This is the goal state
+#s6.actions = []	This is the fail state
+
+#return a random state based on the probabilties of the actions outcoems
+def getOutcome(a):
+	r = random.randint(0,999)	
+	print r	
+	distribution = []
+	l = 0	#lower bound
+	t = 0	#cumulative probability
+	for p in a.probs:
+		distribution.append([l, (t+p)*1000]) #this list is the lower and upper bounds in the distribution
+		l = (p*1000)
+		t = t+p
+
+	for i in range(len(a.outcomes)):
+		if(r>distribution[i][0] and r<=distribution[i][1]):
+			return a.outcomes[i]
+
+
+#new state with uncertainty
+class nuclearState():
+    """
+    This state models a simple mobile robot moving toward a goal state
+    There are a set of motion paths which can be taken to move toward the goal state, each with different probabilities
+    of success (which means there is uncertainty about the outcomes)
+    """ 
+    def __init__(self):
+        self.currentState = s0
+        
+    def Clone(self):
+		st = nuclearState()
+		st.currentState
+
+    #take the action
+    def DoMove(self, action):
+        self.currentState = getOutcome(action)
+
+	#return list of available actions
+	def GetMoves(self):
+		return self.currentState.actions
+
+	#return immediate reward (adjusted for probability)
+	def GetResult():
+		return = 1
+		
+
+	def __repr__(self):
+		return self.currentState.name	
 
 class Node:
     """ A node in the game tree. Note wins is always from the viewpoint of playerJustMoved.
@@ -129,7 +219,7 @@ class Node:
         self.childNodes = []
         self.wins = 0
         self.visits = 0
-	
+    
         self.untriedMoves = state.GetMoves() # future child nodes
         self.playerJustMoved = state.playerJustMoved # the only part of the state that the Node needs later
         
@@ -138,11 +228,11 @@ class Node:
             lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits to vary the amount of
             exploration versus exploitation.
         """
-		
-		#NOTE: as mentioned above, we are unable to alter the e/e bias without adding a constant UCTK (reffered to in the paper as Cp where Cp>0.
-			
+        
+        #NOTE: as mentioned above, we are unable to alter the e/e bias without adding a constant UCTK (reffered to in the paper as Cp where Cp>0.
+            
         s = sorted(self.childNodes, key = lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits))[-1]
-	
+    
         return s
     
     def AddChild(self, m, s):
@@ -225,8 +315,8 @@ def UCT(rootstate, itermax, verbose = False):
     aalist = []
     x0 = AssessedAction(actionlist[0].move, actionlist[0].visits, 0) #0 for risk because we dont have a value yet
     aalist.append(x0)
-    for x in actionlist[1:]:	
-        if(x.visits > (x0.utility - (x0.utility * T))):		#node utility passes threshold, make an AA
+    for x in actionlist[1:]:    
+        if(x.visits > (x0.utility - (x0.utility * T))):     #node utility passes threshold, make an AA
             xi = AssessedAction(x.move, x.visits, 0)
             aalist.append(xi)
     
@@ -251,9 +341,9 @@ def UCTPlayGame():
             AAList = UCT(rootstate = state, itermax = 100, verbose = True)
         #print "Best Move: " + str(m) + "\n"
 
-		#print the list of moves and associated utilities (here the utilities are simply visits, I'm not sure if this is the correct measure)
-        for x in AAList:
-            print "Action: "+str(x.action)+"\tUtility: "+str(x.utility)+"\tRisk: NYI"
+        #print the list of moves and associated utilities (here the utilities are simply visits, I'm not sure if this is the correct measure)
+        PrintAAList(AAList)
+      
 
         #pick a move from the list (just use the best by utility for now, this decision will ultimately be made by the BDI agent step by step and the agent will also execute the actions, but this is just to keep the program running) 
         m = AAList[0].action
@@ -267,10 +357,19 @@ def UCTPlayGame():
         print "Player " + str(3 - state.playerJustMoved) + " wins!"
     else: print "Nobody wins!"
 
+#print out an assessed action list in a nice format
+def PrintAAList(l):
+    for x in l:
+        print "Action: "+str(x.action)+"\tUtility: "+str(x.utility)+"\tRisk: NYI"
+
+
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players. 
     """
-    UCTPlayGame()
+    #UCTPlayGame()
+
+    print "Set the state and then call UCT"
+    print "UCT(rootstate = state, itermax = [horizon])"
 
             
                           
