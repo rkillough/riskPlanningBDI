@@ -134,6 +134,10 @@ class action():
         self.probs = probs
         self.rewards = rewards
 
+    def __repr__(self):
+        return self.name
+        
+
 #construct nuclear scenario
 s0 = state("s0",[])
 s1 = state("s1",[])
@@ -165,7 +169,7 @@ s4.actions = [a8,a9]
 #return a random state based on the probabilties of the actions outcoems
 def getOutcome(a):
 	r = random.randint(0,999)	
-	print r	
+	#print r	
 	distribution = []
 	l = 0	#lower bound
 	t = 0	#cumulative probability
@@ -190,24 +194,30 @@ class nuclearState():
         self.currentState = s0
         
     def Clone(self):
-		st = nuclearState()
-		st.currentState
+        st = nuclearState()
+        st.currentState = self.currentState
+        return st
 
     #take the action
     def DoMove(self, action):
         self.currentState = getOutcome(action)
 
-	#return list of available actions
-	def GetMoves(self):
-		return self.currentState.actions
+    #return list of available actions
+    def GetMoves(self):
+        return self.currentState.actions
 
-	#return immediate reward (adjusted for probability)
-	def GetResult():
-		return = 1
-		
+    #return immediate reward (adjusted for probability)
+    def GetResult(self, state, action):
+        reward = 0
+        if(action is not None):         #the root node will be None (we didnt take an action to reach it))
+            for i in range(len(action.outcomes)):
+                if(action.outcomes[i] == state):
+                    reward = action.rewards[i]
+        print "Reward: "+str(reward)
+        return reward 
 
-	def __repr__(self):
-		return self.currentState.name	
+    def __repr__(self):
+        return self.currentState.name	
 
 class Node:
     """ A node in the game tree. Note wins is always from the viewpoint of playerJustMoved.
@@ -221,7 +231,9 @@ class Node:
         self.visits = 0
     
         self.untriedMoves = state.GetMoves() # future child nodes
-        self.playerJustMoved = state.playerJustMoved # the only part of the state that the Node needs later
+        self.state = state.currentState
+        self.action = None
+        #self.playerJustMoved = state.playerJustMoved # the only part of the state that the Node needs later
         
     def UCTSelectChild(self):
         """ Use the UCB1 formula to select a child node. Often a constant UCTK is applied so we have
@@ -251,7 +263,7 @@ class Node:
         self.wins += result
 
     def __repr__(self):
-        return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(self.untriedMoves) + "]"
+        return "[M:" + str(self.move.name) + " Utility/Visits:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(self.untriedMoves) + "]"
 
     def TreeToString(self, indent):
         s = self.IndentString(indent) + str(self)
@@ -290,7 +302,7 @@ def UCT(rootstate, itermax, verbose = False):
 
         # Expand
         if node.untriedMoves != []: # if we can expand (i.e. state/node is non-terminal)
-            m = random.choice(node.untriedMoves) 
+            m = random.choice(node.untriedMoves)
             state.DoMove(m)
             node = node.AddChild(m,state) # add child and descend tree
 
@@ -300,7 +312,7 @@ def UCT(rootstate, itermax, verbose = False):
 
         # Backpropagate
         while node != None: # backpropagate from the expanded node and work back to the root node
-            node.Update(state.GetResult(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            node.Update(state.GetResult(node.state, node.move)) # state is terminal. Update node with result from POV of node.playerJustMoved
             node = node.parentNode
 
     # Output some information about the tree - can be omitted
@@ -371,7 +383,8 @@ if __name__ == "__main__":
     print "Set the state and then call UCT"
     print "UCT(rootstate = state, itermax = [horizon])"
 
-            
+    state = nuclearState()
+    UCT(rootstate =state, itermax=1000)    
                           
             
 
