@@ -18,7 +18,7 @@
 from math import *
 import random
 
-T = -100000     #utility tolerance threshold, this ws formerly relative tot he utility of the the top action, but this does not work for negative utilities, so it is simply an absolute value which is set by the BDI agent, actions must have higher utilities than this to be returned
+T = 100     #100% utility tolerance threshold, this will just show all ranked results because were testing, but this can be lowered to reduce the number of results returned to the agent
 
 class AssessedAction():
     def __init__(self,a,u,r):
@@ -121,7 +121,7 @@ s4.actions = [a8,a9]
 
 #return a random state based on the probabilties of the actions outcoems
 def getOutcome(a):
-	r = random.randint(0,999)	#this function ignores probabilities with more than 3 dp of precision, probably a better way to do it than this
+	r = random.randint(0,999)	
 	#print "R: "+str(r)
 	distribution = []
 	l = 0	#lower bound
@@ -174,9 +174,8 @@ class nuclearState():
         if(action is not None):         #the root node will be None (we didnt take an action to reach it))
             for i in range(len(action.outcomes)):
                 if(action.outcomes[i] == state):
-                    reward = action.rewards[i]# * action.probs[i] (dont think we need to do this, weve already adjusted for probability because we reached this node under uncertainty, the fact we are here speaks to this rewards likelihood)
+                    reward = action.rewards[i]
         #print "Reward: "+str(reward)
-        print "GetResult: "+str(state)+","+str(action)+","+str(reward)
         return reward 
 
     def __repr__(self):
@@ -206,19 +205,18 @@ class Node:
         
         #NOTE: as mentioned above, we are unable to alter the e/e bias without adding a constant UCTK (reffered to in the paper as Cp where Cp>0.
         
-        UCTK = 1000
+        UCTK = 0.5
 
         #c.utility/c.visits is effectively the average reward over the visitations   
         #UCTK is as above and folowwing that is the biasing calculation
         #s = sorted(self.childNodes, key = lambda c: c.utility/c.visits + UCTK* sqrt(2*log(self.visits)/c.visits))[-1]
         
-        #for testing/understanding
+        #for testing/understadidng
         s = sorted(self.childNodes, key = lambda c: c.utility/c.visits + UCTK* sqrt(2*log(self.visits)/c.visits))
 
-        print "Current node:"+str(self.state)+str(self.move)
         for c in s:
             print "child node: "+str(c)            
-        print "---------------------------------"
+
         #print "Select child: "+str(s) 
         return s[-1]
     
@@ -235,11 +233,10 @@ class Node:
         """ Update this node - one additional visit and result additional wins. result must be from the viewpoint of playerJustmoved.
         """
         self.visits += 1
-        print "Result: "+str(self.move) + ":"+str(result)
         self.utility += result
 
     def __repr__(self):
-        return "[Action:" + str(self.move) + " CReward/Visits:" + str(self.utility) + "/" + str(self.visits) + " Untried actions:" + str(self.untriedMoves) + "]"
+        return "[Action:" + str(self.move.name) + " CReward/Visits:" + str(self.utility) + "/" + str(self.visits) + " Untried actions:" + str(self.untriedMoves) + "]"
 
     def TreeToString(self, indent):
         s = self.IndentString(indent) + str(self)
@@ -260,7 +257,7 @@ class Node:
         return s
 
 
-def UCT(rootstate, itermax, verbose = True):
+def UCT(rootstate, itermax, verbose = False):
     """ Conduct a UCT search for itermax iterations starting from rootstate.
         Return the best move from the rootstate.
         Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
@@ -292,7 +289,6 @@ def UCT(rootstate, itermax, verbose = True):
         print "BACKPROPOGATE"
         # Backpropagate
         while node != None: # backpropagate from the expanded node and work back to the root node
-            #print "XXX:"+str(node.state) + str(node.move)
             node.Update(state.GetResult(node.state, node.move)) # state is terminal. Update node with result from POV of node.playerJustMoved
             node = node.parentNode
 
@@ -301,23 +297,16 @@ def UCT(rootstate, itermax, verbose = True):
     else: print rootnode.ChildrenToString()
 
     #return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
-    actionlist = sorted(rootnode.childNodes, key = lambda c: c.utility, reverse=True)
+    actionlist = sorted(rootnode.childNodes, key = lambda c: c.visits, reverse=True)
     #Note, the list is generally sorted ascending and the last action taken, we sort descending and take the first
 
     #create a list of assessed actions from the list of nodes and remove actions with utility below the threshold
     aalist = []
-
-    #add first item because we always want at least one return and its needed for comparison for additional returns
-    utility = (actionlist[0].utility)
-    x0 = AssessedAction(actionlist[0].move, utility, 0) #0 for risk because we dont have a value yet
+    x0 = AssessedAction(actionlist[0].move, actionlist[0].visits, 0) #0 for risk because we dont have a value yet
     aalist.append(x0)
-    
     for x in actionlist[1:]:    
-        
-        utility = x.utility
-        print utility
-        if(utility > T):     #node utility passes threshold, make an AA
-            xi = AssessedAction(x.move, utility, 0)
+        if(x.visits > (x0.utility - (x0.utility * T))):     #node utility passes threshold, make an AA
+            xi = AssessedAction(x.move, x.visits, 0)
             aalist.append(xi)
     
     return aalist
@@ -337,8 +326,7 @@ if __name__ == "__main__":
     print "UCT(rootstate = state, itermax = [horizon])"
 
     state = nuclearState()
-    results = UCT(rootstate =state, itermax=1000)    
-    PrintAAList(results)
+    UCT(rootstate =state, itermax=10)    
                           
             
 
