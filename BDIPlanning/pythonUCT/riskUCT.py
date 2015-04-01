@@ -17,6 +17,7 @@
 
 from math import *
 import random
+import calculateRisk
 
 T = -100000     #utility tolerance threshold, this ws formerly relative tot he utility of the the top action, but this does not work for negative utilities, so it is simply an absolute value which is set by the BDI agent, actions must have higher utilities than this to be returned
 
@@ -102,7 +103,7 @@ s6 = state("s6",[])
 
 a0 = action("a0", [s2,s6], [0.4,0.6], [-5,-100])
 a1 = action("a1", [s1,s6], [0.9,0.1], [-20,-100])
-a2 = action("a2", [s5,s6], [0.1,0.9], [100,-100])
+a2 = action("a2", [s5,s6], [0.5,0.5], [100,-100])
 a3 = action("a3", [s3,s6], [0.7,0.3], [-5,-100])
 a4 = action("a4", [s5,s6], [0.3,0.7], [100,-100])
 a5 = action("a5", [s2,s6], [0.6,0.4], [-5,-100])
@@ -119,9 +120,9 @@ s4.actions = [a8,a9]
 #s5.actions = []	This is the goal state
 #s6.actions = []	This is the fail state
 
-#return a random state based on the probabilties of the actions outcoems
+#return a "random" state based on the probabilties of the actions' outcomes
 def getOutcome(a):
-	r = random.randint(0,999)	#this function ignores probabilities with more than 3 dp of precision, probably a better way to do it than this
+	r = random.randint(0,999)	#this function ignores some precision for probabilities with more than 3 dp of precision, probably a better way to do it than this
 	#print "R: "+str(r)
 	distribution = []
 	l = 0	#lower bound
@@ -145,19 +146,19 @@ class nuclearState():
     There are a set of motion paths which can be taken to move toward the goal state, each with different probabilities
     of success (which means there is uncertainty about the outcomes)
     """ 
-    def __init__(self):
-        self.currentState = s0
+    def __init__(self, cState):
+        self.currentState = cState
         
     def Clone(self):
-        st = nuclearState()
-        st.currentState = self.currentState
+        st = nuclearState(self.currentState)
+        
         return st
 
     #take the action
     def DoMove(self, action):
-        #print "Doing : "+str(action)
+        print "Doing : "+str(action)
         self.currentState = getOutcome(action)
-        #print "State outcome: "+str(self.currentState)
+        print "State outcome: "+str(self.currentState)
 
     #return list of available actions
     def GetMoves(self):
@@ -168,13 +169,14 @@ class nuclearState():
         #print self.currentState
         return self.currentState.actions
 
-    #return immediate reward (adjusted for probability)
+    #return immediate reward 
     def GetResult(self, state, action):
         reward = 0
         if(action is not None):         #the root node will be None (we didnt take an action to reach it))
             for i in range(len(action.outcomes)):
                 if(action.outcomes[i] == state):
-                    reward = action.rewards[i]# * action.probs[i] (dont think we need to do this, weve already adjusted for probability because we reached this node under uncertainty, the fact we are here speaks to this rewards likelihood)
+                    reward = action.rewards[i]
+
         #print "Reward: "+str(reward)
         print "GetResult: "+str(state)+","+str(action)+","+str(reward)
         return reward 
@@ -190,9 +192,12 @@ class Node:
         self.move = move # the move that got us to this node - "None" for the root node
         self.parentNode = parent # "None" for the root node
         self.childNodes = []
-        self.utility = 0 #formelry just wins, we want a more complex measure of utility which is discounted 
+        self.utility = 0 #formerly just wins, we want a more complex measure of utility which is discounted 
         self.visits = 0
     
+        self.mean = 0  #the running mean utility
+        self.LOvariance = 0 #the running loss-only variance
+
         self.untriedMoves = state.GetMoves() # future child nodes
         self.state = state.currentState
         
@@ -215,10 +220,10 @@ class Node:
         #for testing/understanding
         s = sorted(self.childNodes, key = lambda c: c.utility/c.visits + UCTK* sqrt(2*log(self.visits)/c.visits))
 
-        print "Current node:"+str(self.state)+str(self.move)
-        for c in s:
-            print "child node: "+str(c)            
-        print "---------------------------------"
+        #print "Current node:"+str(self.state)+str(self.move)
+        #for c in s:
+        #    print "child node: "+str(c)            
+        #print "---------------------------------"
         #print "Select child: "+str(s) 
         return s[-1]
     
@@ -232,14 +237,22 @@ class Node:
         return n
     
     def Update(self, result):
-        """ Update this node - one additional visit and result additional wins. result must be from the viewpoint of playerJustmoved.
+        """ Update this node - one additional visit and result additional wins. 
+            Also update the mean and the LOvariance(risk) of the node
         """
         self.visits += 1
-        print "Result: "+str(self.move) + ":"+str(result)
+        #print "Result: "+str(self.move) + ":"+str(result)
         self.utility += result
 
+        #Update variance and mean calculations using the calculaterisk class
+        #+1 is added to childnodes to represent a dummy zero value required by the loss only variance calculation
+
+        self.mean, self.LOvariance = calculateRisk.updateLOVariance(len(self.childNodes)+1, self.mean, self.LOvariance, result)
+        #print "LOVAR: "+str(self.LOvariance)
+        
+
     def __repr__(self):
-        return "[Action:" + str(self.move) + " CReward/Visits:" + str(self.utility) + "/" + str(self.visits) + " Untried actions:" + str(self.untriedMoves) + "]"
+        return "[Action:" + str(self.move) + " Utility/Visits:" + str(self.utility) + "/" + str(self.visits) +" = "+ str(self.utility/self.visits) + " Mean/Variance:" + str(self.mean) + "/" + str(self.LOvariance) + "]"
 
     def TreeToString(self, indent):
         s = self.IndentString(indent) + str(self)
@@ -260,7 +273,7 @@ class Node:
         return s
 
 
-def UCT(rootstate, itermax, verbose = True):
+def UCT(rootstate, itermax, verbose = False):
     """ Conduct a UCT search for itermax iterations starting from rootstate.
         Return the best move from the rootstate.
         Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
@@ -272,7 +285,7 @@ def UCT(rootstate, itermax, verbose = True):
         state = rootstate.Clone()
 
         # Select
-        print"SELECT"
+        print "SELECT"
         while node.untriedMoves == [] and node.childNodes != []: # node is fully expanded and non-terminal
             node = node.UCTSelectChild()
             state.DoMove(node.move)
@@ -292,9 +305,13 @@ def UCT(rootstate, itermax, verbose = True):
         print "BACKPROPOGATE"
         # Backpropagate
         while node != None: # backpropagate from the expanded node and work back to the root node
-            #print "XXX:"+str(node.state) + str(node.move)
-            node.Update(state.GetResult(node.state, node.move)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            result = state.GetResult(node.state, node.move)
+            print "BackPropogating: "+str(node.state) + str(node.move) + " with value " + str(result)
+            node.Update(result) # state is terminal. Update node with result 
+
             node = node.parentNode
+
+        print "-------------------------------------------------------------------------------------"+str(i)
 
     # Output some information about the tree - can be omitted
     if (verbose): print rootnode.TreeToString(0)
@@ -308,16 +325,18 @@ def UCT(rootstate, itermax, verbose = True):
     aalist = []
 
     #add first item because we always want at least one return and its needed for comparison for additional returns
-    utility = (actionlist[0].utility)
-    x0 = AssessedAction(actionlist[0].move, utility, 0) #0 for risk because we dont have a value yet
+    utility = actionlist[0].utility
+    risk = actionlist[0].LOvariance
+    x0 = AssessedAction(actionlist[0].move, utility, risk) #0 for risk because we dont have a value yet
     aalist.append(x0)
     
     for x in actionlist[1:]:    
         
         utility = x.utility
-        print utility
+        risk = x.LOvariance
+        
         if(utility > T):     #node utility passes threshold, make an AA
-            xi = AssessedAction(x.move, utility, 0)
+            xi = AssessedAction(x.move, utility, risk)
             aalist.append(xi)
     
     return aalist
@@ -325,7 +344,7 @@ def UCT(rootstate, itermax, verbose = True):
 #print out an assessed action list in a nice format
 def PrintAAList(l):
     for x in l:
-        print "Action: "+str(x.action)+"\tUtility: "+str(x.utility)+"\tRisk: NYI"
+        print "Action: "+str(x.action)+"\tUtility: "+str(x.utility)+"\tRisk: "+str(x.risk)
 
 
 if __name__ == "__main__":
@@ -336,9 +355,9 @@ if __name__ == "__main__":
     print "Set the state and then call UCT"
     print "UCT(rootstate = state, itermax = [horizon])"
 
-    state = nuclearState()
-    results = UCT(rootstate =state, itermax=1000)    
+    state = nuclearState(s0)
+    results = UCT(rootstate =state, itermax=100)    
     PrintAAList(results)
-                          
+                        
             
 

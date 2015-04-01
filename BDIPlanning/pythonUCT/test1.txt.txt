@@ -1,0 +1,1685 @@
+Set the state and then call UCT
+UCT(rootstate = state, itermax = [horizon])
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+Doing : a7
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s6
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s6
+Doing : a6
+State outcome: s3
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s6
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s6
+GetResult: s6,a9,-100
+BackPropogating: s6a9 with value -100
+GetResult: s6,a9,-100
+Result: a9:-100
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a5
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s6
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s6
+Doing : a7
+State outcome: s4
+Doing : a8
+State outcome: s5
+GetResult: s5,a8,80
+BackPropogating: s5a8 with value 80
+GetResult: s5,a8,80
+Result: a8:80
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s6
+Doing : a6
+State outcome: s6
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s6
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a5
+State outcome: s6
+Doing : a7
+State outcome: s4
+Doing : a8
+State outcome: s5
+GetResult: s5,a8,80
+BackPropogating: s5a8 with value 80
+GetResult: s5,a8,80
+Result: a8:80
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s6
+GetResult: s6,a9,-100
+BackPropogating: s6a9 with value -100
+GetResult: s6,a9,-100
+Result: a9:-100
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a5
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a5
+State outcome: s2
+Doing : a7
+State outcome: s6
+Doing : a8
+State outcome: s5
+GetResult: s5,a8,80
+BackPropogating: s5a8 with value 80
+GetResult: s5,a8,80
+Result: a8:80
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s6
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a5
+State outcome: s2
+Doing : a6
+State outcome: s6
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s3,a6,-5
+Result: a6:-5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a4
+State outcome: s5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s6
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s6
+Doing : a5
+State outcome: s2
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s6
+GetResult: s6,a9,-100
+BackPropogating: s6a9 with value -100
+GetResult: s6,a9,-100
+Result: a9:-100
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s4,a7,-3
+Result: a7:-3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s2,a5,-5
+Result: a5:-5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s2
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a2
+State outcome: s5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s6,a2,-100
+Result: a2:-100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a0
+State outcome: s6
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s6,a0,-100
+Result: a0:-100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+Doing : a1
+State outcome: s1
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s5,a4,100
+Result: a4:100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s3,a3,-5
+Result: a3:-5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s1,a1,-20
+Result: a1:-20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+GetResult: s0,None,0
+Result: None:0
+[Action:a0 Utility/Visits:-4100/41 = -100 Mean/Variance:-100/0]
+[Action:a1 Utility/Visits:-1180/59 = -20 Mean/Variance:-20/0]
+
+Action: a1	Utility: -1180	Risk: 0
+Action: a0	Utility: -4100	Risk: 0
