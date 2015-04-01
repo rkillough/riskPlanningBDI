@@ -286,9 +286,13 @@ def UCT(rootstate, itermax, verbose = False):
 
         # Select
         print "SELECT"
-        while node.untriedMoves == [] and node.childNodes != []: # node is fully expanded and non-terminal
+        while node.untriedMoves == [] and node.childNodes != []: # node is fully expanded and non-terminal and state arrived at is non terminal
+            print state.GetMoves()
+
             node = node.UCTSelectChild()
             state.DoMove(node.move)
+			
+            #node.state = state
 
         print"EXPAND"
         # Expand
@@ -305,7 +309,7 @@ def UCT(rootstate, itermax, verbose = False):
         print "BACKPROPOGATE"
         # Backpropagate
         while node != None: # backpropagate from the expanded node and work back to the root node
-            result = state.GetResult(node.state, node.move)
+            result = state.GetResult(node.state, node.move) #I THINK THIS IS THE PROBLEM
             print "BackPropogating: "+str(node.state) + str(node.move) + " with value " + str(result)
             node.Update(result) # state is terminal. Update node with result 
 
