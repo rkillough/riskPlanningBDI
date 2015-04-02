@@ -28,46 +28,6 @@ class AssessedAction():
         self.risk = r
 
 
-
-class GameState:
-    """ A state of the game, i.e. the game board. These are the only functions which are
-        absolutely necessary to implement UCT in any 2-player complete information deterministic 
-        zero-sum game, although they can be enhanced and made quicker, for example by using a 
-        GetRandomMove() function to generate a random move during rollout.
-        By convention the players are numbered 1 and 2.
-    """
-    def __init__(self):
-            self.playerJustMoved = 2 # At the root pretend the player just moved is player 2 - player 1 has the first move
-        
-    def Clone(self):
-        """ Create a deep clone of this game state.
-        """
-        st = GameState()
-        st.playerJustMoved = self.playerJustMoved
-        return st
-
-    def DoMove(self, move):
-        """ Update a state by carrying out the given move.
-            Must update playerJustMoved.
-        """
-        self.playerJustMoved = 3 - self.playerJustMoved
-        
-    def GetMoves(self):
-        """ Get all possible moves from this state.
-        """
-    
-    def GetResult(self, playerjm):
-        """ Get the game result from the viewpoint of playerjm. 
-        """
-
-    def __repr__(self):
-        """ Don't need this - but good style.
-        """
-        pass
-
-
-
-
 class state():
     def __init__(self,name,actions):
         self.name = name
@@ -112,13 +72,14 @@ a7 = action("a7", [s4,s6], [0.9,0.1], [-3,-100])
 a8 = action("a8", [s5,s6], [0.8,0.2], [80,-100])
 a9 = action("a9", [s5,s6], [0.2,0.8], [100,-100])
 
-s0.actions = [a0,a1]
-s1.actions = [a2,a3]
-s2.actions = [a6,a7]
-s3.actions = [a4,a5]
-s4.actions = [a8,a9]
-#s5.actions = []	This is the goal state
-#s6.actions = []	This is the fail state
+def setActions():
+    s0.actions = [a0,a1]
+    s1.actions = [a2,a3]
+    s2.actions = [a6,a7]
+    s3.actions = [a4,a5]
+    s4.actions = [a8,a9]
+    #s5.actions = []	This is the goal state
+    #s6.actions = []	This is the fail state
 
 #return a "random" state based on the probabilties of the actions' outcomes
 def getOutcome(a):
@@ -156,9 +117,9 @@ class nuclearState():
 
     #take the action
     def DoMove(self, action):
-        print "Doing : "+str(action)
+        #print "Doing : "+str(action)
         self.currentState = getOutcome(action)
-        print "State outcome: "+str(self.currentState)
+        #print "State outcome: "+str(self.currentState)
 
     #return list of available actions
     def GetMoves(self):
@@ -178,7 +139,7 @@ class nuclearState():
                     reward = action.rewards[i]
 
         #print "Reward: "+str(reward)
-        print "GetResult: "+str(state)+","+str(action)+","+str(reward)
+        #print "GetResult: "+str(state)+","+str(action)+","+str(reward)
         return reward 
 
     def __repr__(self):
@@ -196,7 +157,7 @@ class Node:
         self.visits = 0
     
         self.mean = 0  #the running mean utility
-        self.LOvariance = 0 #the running loss-only variance
+        self.variance = 0 #the running loss-only variance
 
         self.untriedMoves = state.GetMoves() # future child nodes
         self.state = state.currentState
@@ -247,12 +208,12 @@ class Node:
         #Update variance and mean calculations using the calculaterisk class
         #+1 is added to childnodes to represent a dummy zero value required by the loss only variance calculation
 
-        self.mean, self.LOvariance = calculateRisk.updateLOVariance(len(self.childNodes)+1, self.mean, self.LOvariance, result)
+        self.mean, self.variance = calculateRisk.updateVariance(len(self.childNodes)+1, self.mean, self.variance, result)
         #print "LOVAR: "+str(self.LOvariance)
         
 
     def __repr__(self):
-        return "[Action:" + str(self.move) + " Utility/Visits:" + str(self.utility) + "/" + str(self.visits) +" = "+ str(self.utility/self.visits) + " Mean/Variance:" + str(self.mean) + "/" + str(self.LOvariance) + "]"
+        return "[Action:" + str(self.move) + " Utility/Visits:" + str(self.utility) + "/" + str(self.visits) +" = "+ str(self.utility/self.visits) + " Mean/Variance:" + str(self.mean) + "/" + str(self.variance) + "]"
 
     def TreeToString(self, indent):
         s = self.IndentString(indent) + str(self)
@@ -285,37 +246,34 @@ def UCT(rootstate, itermax, verbose = False):
         state = rootstate.Clone()
 
         # Select
-        print "SELECT"
+        #print "SELECT"
         while node.untriedMoves == [] and node.childNodes != []: # node is fully expanded and non-terminal and state arrived at is non terminal
-            print state.GetMoves()
-
             node = node.UCTSelectChild()
             state.DoMove(node.move)
-			
-            #node.state = state
+            node.state = state.currentState
 
-        print"EXPAND"
+        #print"EXPAND"
         # Expand
         if node.untriedMoves != []: # if we can expand (i.e. state/node is non-terminal)
             m = random.choice(node.untriedMoves)
             state.DoMove(m)
             node = node.AddChild(m,state) # add child and descend tree
 
-        print"ROLLOUT"
+        #print"ROLLOUT"
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
         while state.GetMoves() != []: # while state is non-terminal
             state.DoMove(random.choice(state.GetMoves()))
 
-        print "BACKPROPOGATE"
+        #print "BACKPROPOGATE"
         # Backpropagate
         while node != None: # backpropagate from the expanded node and work back to the root node
-            result = state.GetResult(node.state, node.move) #I THINK THIS IS THE PROBLEM
-            print "BackPropogating: "+str(node.state) + str(node.move) + " with value " + str(result)
+            result = state.GetResult(node.state, node.move) 
+            #print "BackPropogating: "+str(node.state) + str(node.move) + " with value " + str(result)
             node.Update(result) # state is terminal. Update node with result 
 
             node = node.parentNode
 
-        print "-------------------------------------------------------------------------------------"+str(i)
+        #print "-------------------------------------------------------------------------------------"+str(i)
 
     # Output some information about the tree - can be omitted
     if (verbose): print rootnode.TreeToString(0)
@@ -329,15 +287,15 @@ def UCT(rootstate, itermax, verbose = False):
     aalist = []
 
     #add first item because we always want at least one return and its needed for comparison for additional returns
-    utility = actionlist[0].utility
-    risk = actionlist[0].LOvariance
+    utility = actionlist[0].utility / actionlist[0].visits
+    risk = actionlist[0].variance
     x0 = AssessedAction(actionlist[0].move, utility, risk) #0 for risk because we dont have a value yet
     aalist.append(x0)
     
     for x in actionlist[1:]:    
         
-        utility = x.utility
-        risk = x.LOvariance
+        utility = x.utility / x.visits
+        risk = x.variance
         
         if(utility > T):     #node utility passes threshold, make an AA
             xi = AssessedAction(x.move, utility, risk)
@@ -356,12 +314,30 @@ if __name__ == "__main__":
     """
     #UCTPlayGame()
 
-    print "Set the state and then call UCT"
-    print "UCT(rootstate = state, itermax = [horizon])"
+    #print "Set the state and then call UCT"
+    #print "UCT(rootstate = state, itermax = [horizon])"
 
+    
+    setActions()         #this must be done after each iteration of uct as the algorithm deletes available actions
     state = nuclearState(s0)
-    results = UCT(rootstate =state, itermax=100)    
-    PrintAAList(results)
+    
+    while(state.GetMoves() != []):
+        results = UCT(rootstate =state, itermax=1000)    
+        PrintAAList(results)
+
+        #"actually" do the best action and proceed to the next state
+        print "Doing "+results[0].action.name
+        nextState = getOutcome(results[0].action)
+        print "Outcome "+nextState.name
+
+        setActions()
+
+        state = nuclearState(nextState)
+        print "Options: "+str(state.GetMoves())
+        print "--------------------------------------------"
                         
-            
+    if(state.currentState.name == "s5"):
+        print "Success! the goal was reached"
+    else:
+        print "Failure! the robot fell in the pit"
 

@@ -14,3 +14,17 @@ def updateLOVariance(count, cMean, cVariance, newValue):
         return cMean, cVariance
     else:
         return cMean, cVariance
+
+
+def updateVariance(count, cMean, cVariance, newValue):
+    Mnew = cMean + (newValue-cMean)/count
+    cVariance = cVariance + (newValue-cMean)*(newValue-Mnew)
+    cMean = Mnew
+    if(count > 1):
+        cVariance = cVariance/(count-1)
+    else:
+        cVariance = 0
+    
+    return cMean, cVariance
+ 
+
