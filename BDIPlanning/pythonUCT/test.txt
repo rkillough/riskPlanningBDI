@@ -2,494 +2,448 @@ Set the state and then call UCT
 UCT(rootstate = state, itermax = [horizon])
 SELECT
 EXPAND
-Doing : a1
-State outcome: s1
-ROLLOUT
-Doing : a3
-State outcome: s3
-Doing : a5
-State outcome: s2
-Doing : a7
-State outcome: s4
-Doing : a9
+Doing : a0
 State outcome: s6
+ROLLOUT
 BACKPROPOGATE
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------0
 SELECT
 EXPAND
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
 ROLLOUT
-Doing : a7
-State outcome: s4
-Doing : a8
-State outcome: s5
+Doing : a3
+State outcome: s3
+Doing : a4
+State outcome: s6
 BACKPROPOGATE
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------1
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 EXPAND
-Doing : a7
-State outcome: s4
+Doing : a3
+State outcome: s3
 ROLLOUT
-Doing : a8
-State outcome: s5
+Doing : a4
+State outcome: s6
 BACKPROPOGATE
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------2
 SELECT
 []
-Doing : a1
-State outcome: s1
+Doing : a0
+State outcome: s6
+Setting node state to s6
 EXPAND
-Doing : a2
-State outcome: s5
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------3
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 EXPAND
-Doing : a6
-State outcome: s3
-ROLLOUT
-Doing : a4
+Doing : a2
 State outcome: s6
+ROLLOUT
 BACKPROPOGATE
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------4
 SELECT
 []
-Doing : a1
-State outcome: s1
-EXPAND
-Doing : a3
-State outcome: s3
-ROLLOUT
-Doing : a4
+Doing : a0
 State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
 BACKPROPOGATE
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------5
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
+Doing : a3
+State outcome: s3
+Setting node state to s3
 EXPAND
-Doing : a8
+Doing : a4
 State outcome: s6
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------6
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s5
+Doing : a0
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------7
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
-State outcome: s3
+Doing : a2
+State outcome: s5
+Setting node state to s5
 EXPAND
-Doing : a4
-State outcome: s6
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a2,100
+BackPropogating: s5a2 with value 100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------8
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s6
-EXPAND
-Doing : a5
+Doing : a0
 State outcome: s2
+Setting node state to s2
+EXPAND
 ROLLOUT
+Doing : a7
+State outcome: s4
+Doing : a8
+State outcome: s5
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------9
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
+Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
-Doing : a9
-State outcome: s6
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------10
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s6
+Doing : a0
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
+Doing : a6
+State outcome: s6
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------11
 SELECT
 []
-Doing : a0
+Doing : a1
 State outcome: s6
+Setting node state to s6
 []
-Doing : a6
+Doing : a3
 State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
+Doing : a5
+State outcome: s2
 ROLLOUT
+Doing : a7
+State outcome: s4
+Doing : a8
+State outcome: s5
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s6,a1,-100
+BackPropogating: s6a1 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------12
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
+Doing : a0
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------13
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+Doing : a2
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a2,100
+BackPropogating: s5a2 with value 100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------14
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s6
+Doing : a0
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
+Doing : a6
+State outcome: s3
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------15
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a5
+State outcome: s6
+Setting node state to s6
+EXPAND
 Doing : a6
 State outcome: s6
-[]
-Doing : a4
-State outcome: s6
-EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a6,-100
+BackPropogating: s6a6 with value -100
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------16
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s6
-[]
-Doing : a5
+Doing : a0
 State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
+Doing : a7
+State outcome: s4
+Doing : a9
+State outcome: s6
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------17
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
+Doing : a2
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a2,100
+BackPropogating: s5a2 with value 100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------18
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s5
+Doing : a0
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------19
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
-State outcome: s3
+Doing : a3
+State outcome: s6
+Setting node state to s6
 []
 Doing : a4
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
 GetResult: s6,a4,-100
 BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------20
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
+Doing : a0
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------21
 SELECT
 []
-Doing : a0
-State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------22
-SELECT
-[]
 Doing : a1
-State outcome: s1
+State outcome: s6
+Setting node state to s6
 []
 Doing : a2
-State outcome: s6
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
 GetResult: s5,a2,100
 BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a1,-100
+BackPropogating: s6a1 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------22
+SELECT
+[]
+Doing : a0
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------23
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
+Doing : a3
 State outcome: s3
+Setting node state to s3
 []
-Doing : a4
+Doing : a5
 State outcome: s6
+Setting node state to s6
 EXPAND
+Doing : a7
+State outcome: s4
 ROLLOUT
+Doing : a9
+State outcome: s6
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------24
@@ -497,9 +451,11 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
@@ -514,19 +470,10 @@ SELECT
 []
 Doing : a0
 State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -536,19 +483,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
+Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -558,58 +502,48 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a6
-State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------28
 SELECT
 []
 Doing : a1
-State outcome: s1
-[]
-Doing : a2
 State outcome: s6
+Setting node state to s6
+[]
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a4
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s6,a1,-100
+BackPropogating: s6a1 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------29
 SELECT
 []
 Doing : a0
-State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -619,19 +553,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a3
+Doing : a2
 State outcome: s6
-[]
-Doing : a5
-State outcome: s2
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -640,20 +571,11 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a0
-State outcome: s6
-[]
-Doing : a6
-State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -663,14 +585,32 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a2
-State outcome: s5
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a5
+State outcome: s2
+Setting node state to s2
+[]
+Doing : a7
+State outcome: s4
+Setting node state to s4
 EXPAND
+Doing : a8
+State outcome: s5
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s5,a8,80
+BackPropogating: s5a8 with value 80
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -680,39 +620,33 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s6
-[]
-Doing : a8
-State outcome: s5
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------34
 SELECT
 []
 Doing : a1
-State outcome: s6
+State outcome: s1
+Setting node state to s1
 []
 Doing : a3
 State outcome: s3
+Setting node state to s3
 []
-Doing : a5
-State outcome: s2
+Doing : a4
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
 GetResult: s3,a3,-5
 BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
@@ -724,19 +658,10 @@ SELECT
 []
 Doing : a0
 State outcome: s2
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s5
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -746,14 +671,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
-State outcome: s5
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -763,21 +690,12 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------38
@@ -785,14 +703,28 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a2
+Doing : a3
 State outcome: s6
+Setting node state to s6
+[]
+Doing : a5
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a6
+State outcome: s3
+Setting node state to s3
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -802,43 +734,31 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------40
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
+Doing : a2
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a2,100
+BackPropogating: s5a2 with value 100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------41
@@ -846,19 +766,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
+Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -867,22 +784,13 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------43
@@ -890,14 +798,22 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a2
-State outcome: s6
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a4
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -907,43 +823,37 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------45
 SELECT
 []
 Doing : a1
-State outcome: s1
+State outcome: s6
+Setting node state to s6
 []
 Doing : a3
 State outcome: s3
+Setting node state to s3
 []
-Doing : a5
-State outcome: s2
+Doing : a4
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
 GetResult: s3,a3,-5
 BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a1,-100
+BackPropogating: s6a1 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------46
@@ -951,21 +861,12 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s5
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------47
@@ -973,14 +874,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -989,20 +892,11 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a0
-State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s6
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -1011,15 +905,33 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a1
-State outcome: s6
+State outcome: s1
+Setting node state to s1
 []
-Doing : a2
-State outcome: s5
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a5
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a7
+State outcome: s4
+Setting node state to s4
 EXPAND
+Doing : a9
+State outcome: s5
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s5,a9,100
+BackPropogating: s5a9 with value 100
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1027,150 +939,134 @@ BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------50
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
+Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------51
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
+Doing : a0
 State outcome: s6
-[]
-Doing : a5
-State outcome: s2
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------52
 SELECT
 []
-Doing : a0
-State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------53
-SELECT
-[]
 Doing : a1
 State outcome: s1
-[]
-Doing : a2
-State outcome: s5
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------54
-SELECT
-[]
-Doing : a0
-State outcome: s6
-[]
-Doing : a6
-State outcome: s6
-[]
-Doing : a4
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------55
-SELECT
-[]
-Doing : a1
-State outcome: s1
+Setting node state to s1
 []
 Doing : a3
 State outcome: s3
+Setting node state to s3
 []
-Doing : a5
-State outcome: s6
+Doing : a4
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
 GetResult: s3,a3,-5
 BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------56
+-------------------------------------------------------------------------------------53
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------54
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a2
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------55
+SELECT
+[]
+Doing : a0
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------56
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a5
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a6
+State outcome: s3
+Setting node state to s3
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s3,a6,-5
+BackPropogating: s3a6 with value -5
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------57
@@ -1178,14 +1074,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1194,22 +1092,13 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s5
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------59
@@ -1217,14 +1106,22 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a2
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a4
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1234,19 +1131,10 @@ SELECT
 []
 Doing : a0
 State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
 GetResult: s2,a0,-5
 BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
@@ -1256,15 +1144,30 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a3
 State outcome: s3
+Setting node state to s3
 []
 Doing : a5
 State outcome: s2
+Setting node state to s2
+[]
+Doing : a7
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a9
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
+GetResult: s6,a9,-100
+BackPropogating: s6a9 with value -100
+GetResult: s6,a7,-100
+BackPropogating: s6a7 with value -100
 GetResult: s2,a5,-5
 BackPropogating: s2a5 with value -5
 GetResult: s3,a3,-5
@@ -1278,21 +1181,12 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a6
-State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------63
@@ -1300,14 +1194,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
-State outcome: s5
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1317,21 +1213,12 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------65
@@ -1339,17 +1226,20 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a3
-State outcome: s6
+State outcome: s3
+Setting node state to s3
 []
-Doing : a5
-State outcome: s6
+Doing : a4
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
 GetResult: s3,a3,-5
 BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
@@ -1359,55 +1249,13 @@ BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------66
 SELECT
 []
-Doing : a0
-State outcome: s2
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------67
-SELECT
-[]
-Doing : a0
-State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s5
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------68
-SELECT
-[]
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
@@ -1417,26 +1265,55 @@ GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------69
+-------------------------------------------------------------------------------------67
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a6
 State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------68
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
+State outcome: s6
+Setting node state to s6
 []
 Doing : a4
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
 GetResult: s6,a4,-100
 BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------69
+SELECT
+[]
+Doing : a0
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------70
@@ -1444,9 +1321,11 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
-State outcome: s6
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
@@ -1459,160 +1338,89 @@ BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------71
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
+Doing : a2
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------72
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
+Doing : a0
 State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------73
 SELECT
 []
-Doing : a0
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
 State outcome: s6
+Setting node state to s6
+[]
+Doing : a5
+State outcome: s6
+Setting node state to s6
 []
 Doing : a6
 State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a6,-100
+BackPropogating: s6a6 with value -100
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------74
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
+Doing : a0
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------75
 SELECT
 []
-Doing : a0
-State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s5
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------76
-SELECT
-[]
 Doing : a1
 State outcome: s1
-[]
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
-State outcome: s2
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------77
-SELECT
-[]
-Doing : a0
-State outcome: s2
-[]
-Doing : a6
-State outcome: s6
-[]
-Doing : a4
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------78
-SELECT
-[]
-Doing : a1
-State outcome: s1
+Setting node state to s1
 []
 Doing : a2
-State outcome: s6
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
@@ -1622,26 +1430,74 @@ GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------79
+-------------------------------------------------------------------------------------76
+SELECT
+[]
+Doing : a0
+State outcome: s2
+Setting node state to s2
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------77
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a4
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------78
 SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------79
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a2
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------80
@@ -1649,9 +1505,11 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
-State outcome: s6
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
@@ -1665,22 +1523,13 @@ BackPropogating: s0None with value 0
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a6
 State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------82
@@ -1688,17 +1537,32 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a3
 State outcome: s3
+Setting node state to s3
 []
 Doing : a5
-State outcome: s2
+State outcome: s6
+Setting node state to s6
+[]
+Doing : a7
+State outcome: s4
+Setting node state to s4
+[]
+Doing : a8
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
+GetResult: s6,a8,-100
+BackPropogating: s6a8 with value -100
+GetResult: s4,a7,-3
+BackPropogating: s4a7 with value -3
+GetResult: s6,a5,-100
+BackPropogating: s6a5 with value -100
 GetResult: s3,a3,-5
 BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
@@ -1710,21 +1574,12 @@ SELECT
 []
 Doing : a0
 State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------84
@@ -1732,14 +1587,16 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
 Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1747,39 +1604,96 @@ BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------85
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
+Doing : a3
 State outcome: s3
+Setting node state to s3
 []
 Doing : a4
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------86
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s3
-[]
-Doing : a5
-State outcome: s6
+Doing : a0
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------87
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a2
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------88
+SELECT
+[]
+Doing : a0
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
+GetResult: s0,None,0
+BackPropogating: s0None with value 0
+-------------------------------------------------------------------------------------89
+SELECT
+[]
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a5
+State outcome: s2
+Setting node state to s2
+[]
+Doing : a6
+State outcome: s6
+Setting node state to s6
+EXPAND
+ROLLOUT
+BACKPROPOGATE
+GetResult: s6,a6,-100
+BackPropogating: s6a6 with value -100
 GetResult: s2,a5,-5
 BackPropogating: s2a5 with value -5
 GetResult: s3,a3,-5
@@ -1788,87 +1702,17 @@ GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------87
-SELECT
-[]
-Doing : a0
-State outcome: s6
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a8
-State outcome: s5
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------88
-SELECT
-[]
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s5
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
--------------------------------------------------------------------------------------89
-SELECT
-[]
-Doing : a0
-State outcome: s6
-[]
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
-State outcome: s6
-EXPAND
-ROLLOUT
-BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
-GetResult: s0,None,0
-BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------90
 SELECT
 []
 Doing : a0
-State outcome: s2
-[]
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
-State outcome: s5
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------91
@@ -1876,14 +1720,22 @@ SELECT
 []
 Doing : a1
 State outcome: s1
+Setting node state to s1
 []
-Doing : a2
+Doing : a3
+State outcome: s3
+Setting node state to s3
+[]
+Doing : a4
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
+GetResult: s6,a4,-100
+BackPropogating: s6a4 with value -100
+GetResult: s3,a3,-5
+BackPropogating: s3a3 with value -5
 GetResult: s1,a1,-20
 BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
@@ -1891,150 +1743,145 @@ BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------92
 SELECT
 []
-Doing : a0
-State outcome: s2
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
-State outcome: s3
-[]
-Doing : a4
+Doing : a2
 State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------93
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a3
-State outcome: s6
-[]
-Doing : a5
-State outcome: s6
+Doing : a0
+State outcome: s2
+Setting node state to s2
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s2,a5,-5
-BackPropogating: s2a5 with value -5
-GetResult: s3,a3,-5
-BackPropogating: s3a3 with value -5
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s2,a0,-5
+BackPropogating: s2a0 with value -5
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------94
 SELECT
 []
-Doing : a0
+Doing : a1
+State outcome: s1
+Setting node state to s1
+[]
+Doing : a3
 State outcome: s6
+Setting node state to s6
+[]
+Doing : a5
+State outcome: s2
+Setting node state to s2
 []
 Doing : a7
 State outcome: s4
+Setting node state to s4
 []
-Doing : a8
+Doing : a9
 State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a8,-100
-BackPropogating: s6a8 with value -100
+GetResult: s5,a9,100
+BackPropogating: s5a9 with value 100
 GetResult: s4,a7,-3
 BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s2,a5,-5
+BackPropogating: s2a5 with value -5
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------95
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s5
+Doing : a0
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------96
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a6
+Doing : a2
 State outcome: s6
-[]
-Doing : a4
-State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a4,-100
-BackPropogating: s6a4 with value -100
-GetResult: s3,a6,-5
-BackPropogating: s3a6 with value -5
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s6,a2,-100
+BackPropogating: s6a2 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------97
 SELECT
 []
-Doing : a1
-State outcome: s1
-[]
-Doing : a2
-State outcome: s5
+Doing : a0
+State outcome: s6
+Setting node state to s6
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s5,a2,100
-BackPropogating: s5a2 with value 100
-GetResult: s1,a1,-20
-BackPropogating: s1a1 with value -20
+GetResult: s6,a0,-100
+BackPropogating: s6a0 with value -100
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------98
 SELECT
 []
-Doing : a0
-State outcome: s6
+Doing : a1
+State outcome: s1
+Setting node state to s1
 []
-Doing : a7
-State outcome: s4
-[]
-Doing : a9
+Doing : a3
 State outcome: s6
+Setting node state to s6
+[]
+Doing : a4
+State outcome: s5
+Setting node state to s5
 EXPAND
 ROLLOUT
 BACKPROPOGATE
-GetResult: s6,a9,-100
-BackPropogating: s6a9 with value -100
-GetResult: s4,a7,-3
-BackPropogating: s4a7 with value -3
-GetResult: s2,a0,-5
-BackPropogating: s2a0 with value -5
+GetResult: s5,a4,100
+BackPropogating: s5a4 with value 100
+GetResult: s6,a3,-100
+BackPropogating: s6a3 with value -100
+GetResult: s1,a1,-20
+BackPropogating: s1a1 with value -20
 GetResult: s0,None,0
 BackPropogating: s0None with value 0
 -------------------------------------------------------------------------------------99
-[Action:a1 Utility/Visits:-960/48 = -20 Mean/Variance:-20/0]
-[Action:a0 Utility/Visits:-260/52 = -5 Mean/Variance:-5/0]
+[Action:a0 Utility/Visits:-3170/45 = -71 Mean/Variance:-100/0]
+[Action:a1 Utility/Visits:-1420/55 = -26 Mean/Variance:-22/4]
 
-Action: a0	Utility: -260	Risk: 0
-Action: a1	Utility: -960	Risk: 0
+Action: a1	Utility: -1420	Risk: 4
+Action: a0	Utility: -3170	Risk: 0
