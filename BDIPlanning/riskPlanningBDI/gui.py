@@ -1,7 +1,7 @@
 
 
 from Tkinter import *
-import riskDecision
+import riskDecisionSD as riskDecision
  
 #called when slider slided
 def slide(val):
@@ -16,14 +16,22 @@ def changeSelect(val):
     s1 = str(val)+".0"
     s2 = str(val)+".13"
     
-    alistbox.tag_remove("sel", 1.0, 4.13)
+    alistbox.tag_remove("sel", 1.0, 7.13)
 
     alistbox.tag_add("sel", s1, s2)
 
+def makeActionString():
+	aList = riskDecision.getActions()
+	string = ""
+	for a in aList:
+		string += '('+a.name+','+str(a.utility)+','+str(a.risk)+')\n'
+	return string
+
 top = Tk()
 
-alistbox = Text(top, padx=5, pady=5, height=6, width=20)
-alistbox.insert(INSERT, "(a0, 40, 450)\n(a1, 20, 200)\n(a2, 19, 100)\n(a3,  2,  10)")
+alistbox = Text(top, padx=5, pady=5, height=7, width=20)
+#alistbox.insert(INSERT, "(a0, 40, 450)\n(a1, 20, 200)\n(a2, 19, 170)\n(a3, 15,  99)\n(a4,  0,   0)\n(a5, -20, 48)\n(a6, -22,  0)")
+alistbox.insert(INSERT, makeActionString())
 alistbox.pack(anchor=NW)
 
 #changeSelect(1)
@@ -36,5 +44,7 @@ slider.pack(anchor=SW)
 
 label = Label(top, text="none")
 label.pack(anchor=NE)
+
+
 
 top.mainloop()

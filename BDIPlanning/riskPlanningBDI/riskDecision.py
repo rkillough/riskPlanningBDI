@@ -13,11 +13,14 @@ class Action():
             
 
 a0 = Action("a0", 40, 450)
-a1 = Action("a1", 20, 200)
-a2 = Action("a2", 19, 100)
-a3 = Action("a3", 2 , 10 )
+a1 = Action("a1", 33, 270)
+a2 = Action("a2", 19, 150)
+a3 = Action("a3", 18 , 50 )
+a4 = Action("a4", 9, 24)
+a5 = Action("a5", 1, 10)
+a6 = Action("a6", -22, 0)
 
-aList = [a0,a1,a2,a3]
+aList = [a0,a1,a2,a3,a4,a5,a6]
 
 #pick an action by comparing the ratio of the loss of utility to the ratio of the reduction in risk
 #This comparison is adjusted by the constant R
@@ -28,14 +31,16 @@ def pickAction(R):
         uRatio = (aList[i].utility-aList[i+1].utility) / aList[i].utility
         #print(uRatio)
         rRatio = (aList[i].risk-aList[i+1].risk) / aList[i].risk
-        print("Ratio: "+ aList[i].name +": "+ str(uRatio) +", "+ str(rRatio))
-        if(rRatio * R > uRatio):
+        print("Ratio: "+ aList[i+1].name +": "+ str(uRatio) +", "+ str(rRatio))
+        if(rRatio * R >= uRatio):
             selectedAction = i+1
         else:
             return selectedAction       
     print(selectedAction)
     return selectedAction
         
+def getActions():
+	return aList
 
 def adjustRiskTolerance():
     R=1 

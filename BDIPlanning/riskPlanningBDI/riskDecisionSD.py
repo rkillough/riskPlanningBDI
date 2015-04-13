@@ -18,29 +18,46 @@ class Action():
             
 
 a0 = Action("a0", 40, 450)
-a1 = Action("a1", 20, 200)
-a2 = Action("a2", 19, 100)
-a3 = Action("a3", 2 , 10 )
+a1 = Action("a1", 33, 270)
+a2 = Action("a2", 19, 150)
+a3 = Action("a3", 18 , 50 )
+a4 = Action("a4", 9, 24)
+a5 = Action("a5", 1, 10)
+a6 = Action("a6", -22, 1)
 
-aList = [a0,a1,a2,a3]
+aList = [a0,a1,a2,a3,a4,a5,a6]
 
 
+#Takes a confidence level in sigma and converts it to percentage confidence
+#This uses the formula of an error function fed with the (sigma /  the sqrt of 2) 
+def sigmaToPercent(sigma):
+    confidence = math.erf(sigma / math.sqrt(2))
+    return confidence * 100
 
 def pickAction(R):
     print("R= "+str(R))
     
-    topactionConf = 0       #the highest percentage confidence so far
-    for a in aList:
+    topActionConf = 0       #the highest percentage confidence so far
+    topAction = 0
+    for i in range (len(aList)):
         #calculate the tolerance range (just calculate the top one, doesnt matter either way)
-        trange = a.utility * R
-        SD = math.sqrt(a.risk)  #calc the standard deviation
-        confidence = (trange / SD) * 68.27
-        print "Confidence "+a.name+" is in interval is "+str(confidence)
-    
-    
-    #print(selectedAction)
-    #return selectedAction
-        
+        trange = R * aList[i].utility
+        SD = math.sqrt(aList[i].risk)  #calc the standard deviation
+        confidence = (trange / SD)	#calc th confidence in sigmas (standard deviations)
+        confidence = sigmaToPercent(confidence)	#calculate the confidence in %
+        print "Confidence that "+aList[i].name+" is in interval "+ str(aList[i].utility) +"+-"+ str(trange)+" is "+ str(confidence) +"%"
+        if(confidence > topActionConf):
+            topActionConf = confidence		
+            topAction = i
+    #find top percentage and return as the selected action
+	    
+
+
+    print(topAction)
+    return topAction
+
+def getActions():
+	return aList        
 
 def adjustRiskTolerance():
     R=1 
