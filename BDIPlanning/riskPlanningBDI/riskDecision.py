@@ -18,9 +18,9 @@ a2 = Action("a2", 19, 150)
 a3 = Action("a3", 18 , 50 )
 a4 = Action("a4", 9, 24)
 a5 = Action("a5", 1, 10)
-a6 = Action("a6", -22, 0)
 
-aList = [a0,a1,a2,a3,a4,a5,a6]
+
+aList = [a0,a1,a2,a3,a4,a5]
 
 #pick an action by comparing the ratio of the loss of utility to the ratio of the reduction in risk
 #This comparison is adjusted by the constant R

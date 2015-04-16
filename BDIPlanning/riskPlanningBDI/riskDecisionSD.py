@@ -23,9 +23,9 @@ a2 = Action("a2", 19, 150)
 a3 = Action("a3", 18 , 50 )
 a4 = Action("a4", 9, 24)
 a5 = Action("a5", 1, 10)
-a6 = Action("a6", -22, 1)
 
-aList = [a0,a1,a2,a3,a4,a5,a6]
+
+aList = [a0,a1,a2,a3,a4,a5]
 
 
 #Takes a confidence level in sigma and converts it to percentage confidence
@@ -41,7 +41,7 @@ def pickAction(R):
     topAction = 0
     for i in range (len(aList)):
         #calculate the tolerance range (just calculate the top one, doesnt matter either way)
-        trange = R * aList[i].utility
+        trange = (aList[i].utility * 0.5) + ((R*20)-10)
         SD = math.sqrt(aList[i].risk)  #calc the standard deviation
         confidence = (trange / SD)	#calc th confidence in sigmas (standard deviations)
         confidence = sigmaToPercent(confidence)	#calculate the confidence in %
