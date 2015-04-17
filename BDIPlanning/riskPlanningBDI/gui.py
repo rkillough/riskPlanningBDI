@@ -49,7 +49,7 @@ top = Tk()
 top.minsize(width=400, height= 550)
 
 
-strategy = riskDecision
+strategy = riskDecisionSD
 
 alistbox = Text(top, padx=5, pady=5, height=20, width=20)
 #alistbox.insert(INSERT, "(a0, 40, 450)\n(a1, 20, 200)\n(a2, 19, 170)\n(a3, 15,  99)\n(a4,  0,   0)\n(a5, -20, 48)\n(a6, -22,  0)")
@@ -59,7 +59,7 @@ alistbox.place(anchor=NW)
 #changeSelect(1)
 #alistbox.tag_config("sel", background="yellow")
 
-slabel = Label(top, text="Strategy:Ratio")
+slabel = Label(top, text="Strategy:Confidence")
 slabel.pack(anchor=NE)
 button = Button(top, command=switchStrategy, text="Switch Strategy")
 button.pack(anchor=NE)
