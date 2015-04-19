@@ -65,7 +65,7 @@ button = Button(top, command=switchStrategy, text="Switch Strategy")
 button.pack(anchor=NE)
 
 val = DoubleVar()
-slider = Scale(top, orient=VERTICAL, length=500, from_=0, to=1, resolution=0.01, command=slide)
+slider = Scale(top, orient=VERTICAL, length=500, from_=1, to=0, resolution=0.01, command=slide)
 slider.pack(anchor=SE)
 
 label = Label(top, text="")
