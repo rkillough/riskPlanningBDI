@@ -4,6 +4,8 @@ The is the same a riskdivision.py except we use a differnt measure to calculate 
 
 from __future__ import division
 import math
+import random
+
 
 cResource = 100 #this should have a negative correlation with R
 
@@ -25,7 +27,6 @@ a4 = Action("a4", 9, 24)
 a5 = Action("a5", 1, 10)
 '''
 
-
 a0 = Action("a0", 300, 1100)
 a1 = Action("a1", 290, 270)
 a2 = Action("a2", 250, 246)
@@ -34,6 +35,16 @@ a4 = Action("a4", 90, 24)
 a5 = Action("a5", 43, 6)
 
 aList = [a0,a1,a2,a3,a4,a5]
+
+#Generate a set of 5 random actions within the constraint rules
+def generateActions():
+    global aList
+    aList = []
+    for i in range(5):
+        if(i == 0):
+            aList.append(Action("a0", random.randint(0,9999), random.randint(0,9999)))
+        else:
+            aList.append(Action("a"+str(i), random.randint(0,aList[i-1].utility), random.randint(0,aList[i-1].risk)))
 
 
 #Takes a confidence level in sigma and converts it to percentage confidence
@@ -46,9 +57,34 @@ def sigmaToPercent(sigma):
 def getAvg():
     total = 0
     for a in aList: 
-        total += a.utility
+        total += math.sqrt(a.risk)
     return total/len(aList)
 
+def pickAction(R):
+    avg = getAvg()
+    print("avgSD "+str(avg))   
+
+    topActionConf = 0       #the highest percentage confidence so far
+    topAction = 0
+    for i in range (len(aList)):
+        #calculate the tolerance range (just calculate the top one, doesnt matter either way)
+        SD = math.sqrt(aList[i].risk)  #calc the standard deviation
+        trange = 1+(aList[i].utility*R)#+(avg*R)        
+        #trange = (SD/aList[i].utility)+(avg**R) 
+        
+        confidence = (trange / SD)	#calc th confidence in sigmas (standard deviations)
+        #confidence = sigmaToPercent(confidence)	#calculate the confidence in %
+        print "Confidence that "+aList[i].name+" is in interval "+ str(aList[i].utility) +"+-"+ str(trange)+" is "+ str(confidence) +" sigma"
+        if(confidence > topActionConf):
+            topActionConf = confidence		
+            topAction = i
+    #find top percentage and return as the selected action
+
+    print(topAction)
+    return topAction
+'''
+
+#old, non adjustable decsions
 def pickAction(R):
     print("R= "+str(R))
 
@@ -59,21 +95,19 @@ def pickAction(R):
     for i in range (len(aList)):
         #calculate the tolerance range (just calculate the top one, doesnt matter either way)
         SD = math.sqrt(aList[i].risk)  #calc the standard deviation
-        trange = (aList[i].utility**R)+(avg**R)        
-        #trange = (SD/aList[i].utility)+(avg**R) 
-        
+        trange = aList[i].utility*R        
+                 
         confidence = (trange / SD)	#calc th confidence in sigmas (standard deviations)
-        confidence = sigmaToPercent(confidence)	#calculate the confidence in %
-        print "Confidence that "+aList[i].name+" is in interval "+ str(aList[i].utility) +"+-"+ str(trange)+" is "+ str(confidence) +"%"
+        #confidence = sigmaToPercent(confidence)	#calculate the confidence in %
+        print "Confidence that "+aList[i].name+" is in interval "+ str(aList[i].utility) +"+-"+ str(trange)+" is "+ str(confidence) +"sigma"
         if(confidence > topActionConf):
             topActionConf = confidence		
             topAction = i
     #find top percentage and return as the selected action
-	    
-
 
     print(topAction)
     return topAction
+'''
 
 def getActions():
 	return aList        
