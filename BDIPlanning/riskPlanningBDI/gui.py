@@ -9,7 +9,7 @@ import riskDecision
 def switchStrategy():
     global strategy
     global slabel 
-    print "Clicked"
+
     alistbox.delete(1.0,7.13)
     if(strategy == riskDecision):
         strategy = riskDecisionSD
@@ -19,6 +19,11 @@ def switchStrategy():
         strategy = riskDecision    
         slabel.config(text = "Strategy:Ratio")
         alistbox.insert(INSERT, makeActionString())
+
+def generateActions():
+    alistbox.delete(1.0,7.13)
+    strategy.generateActions()
+    alistbox.insert(INSERT, makeActionString())
 
 #called when slider slided
 def slide(val):
@@ -62,6 +67,9 @@ alistbox.place(anchor=NW)
 slabel = Label(top, text="Strategy:Confidence")
 slabel.pack(anchor=NE)
 button = Button(top, command=switchStrategy, text="Switch Strategy")
+button.pack(anchor=NE)
+
+button = Button(top, command=generateActions, text="Generate Actions")
 button.pack(anchor=NE)
 
 val = DoubleVar()

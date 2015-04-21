@@ -1,4 +1,5 @@
 from __future__ import division
+import random
 
 cResource = 100 #this should have a negative correlation with R
 
@@ -38,6 +39,19 @@ def pickAction(R):
             return selectedAction       
     print(selectedAction)
     return selectedAction
+       
+#Generate a set of 5 random actions within the constraint rules
+def generateActions():
+    global aList
+    aList = []
+    for i in range(5):
+        if(i == 0):
+            aList.append(Action("a0", random.randint(0,9999), random.randint(0,9999)))
+        else:
+            aList.append(Action("a"+str(i), random.randint(0,aList[i-1].utility), random.randint(0,aList[i-1].risk)))
+                                                                                   
+                                                                                        
+       
         
 def getActions():
 	return aList
@@ -52,4 +66,4 @@ def adjustRiskTolerance():
         R = R - 0.01
 
 #adjustRiskTolerance()
-#print(adjustRiskTolerance())
+#printaadjustRiskTolerance()a
