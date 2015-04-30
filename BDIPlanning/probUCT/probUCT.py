@@ -6,7 +6,7 @@ The scenario privided is a single robot navigation problem. The robot must choos
 
 
 from __future__ import division
-import random
+from random import *
 import math
 
 #This represents a state in the scenario, it is comprised of a name and set of actions
@@ -15,6 +15,9 @@ class State():
     def __init__(self,name,actions):
         self.actions = actions
         self.name = name
+
+	def __repr__(self):
+		return self.name
         
 #This represents an actions available to the agent
 #It takes three lists, where outomes is a list of states which are possible outcomes from the action
@@ -27,6 +30,9 @@ class Action():
         self.probs = probs
         self.rewards = rewards
 
+	def __repr__(self):
+		return self.name
+	
 '''
 Here we construct the states and actions of the scenario
 All these items are globally avaialble to the algorithm
@@ -68,18 +74,18 @@ s6.actions = []   # This is the fail state
 
 #This method returns a 'random' probability adjusted state outcome given an action
 def GetOutcome(action):
-    r = random.randint(0,999)   #Note, this will ignore precision in probabilties with more than 3 dp
+    r = randint(0,999)   #Note, this will ignore precision in probabilties with more than 3 dp
     distribution = []   #2d array of integer upper and lower bounds corresponding to the action's probabilties
     l = 0 #lower bound
     t = 0 #cumulative prob
-    for p in a.probs:
+    for p in action.probs:
         distribution.append([l, ((t+p)*1000)+1])
         l = p*1000
         t = t+p
 
-    for i in range(len(a.outcomes)):
+    for i in range(len(action.outcomes)):
         if(r >= distribution[i][0] and r < distribution[i][1]):
-            return a.outcomes[i]
+            return action.outcomes[i]
 
 #This is wrapper around a State class instance to provide methods for its manipulation but allow the state to be easily changed
 class StateWrapper():
@@ -94,21 +100,119 @@ class StateWrapper():
 
     def GetRandomAction(self):
         actions = self.GetActions()
-        r = random.randint(1,len(actions)) -1
+        r = randint(1,len(actions)) -1
         return actions[r]
 
     #Return the immediate reward of taking action and arriving in state
-    def GetResult(self, state, action):
+    def GetReward(self, state, action):
         reward = 0
         if(action != None):     #handles root node which will have a null arrival action
             for i in range(len(action.outcomes)):   #verify that state is an outcome of action
-                if(action.outcomes[i] == state)
+                if(action.outcomes[i] == state):
                     reward = action.rewards[i]
 
         return reward
 
 #A UCT node modified to include mean and variance
 class Node:
+	def __init__(self, action=None, parent=None, state=None):
+		self.action = action
+		self.state = state.currentState
+		self.parent = parent
+		self.children = []
+		
+		self.utility = 0
+		self.visits = 0
+		
+		self.mean = 0
+		self.variance = 0
+	
+		self.untriedActions = state.GetActions()
+		
+	#Select a child node using the UCB1 formula
+	def SelectChild(self):
+		C = 1000		#Exploration exploitation tradeoff constant
 
+		#find the highest valued child node
+		topNode = None
+		topValue = 0
 
+		for n in self.children:
+			value = n.utility/n.visits + C * math.sqrt(2*math.log(self.visits/n.visits))
+			if(value > topValue):
+				topValue = value
+				topNode = n	
+
+		return topNode
+
+	def RandomUntriedAction(self):
+		actions = self.untriedActions
+		r = randint(1,len(actions)) -1
+		return actions[r]
+
+	def Update(self, reward):
+		self.visits += 1
+		self.utility += reward
+
+	#A new sample has been taken, add this as a child node to this node
+	def AddChild(self, Caction, Cstate):
+		childNode = Node(action=Caction, parent=self, state=Cstate)
+		self.children.append(childNode)
+		self.untriedActions.remove(Caction)
+
+		return childNode
+		
+	def __repr__(self):
+		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits)
+
+def UCT(rootState, i):
+	rootNode = Node(state = rootState)
+
+	for i in range(i):
+		#Initialise
+		node = rootNode
+		state = rootState
     
+		#Select a new node oce all actions have been tried
+		while node.untriedActions == [] and node.children != []:
+			node = node.SelectChild()
+			state.DoAction(node.action)
+			node.state = state.currentState
+
+		#Expand randomly through the tree while there are untried actions
+		if node.untriedActions != []:
+			randomAction = node.RandomUntriedAction()
+			state.DoAction(randomAction)
+			node = node.AddChild(randomAction, state)
+
+		#Rollout, carry out a random walk through the tree untila  terminal state is reached
+		while state.GetActions() != []:
+			action = state.GetRandomAction()
+			state.DoAction(action)
+
+		#Backpropogate the cuulative rewardback up through the tree
+		result = 0
+		while node != None:
+			result += state.GetReward(node.state, node.action)	 
+			node.Update(result)
+			node = node.parent
+
+
+	#sort the list of root child nodes by their utility
+	actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
+
+	print actionList[0]
+	print actionList[1]
+
+	return actionList[0]
+
+	
+initialState = StateWrapper(s0)
+currentState = initialState
+
+#Play out the scenario
+while (currentState.currentState.GetActions != []):
+	#plan and get the next best action
+	bestAction = UCT(currentState, 1000)
+	currentState.DoAction(bestAction)
+	
