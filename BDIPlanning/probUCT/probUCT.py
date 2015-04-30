@@ -63,13 +63,15 @@ a11 = Action("a11", [s0,s6], [0.4,0.6], [-5,-100])
 a12 = Action("a12", [s1,s6], [0.99,0.01], [-10,-100])
 a13 = Action("a13", [s2,s6], [0.9,0.1], [-5,-100])
 
-s0.actions = [a0,a1]
-s1.actions = [a2,a3,a10]
-s2.actions = [a6,a7,a11]
-s3.actions = [a4,a5,a12]
-s4.actions = [a8,a9,a13]
-s5.actions = []   # This is the goal state
-s6.actions = []   # This is the fail state
+def SetActions():
+    s0.actions = [a0,a1]
+    s1.actions = [a2,a3,a10]
+    s2.actions = [a6,a7,a11]
+    s3.actions = [a4,a5,a12]
+    s4.actions = [a8,a9,a13]
+    s5.actions = []   # This is the goal state
+    s6.actions = []   # This is the fail state
+
 
 
 #This method returns a 'random' probability adjusted state outcome given an action
@@ -131,19 +133,23 @@ class Node:
 		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
-		C = 1000		#Exploration exploitation tradeoff constant
-
+		C = 400		#Exploration exploitation tradeoff constant
+		s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
+		return s[-1]
 		#find the highest valued child node
+        '''
 		topNode = None
-		topValue = 0
+		topValue = None
 
 		for n in self.children:
 			value = n.utility/n.visits + C * math.sqrt(2*math.log(self.visits/n.visits))
-			if(value > topValue):
+			if(value is None):
+				topValue = value
+				topNode = n
+			elif(value > topValue):
 				topValue = value
 				topNode = n	
-
-		return topNode
+        '''
 
 	def RandomUntriedAction(self):
 		actions = self.untriedActions
@@ -201,18 +207,25 @@ def UCT(rootState, i):
 	#sort the list of root child nodes by their utility
 	actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
 
-	print actionList[0]
-	print actionList[1]
-
+	for a in actionList:
+		print "Action: "+str(a)
+	
 	return actionList[0]
 
-	
+
+SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
 #Play out the scenario
-while (currentState.currentState.GetActions != []):
+while (currentState.GetActions() != []):
 	#plan and get the next best action
-	bestAction = UCT(currentState, 1000)
-	currentState.DoAction(bestAction)
+    bestAction = UCT(currentState, 10000)
+
+    print "Doing "+bestAction.action.name
+
+    currentState.DoAction(bestAction.action)    #Actually 'do' the action
 	
+    print "Outcome: "+currentState.currentState.name 
+
+    SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
