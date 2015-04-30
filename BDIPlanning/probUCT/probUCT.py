@@ -89,6 +89,21 @@ def GetOutcome(action):
         if(r >= distribution[i][0] and r < distribution[i][1]):
             return action.outcomes[i]
 
+#This in as online variance algorthm
+def calculateRisk(count, cMean, cVariance, newValue):
+	if(count > 1):
+		Mnew = cMean + (newValue-cMean)/count
+		cVariance = cVariance + (newValue-cMean)*(newValue-Mnew)
+		cMean = Mnew
+		cVariance = cVariance/(count-1)
+	else:
+		cMean = newValue
+		cVariance = 0
+	
+	return cMean, cVariance
+																			
+
+
 #This is wrapper around a State class instance to provide methods for its manipulation but allow the state to be easily changed
 class StateWrapper():
     def __init__(self,cState):
@@ -108,10 +123,10 @@ class StateWrapper():
     #Return the immediate reward of taking action and arriving in state
     def GetReward(self, state, action):
         reward = 0
-        if(action != None):     #handles root node which will have a null arrival action
+        if(action != None):     #handles root node which will have a null arrival action (the root node)
             for i in range(len(action.outcomes)):   #verify that state is an outcome of action
                 if(action.outcomes[i] == state):
-                    reward = action.rewards[i]
+                    reward = action.rewards[i]		#if so, return the reward for arriving in state given action
 
         return reward
 
@@ -127,7 +142,7 @@ class Node:
 		self.visits = 0
 		
 		self.mean = 0
-		self.variance = 0
+		self.risk = 0	#currently modelled as plain variance
 	
 		self.untriedActions = state.GetActions()
 		
@@ -156,9 +171,11 @@ class Node:
 		r = randint(1,len(actions)) -1
 		return actions[r]
 
-	def Update(self, reward):
+	def Update(self, reward, mean, risk):
 		self.visits += 1
 		self.utility += reward
+		self.mean = mean
+		self.risk = risk
 
 	#A new sample has been taken, add this as a child node to this node
 	def AddChild(self, Caction, Cstate):
@@ -169,7 +186,7 @@ class Node:
 		return childNode
 		
 	def __repr__(self):
-		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits)
+		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
 
 def UCT(rootState, i):
 	rootNode = Node(state = rootState)
@@ -196,11 +213,14 @@ def UCT(rootState, i):
 			action = state.GetRandomAction()
 			state.DoAction(action)
 
-		#Backpropogate the cuulative rewardback up through the tree
-		result = 0
+		#Backpropogate the cumulative reward and risk back up through the tree
+		cumulativeReward = 0
+		cumulativeRisk = 0
 		while node != None:
-			result += state.GetReward(node.state, node.action)	 
-			node.Update(result)
+			cumulativeReward += state.GetReward(node.state, node.action)	 
+			mean, risk = calculateRisk(node.visits, node.mean, node.risk, cumulativeReward)
+			cumulativeRisk += risk
+			node.Update(cumulativeReward, mean, cumulativeRisk)
 			node = node.parent
 
 
@@ -217,6 +237,9 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
+UCT(currentState, 10000)
+
+'''
 #Play out the scenario
 while (currentState.GetActions() != []):
 	#plan and get the next best action
@@ -229,3 +252,4 @@ while (currentState.GetActions() != []):
     print "Outcome: "+currentState.currentState.name 
 
     SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
+	'''
