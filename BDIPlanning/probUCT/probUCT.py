@@ -152,7 +152,7 @@ class Node:
 		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
-		C = 400		#Exploration exploitation tradeoff constant
+		C = 600		#Exploration exploitation tradeoff constant
 		s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
 		return s[-1]
 		#find the highest valued child node
@@ -230,14 +230,19 @@ def UCT(rootState, i):
 			node.AddVisit()
 
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			#cumulativeRisk += risk
-
-			node.Update(cumulativeReward, mean, M2, risk)
+			cumulativeRisk += risk
+			
+			node.Update(cumulativeReward, mean, M2, cumulativeRisk)
 			node = node.parent
 
 
 	#sort the list of root child nodes by their utility
-	actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
+	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
+	
+	#sort by risk instead (this should obviously be low to high so dont reverse
+	actionList = sorted(rootNode.children, key= lambda c: c.risk)
+	
+
 
 	for a in actionList:
 		print "Action: "+str(a)
@@ -249,9 +254,9 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-UCT(currentState, 10000)
+#UCT(currentState, 10000)
 
-'''
+
 #Play out the scenario
 while (currentState.GetActions() != []):
 	#plan and get the next best action
@@ -264,4 +269,4 @@ while (currentState.GetActions() != []):
     print "Outcome: "+currentState.currentState.name 
 
     SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
-	'''
+	
