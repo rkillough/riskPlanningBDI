@@ -49,7 +49,7 @@ s6 = State("s6",[])
 
 #actions
 a0 = Action("a0", [s2,s6], [0.4,0.6], [-5,-100])
-a1 = Action("a1", [s1,s6], [0.8,0.2], [30,-100])
+a1 = Action("a1", [s1,s6], [0.8,0.2], [-30,-100])
 a2 = Action("a2", [s5,s6], [0.1,0.9], [100,-100])
 a3 = Action("a3", [s3,s6], [0.99,0.01], [-10,-100])
 a4 = Action("a4", [s5,s6], [0.6,0.4], [100,-100])
@@ -90,18 +90,21 @@ def GetOutcome(action):
             return action.outcomes[i]
 
 #This in as online variance algorthm
-def calculateRisk(count, cMean, cVariance, newValue):
-	if(count > 1):
-		Mnew = cMean + (newValue-cMean)/count
-		cVariance = cVariance + (newValue-cMean)*(newValue-Mnew)
-		cMean = Mnew
-		cVariance = cVariance/(count-1)
-	else:
-		cMean = newValue
-		cVariance = 0
-	
-	return cMean, cVariance
-																			
+#It maintains two running values in order to calcuate the variance
+#The mean of all the rewards
+#M2, which is the sum of squares of differences from the current mean
+def calculateRisk(count, cMean, M2, newValue):
+
+    delta = newValue - cMean
+    mean = cMean + delta/count
+    M2 = M2 + delta*(newValue - mean)
+			
+    if(count < 2):
+        return mean, M2, 0
+								
+    variance = M2/(count-1)
+    return mean, M2, variance
+											
 
 
 #This is wrapper around a State class instance to provide methods for its manipulation but allow the state to be easily changed
@@ -142,6 +145,7 @@ class Node:
 		self.visits = 0
 		
 		self.mean = 0
+		self.M2 = 0
 		self.risk = 0	#currently modelled as plain variance
 	
 		self.untriedActions = state.GetActions()
@@ -171,10 +175,13 @@ class Node:
 		r = randint(1,len(actions)) -1
 		return actions[r]
 
-	def Update(self, reward, mean, risk):
+	def AddVisit(self):
 		self.visits += 1
+
+	def Update(self, reward, mean, M2, risk):
 		self.utility += reward
 		self.mean = mean
+		self.M2 = M2
 		self.risk = risk
 
 	#A new sample has been taken, add this as a child node to this node
@@ -217,10 +224,15 @@ def UCT(rootState, i):
 		cumulativeReward = 0
 		cumulativeRisk = 0
 		while node != None:
-			cumulativeReward += state.GetReward(node.state, node.action)	 
-			mean, risk = calculateRisk(node.visits, node.mean, node.risk, cumulativeReward)
-			cumulativeRisk += risk
-			node.Update(cumulativeReward, mean, cumulativeRisk)
+			reward = state.GetReward(node.state, node.action)	 
+			cumulativeReward += reward
+
+			node.AddVisit()
+
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
+			#cumulativeRisk += risk
+
+			node.Update(cumulativeReward, mean, M2, risk)
 			node = node.parent
 
 
