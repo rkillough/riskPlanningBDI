@@ -270,6 +270,6 @@ while (currentState.GetActions() != []):
     currentState.DoAction(bestAction.action)    #Actually 'do' the action
 	
     print "Outcome: "+currentState.currentState.name 
-
+    print "-----------------------------------------------------\n"
     SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
 	
