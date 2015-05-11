@@ -140,10 +140,10 @@ class nuclearState():
         #print self.currentState
         return self.currentState.actions
 
-	def GetRandomMove(self):
-		moves = GetMoves()
-		r = randint(1,len(moves)) -1
-		return moves[r]
+    def GetRandomMove(self):
+        moves = self.GetMoves()
+        r = random.randint(1,len(moves)) -1
+        return moves[r]
 
     #return immediate reward 
     def GetResult(self, state, action):
@@ -277,13 +277,14 @@ def UCT(rootstate, itermax, verbose = False):
         #print"ROLLOUT"
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
         while state.GetMoves() != []: # while state is non-terminal
-			move = state.GetRandomMove()
+            move = state.GetRandomMove()
             state.DoMove(move)
 
         #print "BACKPROPOGATE"
         # Backpropagate
+        result = 0
         while node != None: # backpropagate from the expanded node and work back to the root node
-            result = state.GetResult(node.state, node.move) 
+            result += state.GetResult(node.state, node.move) 
             #print "BackPropogating: "+str(node.state) + str(node.move) + " with value " + str(result)
             node.Update(result) # state is terminal. Update node with result 
 

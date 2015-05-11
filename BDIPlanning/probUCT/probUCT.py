@@ -8,6 +8,7 @@ The scenario privided is a single robot navigation problem. The robot must choos
 from __future__ import division
 from random import *
 import math
+import riskAwareDecision
 
 #This represents a state in the scenario, it is comprised of a name and set of actions
 #no information about the state is required pther than the actions available to take from it
@@ -239,15 +240,17 @@ def UCT(rootState, i):
 	#sort the list of root child nodes by their utility
 	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
 	
-	#sort by risk instead (this should obviously be low to high so dont reverse
-	actionList = sorted(rootNode.children, key= lambda c: c.risk)
+	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
+	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits))
 	
 
 
 	for a in actionList:
 		print "Action: "+str(a)
 	
-	return actionList[0]
+	decision = riskAwareDecision.rankRiskAware(actionList)
+
+	return actionList[decision]
 
 
 SetActions()
