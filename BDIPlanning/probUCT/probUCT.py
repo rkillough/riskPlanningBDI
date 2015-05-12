@@ -48,17 +48,18 @@ s4 = State("s4",[])
 s5 = State("s5",[])
 s6 = State("s6",[])
 
+
 #actions
 a0 = Action("a0", [s2,s6], [0.4,0.6], [-5,-100])
-a1 = Action("a1", [s1,s6], [0.8,0.2], [-30,-100])
+a1 = Action("a1", [s1,s6], [0.9,0.1], [-30,-100])
 a2 = Action("a2", [s5,s6], [0.1,0.9], [100,-100])
 a3 = Action("a3", [s3,s6], [0.99,0.01], [-10,-100])
-a4 = Action("a4", [s5,s6], [0.6,0.4], [100,-100])
+a4 = Action("a4", [s5,s6], [0.5,0.5], [100,-100])
 a5 = Action("a5", [s2,s6], [0.95,0.05], [-10,-100])
 a6 = Action("a6", [s3,s6], [0.6,0.4], [-10,-100])
 a7 = Action("a7", [s4,s6], [0.9,0.1], [-5,-100])
 a8 = Action("a8", [s5,s6], [0.8,0.2], [100,-100])
-a9 = Action("a9", [s5,s6], [0.98,0.02], [80,-100])
+a9 = Action("a9", [s5,s6], [0.95,0.05], [65,-100])
 a10 = Action("a10", [s0,s6], [0.8,0.2], [-30,-100])
 a11 = Action("a11", [s0,s6], [0.4,0.6], [-5,-100])
 a12 = Action("a12", [s1,s6], [0.99,0.01], [-10,-100])
@@ -247,10 +248,11 @@ def UCT(rootState, i):
 	for a in actionList:
 		print "Action: "+str(a)
 	
-	decision = riskAwareDecision.rankRiskAware(actionList)
+	decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
+	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
 
-	#return actionList[decision]		#USe the decision rule
-	return actionList[0]				#Just use utility
+	return actionList[decision]		#USe the decision rule
+	#return actionList[0]				#Just use utility
 
 SetActions()
 initialState = StateWrapper(s0)
@@ -261,10 +263,11 @@ currentState = initialState
 rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
 #More generally, it would correspond to the amount of critical resource consumed.
 
+print "\n\n#################################################################################\n\n\n"	#for readability
 #Play out the scenario
 while (currentState.GetActions() != []):
 	#plan and get the next best action
-    bestAction = UCT(currentState, 1000)
+    bestAction = UCT(currentState, 10000)
 
     print "Doing "+bestAction.action.name
 
@@ -272,7 +275,7 @@ while (currentState.GetActions() != []):
     rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
 
     print "Outcome: "+currentState.currentState.name 
-    print "-----------------------------------------------------\n"
+    print "---------------------------------------------------------------------------------------------\n"
     SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
 
 print "Total reward obtained: "+ str(rewardObtained)
