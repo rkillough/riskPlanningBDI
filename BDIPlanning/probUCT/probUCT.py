@@ -241,8 +241,7 @@ def UCT(rootState, i):
 	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
 	
 	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
-	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits))
-	
+	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 
 	for a in actionList:
@@ -250,8 +249,8 @@ def UCT(rootState, i):
 	
 	decision = riskAwareDecision.rankRiskAware(actionList)
 
-	return actionList[decision]
-
+	#return actionList[decision]		#USe the decision rule
+	return actionList[0]				#Just use utility
 
 SetActions()
 initialState = StateWrapper(s0)
@@ -259,17 +258,21 @@ currentState = initialState
 
 #UCT(currentState, 10000)
 
+rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
+#More generally, it would correspond to the amount of critical resource consumed.
 
 #Play out the scenario
 while (currentState.GetActions() != []):
 	#plan and get the next best action
-    bestAction = UCT(currentState, 10000)
+    bestAction = UCT(currentState, 1000)
 
     print "Doing "+bestAction.action.name
 
     currentState.DoAction(bestAction.action)    #Actually 'do' the action
-	
+    rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
+
     print "Outcome: "+currentState.currentState.name 
     print "-----------------------------------------------------\n"
     SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
-	
+
+print "Total reward obtained: "+ str(rewardObtained)

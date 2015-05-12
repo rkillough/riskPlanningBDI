@@ -20,9 +20,12 @@ def rankRiskAware(aList):
         
         utility = AAList[i].utility 
         trange = utility - lowestU	#This normalises all values to be above zero
+        
+        if(SD > 0):
+        	confidence = (trange / SD)  #calc th confidence in sigmas (standard deviations)
+        else:
+            confidence = float('inf') #if the SD is 0, then our confidence in its interval will be infinite
 
-        confidence = (trange / SD)  #calc th confidence in sigmas (standard deviations)
-     
         print "Confidence that "+aList[i].action.name+" is in interval "+ str(utility) +"+-"+ str(trange)+" is "+ str(confidence) +"sigma"
  
         if(topAction == None):
