@@ -71,6 +71,10 @@ def rankRiskAwareRatio(aList, R):
 		#print(uRatio)
 		rRatio = (AAList[i].risk-AAList[i+1].risk) / AAList[i].risk
 		print("Ratio "+ AAList[i].name +":"+ AAList[i+1].name +" | "+ str(uRatio) +", "+ str(rRatio))	
+		
+		if(uRatio < 0):			#Utilities % drops can be negative (risks cant) so positivize utility %drops
+			uRatio = uRatio*-1
+		
 		if(rRatio * R >= uRatio):
 			selectedAction = i+1
 		else:

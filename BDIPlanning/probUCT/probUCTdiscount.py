@@ -197,14 +197,15 @@ class Node:
 	def __repr__(self):
 		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
 
-def UCT(rootState, i):
+def UCT(rootState, i, gamma):
 	rootNode = Node(state = rootState)
 
 	for i in range(i):
 		#Initialise
 		node = rootNode
 		state = rootState
-    
+		depth = 0
+
 		#Select a new node oce all actions have been tried
 		while node.untriedActions == [] and node.children != []:
 			node = node.SelectChild()
@@ -219,6 +220,7 @@ def UCT(rootState, i):
 
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
 		while state.GetActions() != []:
+			depth+=1
 			action = state.GetRandomAction()
 			state.DoAction(action)
 
@@ -227,12 +229,12 @@ def UCT(rootState, i):
 		cumulativeRisk = 0
 		while node != None:
 			reward = state.GetReward(node.state, node.action)	 
-			cumulativeReward += reward
+			cumulativeReward += reward * (gamma ** depth)
 
 			node.AddVisit()
 
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			cumulativeRisk += risk
+			cumulativeRisk += risk * (gamma ** depth)
 			
 			node.Update(cumulativeReward, mean, M2, cumulativeRisk)
 			node = node.parent
@@ -267,7 +269,7 @@ print "\n\n#####################################################################
 #Play out the scenario
 while (currentState.GetActions() != []):
 	#plan and get the next best action
-    bestAction = UCT(currentState, 10000)
+    bestAction = UCT(currentState, 10000, 0.9)
 
     print "Doing "+bestAction.action.name
 
