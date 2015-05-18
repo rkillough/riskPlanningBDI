@@ -234,9 +234,11 @@ def UCT(rootState, i, gamma):
 			node.AddVisit()
 
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			cumulativeRisk += risk * (gamma ** depth)
+			#cumulativeRisk += risk * (gamma ** depth)
 			
-			node.Update(cumulativeReward, mean, M2, cumulativeRisk)
+			#just use immediate risk
+
+			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
 
 
@@ -252,9 +254,10 @@ def UCT(rootState, i, gamma):
 	
 	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
 	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
+	decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
 
-	#return actionList[decision]		#USe the decision rule
-	return actionList[0]				#Just use utility
+	return actionList[decision]		#USe the decision rule
+	#return actionList[0]				#Just use utility
 
 SetActions()
 initialState = StateWrapper(s0)

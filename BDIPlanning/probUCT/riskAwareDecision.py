@@ -61,9 +61,15 @@ def rankRiskAwareRatio(aList, R):
 
 	AAList = removeRedundantActions(AAList)
 
-	#normalise to 0
-	#for aa in AAList:
-	#	aa.utility = aa.utility - lowestU
+	#find the rati of avg utility to avg risk
+	totalU = 0
+	totalR = 0
+	l = len(AAList)
+	for aa in AAList:
+		totalU += aa.utility
+		totalR += aa.risk
+
+	normalisationFactor = (totalU/l)/(totalR/l) 
 
 	selectedAction = 0  #first action selectedd by default
 	for i in range(len(AAList)-1):
@@ -82,6 +88,44 @@ def rankRiskAwareRatio(aList, R):
 	#print(selectedAction)
 	return selectedAction
 
+
+#Same as above but using a normalised drop comparison
+def rankRiskAwareNormalisedComparison(aList, R):
+	AAList, lowestU = generateAAList(aList)
+
+	AAList = removeRedundantActions(AAList)
+
+	#find the ratio of avg utility to avg risk
+	totalU = 0
+	totalR = 0
+	l = len(AAList)
+	for aa in AAList:
+		totalU += aa.utility
+		totalR += aa.risk
+
+	print "Totalutility:"+ str(totalU) + " Total risk:"+ str(totalR)
+
+	normalisationFactor = (totalU/l)/(totalR/l) 
+
+	print "Normalisation factor: "+ str(normalisationFactor)
+
+	selectedAction = AAList[0]  #first action selectedd by default
+	for i in range(len(AAList)-1):
+		utilityDrop = (AAList[i].utility-AAList[i+1].utility)
+		
+		riskDrop = (AAList[i].risk-AAList[i+1].risk) 
+
+		if(utilityDrop * R >= riskDrop * normalisationFactor):
+			selectedAction = AAList[i+1]
+		else:
+			break
+			#return selectedAction	#comparison failed, so this is the best action
+	
+	#print(selectedAction)
+
+	for i in range(len(aList)):	#weve potentially removed actions here so we need to find it from the first list again
+		if(aList[i].action.name == selectedAction.name):
+			return i
 
 
 #The confidence calcluation does not handle negative utility values, work out the lweest utility for later normalisation by adding teh value of the lowest utility to all the utilities, this is done in the rankigng proces
