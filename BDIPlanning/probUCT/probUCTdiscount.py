@@ -9,6 +9,7 @@ from __future__ import division
 from random import *
 import math
 import riskAwareDecision
+import riskDecisionMaxMin
 
 #This represents a state in the scenario, it is comprised of a name and set of actions
 #no information about the state is required pther than the actions available to take from it
@@ -254,9 +255,10 @@ def UCT(rootState, i, gamma):
 	
 	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
 	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
-	decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
+	#decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
+	decision = riskDecisionMaxMin.pickAction(actionList, 4)
 
-	return actionList[decision]		#USe the decision rule
+	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
 SetActions()
