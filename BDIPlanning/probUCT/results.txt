@@ -1,0 +1,17 @@
+
+
+Running scenario 1000 times with R=0Avg total reward: -48.17Success probability: 0.315
+
+Running scenario 1000 times with R=1Avg total reward: -31.76Success probability: 0.702
+
+Running scenario 1000 times with R=2Avg total reward: -35.985Success probability: 0.729
+
+Running scenario 1000 times with R=3Avg total reward: -55.34Success probability: 0.706
+
+Running scenario 1000 times with R=4Avg total reward: -103.235Success probability: 0.661
+
+Running scenario 1000 times with R=5Avg total reward: -161.52Success probability: 0.627
+
+Running scenario 1000 times with R=6Avg total reward: -214.545Success probability: 0.603
+
+Running scenario 1000 times with R=7

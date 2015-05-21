@@ -198,7 +198,8 @@ class Node:
 	def __repr__(self):
 		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
 
-def UCT(rootState, i, gamma):
+#Takes a root state, an iter depth, a discount factor and a risk tolerance factor
+def UCT(rootState, i, gamma, R):
 	rootNode = Node(state = rootState)
 
 	for i in range(i):
@@ -250,39 +251,67 @@ def UCT(rootState, i, gamma):
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 
-	for a in actionList:
-		print "Action: "+str(a)
+	#for a in actionList:
+		#print "Action: "+str(a)
 	
 	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
 	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
 	#decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
-	decision = riskDecisionMaxMin.pickAction(actionList, 4)
+	decision = riskDecisionMaxMin.pickAction(actionList, R)
 
 	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
-SetActions()
-initialState = StateWrapper(s0)
-currentState = initialState
+def playScenario(gamma, R):
 
-#UCT(currentState, 10000)
+	SetActions()
+	initialState = StateWrapper(s0)
+	currentState = initialState
 
-rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
-#More generally, it would correspond to the amount of critical resource consumed.
+	#UCT(currentState, 10000)
 
-print "\n\n#################################################################################\n\n\n"	#for readability
-#Play out the scenario
-while (currentState.GetActions() != []):
-	#plan and get the next best action
-    bestAction = UCT(currentState, 10000, 0.9)
+	success = 0		#this will remain 0 is failed, but be one if successful (s5 reached)
+	rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
+	#More generally, it would correspond to the amount of critical resource consumed.
 
-    print "Doing "+bestAction.action.name
+	#print "\n\n#################################################################################\n\n\n"	#for readability
+	#Play out the scenario
+	while (currentState.GetActions() != []):
+		#plan and get the next best action
+		bestAction = UCT(currentState, 1000, gamma, R)
 
-    currentState.DoAction(bestAction.action)    #Actually 'do' the action
-    rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
+		#print "Doing "+bestAction.action.name
 
-    print "Outcome: "+currentState.currentState.name 
-    print "---------------------------------------------------------------------------------------------\n"
-    SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
+		currentState.DoAction(bestAction.action)    #Actually 'do' the action
+		rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
 
-print "Total reward obtained: "+ str(rewardObtained)
+		outcome = currentState.currentState.name
+		#print "Outcome: "+outcome 
+		if(outcome == 's5'):
+			success = 1
+		#print "---------------------------------------------------------------------------------------------\n"
+		SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
+
+	#print "Total reward obtained: "+ str(rewardObtained)
+
+	return success, rewardObtained
+
+
+def iterateScenario(n, gamma, R):
+	
+	successCount = 0
+	totalReward = 0
+	
+	for i in range(n):
+		s, r = playScenario(gamma, R)
+		successCount += s
+		totalReward += r
+
+	successProb = successCount/n
+	avgReward = totalReward/n
+	
+	print "\n\n\n__________________________________________________________________________\n"
+	print "Average Total Reward: "+str(avgReward)
+	print "Probability of success: "+str(successProb)
+
+	return avgReward, successProb

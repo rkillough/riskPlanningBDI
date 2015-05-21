@@ -45,10 +45,10 @@ def testrun():
 	print "\n\n"
 
 	currentBest = Action("none",0,0)
-	for i in range(1000):
-		a = pickAction(i)
+	for i in range(10000):
+		a = pickAction(i/100)
 		if(a.name != currentBest.name):
-			print "Best action @ "+str(i) + " is " + str(a)
+			print "Best action @ "+str(i/100) + " is " + str(a)
 			currentBest = a
 	
 testrun()

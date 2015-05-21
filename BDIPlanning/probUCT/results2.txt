@@ -1,0 +1,138 @@
+
+
+Running scenario 100 times with R=0.0
+Avg total reward: -50.45		Success probability: 0.29
+
+Running scenario 100 times with R=0.1
+Avg total reward: -44.95		Success probability: 0.36
+
+Running scenario 100 times with R=0.2
+Avg total reward: -48.35		Success probability: 0.35
+
+Running scenario 100 times with R=0.3
+Avg total reward: -51.25		Success probability: 0.34
+
+Running scenario 100 times with R=0.4
+Avg total reward: -45.75		Success probability: 0.44
+
+Running scenario 100 times with R=0.5
+Avg total reward: -27.3		Success probability: 0.57
+
+Running scenario 100 times with R=0.6
+Avg total reward: -45.4		Success probability: 0.48
+
+Running scenario 100 times with R=0.7
+Avg total reward: -38.25		Success probability: 0.58
+
+Running scenario 100 times with R=0.8
+Avg total reward: -25.35		Success probability: 0.7
+
+Running scenario 100 times with R=0.9
+Avg total reward: -25.55		Success probability: 0.75
+
+Running scenario 100 times with R=1.0
+Avg total reward: -25.7		Success probability: 0.74
+
+Running scenario 100 times with R=1.1
+Avg total reward: -27.25		Success probability: 0.74
+
+Running scenario 100 times with R=1.2
+Avg total reward: -37.3		Success probability: 0.68
+
+Running scenario 100 times with R=1.3
+Avg total reward: -33.95		Success probability: 0.71
+
+Running scenario 100 times with R=1.4
+Avg total reward: -34.65		Success probability: 0.69
+
+Running scenario 100 times with R=1.5
+Avg total reward: -33.9		Success probability: 0.72
+
+Running scenario 100 times with R=1.6
+Avg total reward: -37.65		Success probability: 0.68
+
+Running scenario 100 times with R=1.7
+Avg total reward: -45.05		Success probability: 0.66
+
+Running scenario 100 times with R=1.8
+Avg total reward: -34.85		Success probability: 0.72
+
+Running scenario 100 times with R=1.9
+Avg total reward: -41.75		Success probability: 0.67
+
+Running scenario 100 times with R=2.0
+Avg total reward: -27.75		Success probability: 0.8
+
+Running scenario 100 times with R=2.1
+Avg total reward: -36.4		Success probability: 0.76
+
+Running scenario 100 times with R=2.2
+Avg total reward: -40.4		Success probability: 0.74
+
+Running scenario 100 times with R=2.3
+Avg total reward: -46.55		Success probability: 0.71
+
+Running scenario 100 times with R=2.4
+Avg total reward: -51.45		Success probability: 0.64
+
+Running scenario 100 times with R=2.5
+Avg total reward: -28.95		Success probability: 0.8
+
+Running scenario 100 times with R=2.6
+Avg total reward: -47.55		Success probability: 0.71
+
+Running scenario 100 times with R=2.7
+Avg total reward: -55.0		Success probability: 0.71
+
+Running scenario 100 times with R=2.8
+Avg total reward: -49.3		Success probability: 0.71
+
+Running scenario 100 times with R=2.9
+Avg total reward: -65.75		Success probability: 0.64
+
+Running scenario 100 times with R=3.0
+Avg total reward: -53.3		Success probability: 0.74
+
+Running scenario 100 times with R=3.1
+Avg total reward: -68.7		Success probability: 0.7
+
+Running scenario 100 times with R=3.2
+Avg total reward: -72.1		Success probability: 0.67
+
+Running scenario 100 times with R=3.3
+Avg total reward: -72.4		Success probability: 0.68
+
+Running scenario 100 times with R=3.4
+Avg total reward: -74.55		Success probability: 0.63
+
+Running scenario 100 times with R=3.5
+Avg total reward: -76.05		Success probability: 0.71
+
+Running scenario 100 times with R=3.6
+Avg total reward: -84.9		Success probability: 0.65
+
+Running scenario 100 times with R=3.7
+Avg total reward: -90.3		Success probability: 0.64
+
+Running scenario 100 times with R=3.8
+Avg total reward: -87.95		Success probability: 0.69
+
+Running scenario 100 times with R=3.9
+Avg total reward: -97.7		Success probability: 0.72
+
+Running scenario 100 times with R=4.0
+Avg total reward: -104.45		Success probability: 0.66
+
+Running scenario 100 times with R=4.1
+Avg total reward: -98.55		Success probability: 0.71
+
+Running scenario 100 times with R=4.2
+Avg total reward: -90.4		Success probability: 0.75
+
+Running scenario 100 times with R=4.3
+Avg total reward: -108.05		Success probability: 0.61
+
+Running scenario 100 times with R=4.4
+Avg total reward: -113.1		Success probability: 0.63
+
+Running scenario 1
