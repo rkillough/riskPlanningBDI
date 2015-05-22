@@ -2,6 +2,8 @@
 This implementation consists of a UCB1 based algorithm which (unlike plain UCT) handles both probabilistic outcomes and unrestricted rewards (as opposed to [0,1]).
 
 The scenario privided is a single robot navigation problem. The robot must choose between routes toward an end goal over bridges of varying widths.
+
+This particulart version is use dot test on randomly generated domains
 '''
 
 
@@ -10,6 +12,8 @@ from random import *
 import math
 import riskAwareDecision
 import riskDecisionMaxMin
+import domainGenerator
+from copy import deepcopy
 
 #This represents a state in the scenario, it is comprised of a name and set of actions
 #no information about the state is required pther than the actions available to take from it
@@ -40,6 +44,14 @@ Here we construct the states and actions of the scenario
 All these items are globally avaialble to the algorithm
 '''
 
+#10 states, 10 actions, 2 terminal state , min 2, max 3 outcomes per action (bar goal and fail states)
+#3 actions per state
+statecount = 5
+domain = domainGenerator.generate(statecount, 5, 2, 2, 4, 2)
+
+d = deepcopy(domain)	#d is used by the planner as a copy of domain, since the algorithm deletes states from the list as they are used, setting d to domain again gives us a fresh copy for replanning
+
+'''
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -74,7 +86,7 @@ def SetActions():
     s4.actions = [a8,a9,a13]
     s5.actions = []   # This is the goal state
     s6.actions = []   # This is the fail state
-
+'''
 
 
 #This method returns a 'random' probability adjusted state outcome given an action
@@ -264,8 +276,8 @@ def UCT(rootState, i, gamma, R):
 
 def playScenario(gamma, R):
 
-	SetActions()
-	initialState = StateWrapper(s0)
+	d = deepcopy(domain)
+	initialState = StateWrapper(d.states[0])
 	currentState = initialState
 
 	#UCT(currentState, 10000)
@@ -274,24 +286,28 @@ def playScenario(gamma, R):
 	rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
 	#More generally, it would correspond to the amount of critical resource consumed.
 
-	#print "\n\n#################################################################################\n\n\n"	#for readability
+	#print "\n\n############################################################\n\n\n"	#for readability
 	#Play out the scenario
+	
 	while (currentState.GetActions() != []):
 		#plan and get the next best action
 		bestAction = UCT(currentState, 1000, gamma, R)
 
-		#print "Doing "+bestAction.action.name
+		#print "Doing "+str(bestAction.action.name)
 
 		currentState.DoAction(bestAction.action)    #Actually 'do' the action
 		rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
 
 		outcome = currentState.currentState.name
-		#print "Outcome: "+outcome 
-		if(outcome == 's5'):
+		#print "Outcome: "+str(outcome)
+		if(outcome == statecount-1):	#this should correspond to the last state which is the goal state
 			success = 1
 		#print "---------------------------------------------------------------------------------------------\n"
-		SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
-
+		d = deepcopy(domain)    #This must be done after each planning phase as the algorithm removes these actions during planning
+		
+		currentState = StateWrapper(d.states[outcome])
+	
+		
 	#print "Total reward obtained: "+ str(rewardObtained)
 
 	return success, rewardObtained
@@ -310,8 +326,11 @@ def iterateScenario(n, gamma, R):
 		if(s == 1):
 			successReward += r
 
-	successProb = successCount/n
 	avgReward = totalReward/n
+
+	if(successCount == 0):
+		return avgReward, 0, 0
+	successProb = successCount/n
 	avgSuccessReward = successReward/successCount
 	
 	print "\n\n\n__________________________________________________________________________\n"
@@ -321,3 +340,6 @@ def iterateScenario(n, gamma, R):
 	
 
 	return avgReward, successProb, avgSuccessReward
+
+
+#playScenario(0.9, 0)

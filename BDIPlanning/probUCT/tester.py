@@ -1,15 +1,16 @@
-import probUCTdiscount
+import probUCTdomain
 
-f = open('results3.txt', 'w')
+f = open('results/results5.csv', 'w')
 
-for i in range(60):
-	message = "\n\nRunning scenario 1000 times with R="+str(i/10.0)
+for i in range(11):
+	message = "\n\nRunning scenario 1000 times with R="+str(i/2.0)
 	print message
-	f.write(message)
-	r, s = probUCTdiscount.iterateScenario(1000,0.9,i/10.0)
-	f.write("\nAvg total reward: "+str(r))
-	f.write("\t\tSuccess probability: "+str(s))
+	#f.write(message)
+	r, s, sr = probUCTdomain.iterateScenario(100,0.9,i/2.0)
+	f.write(str(r))
+	f.write(","+str(s*100))
+	f.write(","+str(sr)+"\n")
 
-f.write("\n\nDone")
+print "Done"
 
 f.close()
