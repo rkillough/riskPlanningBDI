@@ -57,16 +57,16 @@ s6 = State("s6",[])
 a0 = Action("a0", [s2,s6], [0.4,0.6], [-5,-100])
 a1 = Action("a1", [s1,s6], [0.9,0.1], [-30,-100])
 a2 = Action("a2", [s5,s6], [0.1,0.9], [100,-100])
-a3 = Action("a3", [s3,s6], [0.99,0.01], [-10,-100])
-a4 = Action("a4", [s5,s6], [0.5,0.5], [100,-100])
-a5 = Action("a5", [s2,s6], [0.95,0.05], [-10,-100])
-a6 = Action("a6", [s3,s6], [0.6,0.4], [-10,-100])
+a3 = Action("a3", [s3,s6], [0.99,0.01], [-20,-100])
+a4 = Action("a4", [s5,s6], [0.4,0.6], [100,-100])
+a5 = Action("a5", [s2,s6], [0.95,0.05], [-20,-100])
+a6 = Action("a6", [s3,s6], [0.95,0.05], [-20,-100])
 a7 = Action("a7", [s4,s6], [0.9,0.1], [-5,-100])
 a8 = Action("a8", [s5,s6], [0.8,0.2], [100,-100])
 a9 = Action("a9", [s5,s6], [0.95,0.05], [65,-100])
 a10 = Action("a10", [s0,s6], [0.8,0.2], [-30,-100])
 a11 = Action("a11", [s0,s6], [0.4,0.6], [-5,-100])
-a12 = Action("a12", [s1,s6], [0.99,0.01], [-10,-100])
+a12 = Action("a12", [s1,s6], [0.95,0.05], [-10,-100])
 a13 = Action("a13", [s2,s6], [0.9,0.1], [-5,-100])
 
 def SetActions():
@@ -208,21 +208,22 @@ class Node:
 def UCT(rootState, i, gamma, R):
 	rootNode = Node(state = rootState)
 
-	depth = 0
+	#depth = 0
 
 	for i in range(i):
 		#Initialise
 		node = rootNode
 		state = rootState
 
-		#print "None -------------------------------"
-
+		#print "-------------------------------"
+		depth = 0
 
 		#Select a new node oce all actions have been tried
 		while node.untriedActions == [] and node.children != []:
 			node = node.SelectChild()
 			state.DoAction(node.action)
 			node.state = state.currentState
+			depth += 1
 
 		#Expand randomly through the tree while there are untried actions
 		if node.untriedActions != []:
@@ -231,7 +232,7 @@ def UCT(rootState, i, gamma, R):
 		
 			node = node.AddChild(randomAction, state)
 			node.depth = depth
-			depth += 1
+			
 		
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
 		while state.GetActions() != []:
@@ -295,7 +296,7 @@ def playScenario(gamma, R):
 	#Play out the scenario
 	while (currentState.GetActions() != []):
 		#plan and get the next best action
-		bestAction = UCT(currentState, 10000, gamma, R)
+		bestAction = UCT(currentState, 1000, gamma, R)
 
 		print "Doing "+bestAction.action.name
 
@@ -341,8 +342,19 @@ def iterateScenario(n, gamma, R):
 
 
 SetActions()
-initialState = StateWrapper(s0)
+initialState = StateWrapper(s3)
 currentState = initialState
 
-print UCT (currentState, 10000, 0.01, 0)
-#playScenario(1,2)
+iters = 1000
+gamma = 0.8
+R = 1
+
+print "\nRunning UCT with parameters:\nIterations: "+str(iters)
+print "Discount: "+str(gamma)
+print "Risk value: "+str(R)+"\n"
+
+#print UCT (currentState, iters, gamma, R)
+
+playScenario(gamma,R)
+
+print "\n"
