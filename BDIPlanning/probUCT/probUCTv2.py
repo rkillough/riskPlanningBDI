@@ -14,6 +14,8 @@ import math
 import riskAwareDecision
 import riskDecisionMaxMin
 
+exploreBias = 0
+
 #This represents a state in the scenario, it is comprised of a name and set of actions
 #no information about the state is required pther than the actions available to take from it
 class State():
@@ -78,7 +80,13 @@ def SetActions():
     s5.actions = []   # This is the goal state
     s6.actions = []   # This is the fail state
 
+def printTree(parent, indent):
+	indent += "\t"
+	for n in parent.children:
+		print printTree(n, indent)
 
+	print indent + str(parent)
+	
 
 #This method returns a 'random' probability adjusted state outcome given an action
 def GetOutcome(action):
@@ -160,7 +168,7 @@ class Node:
 		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
-		C = 600		#Exploration exploitation tradeoff constant
+		C = exploreBias		#Exploration exploitation tradeoff constant
 		s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
 		return s[-1]
 		#find the highest valued child node
@@ -201,7 +209,11 @@ class Node:
 		return childNode
 		
 	def __repr__(self):
-		return "Action: "+ str(self.action.name) + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
+		astring = "None"
+		if(self.action != None):
+			astring = str(self.action.name)
+		#return astring
+		return "Action: "+ astring + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
 	
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
@@ -261,6 +273,8 @@ def UCT(rootState, i, gamma, R):
 			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
 
+	#Output the node tree visually here, (its built up backwards)
+	#printTree(rootNode, "")	
 
 	#sort the list of root child nodes by their utility
 	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
@@ -268,10 +282,9 @@ def UCT(rootState, i, gamma, R):
 	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
-
 	for a in actionList:
 		print "Action: "+str(a)
-	
+		
 	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
 	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
 	#decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
@@ -342,19 +355,20 @@ def iterateScenario(n, gamma, R):
 
 
 SetActions()
-initialState = StateWrapper(s3)
+initialState = StateWrapper(s2)
 currentState = initialState
 
-iters = 1000
-gamma = 0.8
-R = 1
+iters = 100000
+gamma = 0.9
+R = 0
+exploreBias = 1000
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
 print "Risk value: "+str(R)+"\n"
 
-#print UCT (currentState, iters, gamma, R)
+print UCT (currentState, iters, gamma, R)
 
-playScenario(gamma,R)
+#playScenario(gamma,R)
 
 print "\n"
