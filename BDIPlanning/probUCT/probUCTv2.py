@@ -147,6 +147,17 @@ class StateWrapper():
 
         return reward
 
+
+    #Return probability of taking action and arriving in state
+    def GetProb(self, state, action):
+        prob = 1
+        if(action != None):     #handles root node which will have a null arrival action (the root node)
+            for i in range(len(action.outcomes)):   #verify that state is an outcome of action
+                if(action.outcomes[i] == state):
+                    prob = action.probs[i]		#if so, return the probabilty arriving in state given action
+
+        return prob
+
 #A UCT node modified to include mean and variance
 class Node:
 	def __init__(self, action=None, parent=None, state=None):
@@ -207,7 +218,7 @@ class Node:
 		self.untriedActions.remove(Caction)
 
 		return childNode
-		
+
 	def __repr__(self):
 		astring = "None"
 		if(self.action != None):
@@ -258,17 +269,28 @@ def UCT(rootState, i, gamma, R):
 		while node != None:
 			reward = state.GetReward(node.state, node.action)	 
 			cumulativeReward += reward * (gamma ** node.depth)
-			#if(node.action is not None):
-				#print str(node.action.name) + ", " + str(node.depth)
-
 			node.AddVisit()
+	
+			print "_________________\n"
+
+			if(node.action is not None):
+				print str(node.action.name) + ", " + str(node.state.name)
+			#attempt at unbiasing risk
+			#calculate the total visitations to all siblings
+				siblingVisit = 0
+				siblingCount = len(node.parent.children)
+				for s in node.parent.children:
+					siblingVisit += s.visits
+				#unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit * state.GetProb(node.state, node.action))
+				unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit / siblingCount)
+				print str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(cumulativeReward)+"\tis now "+str(unbiasedCReward)
+			else:
+				unbiasedCReward = cumulativeReward #this applies for the top node only
+								
+
 
 			#Note: using cumulative reward here to calculate risk
-			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, cumulativeReward)
-			#mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			#cumulativeRisk += risk * (gamma ** depth)
-			
-			
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, unbiasedCReward)
 
 			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
@@ -355,13 +377,13 @@ def iterateScenario(n, gamma, R):
 
 
 SetActions()
-initialState = StateWrapper(s2)
+initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 100000
-gamma = 0.9
+iters = 1000
+gamma = 1
 R = 0
-exploreBias = 1000
+exploreBias = 100
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
