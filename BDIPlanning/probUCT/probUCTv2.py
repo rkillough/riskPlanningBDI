@@ -265,16 +265,18 @@ def UCT(rootState, i, gamma, R):
 
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
+		UBcumulativeReward = 0
 		cumulativeRisk = 0
+		
 		while node != None:
 			reward = state.GetReward(node.state, node.action)	 
 			cumulativeReward += reward * (gamma ** node.depth)
 			node.AddVisit()
 	
-			print "_________________\n"
+			#print "_________________\n"
 
 			if(node.action is not None):
-				print str(node.action.name) + ", " + str(node.state.name)
+				#print str(node.action.name) + ", " + str(node.state.name)
 			#attempt at unbiasing risk
 			#calculate the total visitations to all siblings
 				siblingVisit = 0
@@ -283,14 +285,14 @@ def UCT(rootState, i, gamma, R):
 					siblingVisit += s.visits
 				#unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit * state.GetProb(node.state, node.action))
 				unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit / siblingCount)
-				print str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(cumulativeReward)+"\tis now "+str(unbiasedCReward)
+				#print str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(cumulativeReward)+"\tis now "+str(unbiasedCReward)
 			else:
 				unbiasedCReward = cumulativeReward #this applies for the top node only
 								
 
 
 			#Note: using cumulative reward here to calculate risk
-			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, unbiasedCReward)
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, cumulativeReward)
 
 			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
@@ -331,7 +333,7 @@ def playScenario(gamma, R):
 	#Play out the scenario
 	while (currentState.GetActions() != []):
 		#plan and get the next best action
-		bestAction = UCT(currentState, 1000, gamma, R)
+		bestAction = UCT(currentState, 10000, gamma, R)
 
 		print "Doing "+bestAction.action.name
 
@@ -380,10 +382,10 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 1000
-gamma = 1
+iters = 10000
+gamma = 0.7
 R = 0
-exploreBias = 100
+exploreBias = 1000
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
@@ -391,6 +393,6 @@ print "Risk value: "+str(R)+"\n"
 
 print UCT (currentState, iters, gamma, R)
 
-#playScenario(gamma,R)
+#print playScenario(gamma,R)
 
 print "\n"
