@@ -265,8 +265,8 @@ def UCT(rootState, i, gamma, R):
 
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
-		UBcumulativeReward = 0
-		cumulativeRisk = 0
+		#UBcumulativeReward = 0
+		#cumulativeRisk = 0
 		
 		while node != None:
 			reward = state.GetReward(node.state, node.action)	 
@@ -284,21 +284,19 @@ def UCT(rootState, i, gamma, R):
 				for s in node.parent.children:
 					siblingVisit += s.visits
 				#unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit * state.GetProb(node.state, node.action))
-				unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit / siblingCount)
+				unbiasedCReward = (node.utility/node.visits) * (siblingVisit / siblingCount)
 				#print str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(cumulativeReward)+"\tis now "+str(unbiasedCReward)
 			else:
-				unbiasedCReward = cumulativeReward #this applies for the top node only
+				unbiasedCReward = node.utility #handles the top node (which we arent interested in anyway since the action is null
 								
-
-
 			#Note: using cumulative reward here to calculate risk
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, cumulativeReward)
 
 			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
 
-	#Output the node tree visually here, (its built up backwards)
-	#printTree(rootNode, "")	
+
+
 
 	#sort the list of root child nodes by their utility
 	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
@@ -383,7 +381,7 @@ initialState = StateWrapper(s0)
 currentState = initialState
 
 iters = 10000
-gamma = 0.7
+gamma = 0.9
 R = 0
 exploreBias = 1000
 
