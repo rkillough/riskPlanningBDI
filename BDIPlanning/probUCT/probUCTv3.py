@@ -43,8 +43,7 @@ class Action():
 '''
 Here we construct the states and actions of the scenario
 All these items are globally avaialble to the algorithm
-'''
-'''
+
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -89,12 +88,12 @@ s2 = State("s2", [])
 fail = State("fail", [])
 goal = State("goal", [])
 
-a0 = Action("a0", [s1], [1], [-2])
-a1 = Action("a1", [s1,s2], [0.5,0.5], [-2,2])
+a0 = Action("a0", [s1,s2], [.5,.5], [2,2])
+a1 = Action("a1", [s2], [1], [2])
 
-a2 = Action("a2", [goal,fail], [.9,.1], [4,-10])
-a3 = Action("a3", [goal,fail], [.5,.5], [6,-10])
-a4 = Action("a4", [goal,fail], [.1,.9], [10,-10])
+a2 = Action("a2", [goal,fail], [.3,.7], [20,-10])
+a3 = Action("a3", [goal,fail], [.5,.5], [10,-5])
+a4 = Action("a4", [goal,fail], [.5,.5], [5,-2])
 
 
 
@@ -299,21 +298,34 @@ def UCT(rootState, i, gamma, R):
 	
 								
 			#Note: using cumulative reward here to calculate risk
-			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, cumulativeReward)
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
 
 			#Check if risk is lower than risk of siblings
-			backpropRisk = True
+
+			'''
 			if node.parent:
 				for n in node.parent.children:
-					print node
-					print n
-					print "--"
-					if n.risk and cumulativeRisk > n.risk:
+					#print str(node) + ", " +str(cumulativeRisk)
+					#print n
+					#print "--"
+					if n.risk and newRisk > n.risk:
+						#print "DONT BACKPROP!!"
 						backpropRisk = False #there is a sibling with a lower risk, dont backprop
 				if backpropRisk:
 					cumulativeRisk += risk
+			'''
 
-			node.Update(cumulativeReward, mean, M2, cumulativeRisk)#cumulativeRisk)
+			#if newRisk <= node.risk:
+
+			if cumulativeRisk is not None:
+				cumulativeRisk += risk
+				node.Update(cumulativeReward, mean, M2, cumulativeRisk)
+			
+			isSmallest = True
+			if node.parent:
+				for n in node.parent.children:
+					if cumulativeRisk > n.risk:
+						cumulativeRisk = None  #this path has a higher risk than alternatives,dont update risk from this path
 			node = node.parent
 
 
@@ -326,13 +338,19 @@ def UCT(rootState, i, gamma, R):
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 	for a in actionList:
-		print "Action: "+str(a)
+		print str(a)
+		for n in a.children:
+			
+			print "\t"+str(n) 
+			for m in n.children:
+				print "\t\t"+str(m)
 		
 	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
 	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
 	#decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
 
+	print "\nDecision:"
 	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
@@ -402,7 +420,7 @@ initialState = StateWrapper(s0)
 currentState = initialState
 
 iters = 10000
-gamma = 0.9
+gamma = 1
 R = 0
 exploreBias = 1000
 
