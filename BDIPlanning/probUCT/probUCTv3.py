@@ -13,6 +13,7 @@ from random import *
 import math
 import riskAwareDecision
 import riskDecisionMaxMin
+from copy import deepcopy
 
 exploreBias = 0
 
@@ -91,7 +92,7 @@ goal = State("goal", [])
 a0 = Action("a0", [s1,s2], [.5,.5], [2,2])
 a1 = Action("a1", [s2], [1], [2])
 
-a2 = Action("a2", [goal,fail], [.3,.7], [20,-10])
+a2 = Action("a2", [goal,fail], [.7,.3], [20,-10])
 a3 = Action("a3", [goal,fail], [.5,.5], [10,-5])
 a4 = Action("a4", [goal,fail], [.5,.5], [5,-2])
 
@@ -198,7 +199,8 @@ class Node:
 	
 		self.depth = 0	#the current depth of the node in the tree
 
-		self.untriedActions = state.GetActions()
+		availableActions = state.GetActions()
+		self.untriedActions = deepcopy(state.GetActions())
 		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
@@ -239,6 +241,11 @@ class Node:
 		childNode = Node(action=Caction, parent=self, state=Cstate)
 		self.children.append(childNode)
 		self.untriedActions.remove(Caction)
+		
+		print self.untriedActions
+		print "--"
+		print self.state.actions
+		print "-----------------------------"
 
 		return childNode
 
@@ -275,17 +282,31 @@ def UCT(rootState, i, gamma, R):
 		if node.untriedActions != []:
 			randomAction = node.RandomUntriedAction()
 			state.DoAction(randomAction)
-		
+			
+			#print str(randomAction.name)
+			#print str(state.currentState.name)
+			#print "------------"
+
 			node = node.AddChild(randomAction, state)
 			node.depth = depth
 			
 		
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
+	
+
 		while state.GetActions() != []:
+			#print state.currentState.name
+			#for a in state.currentState.actions:
+		#		print a.name
+
 
 			action = state.GetRandomAction()
 			state.DoAction(action)
 
+			#print str(action.name)
+			#print str(state.currentState.name)
+			#print "------------"
+		
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
 		#UBcumulativeReward = 0
@@ -301,22 +322,6 @@ def UCT(rootState, i, gamma, R):
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
 
 			#Check if risk is lower than risk of siblings
-
-			'''
-			if node.parent:
-				for n in node.parent.children:
-					#print str(node) + ", " +str(cumulativeRisk)
-					#print n
-					#print "--"
-					if n.risk and newRisk > n.risk:
-						#print "DONT BACKPROP!!"
-						backpropRisk = False #there is a sibling with a lower risk, dont backprop
-				if backpropRisk:
-					cumulativeRisk += risk
-			'''
-
-			#if newRisk <= node.risk:
-
 			if cumulativeRisk is not None:
 				cumulativeRisk += risk
 				node.Update(cumulativeReward, mean, M2, cumulativeRisk)
@@ -419,7 +424,7 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 10000
+iters = 100
 gamma = 1
 R = 0
 exploreBias = 1000
