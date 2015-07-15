@@ -183,7 +183,7 @@ class StateWrapper():
         return prob
 
 #A UCT node modified to include mean and variance
-class Node:
+class decisionNode:
 	def __init__(self, action=None, parent=None, state=None):
 		self.action = action
 		self.state = state.currentState
@@ -255,10 +255,16 @@ class Node:
 		#return astring
 		return "Action: "+ astring + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
 	
+def chanceNode():
+	def __init__(self, state, parent, children):
+		self.state = state.currentState
+		self.parent = parent
+		self.children = []
+	
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
 def UCT(rootState, i, gamma, R):
-	rootNode = Node(state = rootState)
+	rootNode = decisionNode(state = rootState)
 
 	#depth = 0
 
