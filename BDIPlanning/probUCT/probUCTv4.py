@@ -40,7 +40,10 @@ class Action():
 
 	def __repr__(self):
 		return self.name
-	
+
+class Nodetype:
+	decision, chance = range(2)
+
 '''
 Here we construct the states and actions of the scenario
 All these items are globally avaialble to the algorithm
@@ -151,7 +154,7 @@ class StateWrapper():
         self.currentState = cState
 
     def DoAction(self, action):
-        self.currentState = GetOutcome(action)
+        return StateWrapper(GetOutcome(action))
 
     def GetActions(self):
         return self.currentState.actions
@@ -172,23 +175,14 @@ class StateWrapper():
         return reward
 
 
-    #Return probability of taking action and arriving in state
-    def GetProb(self, state, action):
-        prob = 1
-        if(action != None):     #handles root node which will have a null arrival action (the root node)
-            for i in range(len(action.outcomes)):   #verify that state is an outcome of action
-                if(action.outcomes[i] == state):
-                    prob = action.probs[i]		#if so, return the probabilty arriving in state given action
-
-        return prob
-
 #A UCT node modified to include mean and variance
-class decisionNode:
-	def __init__(self, action=None, parent=None, state=None):
+class Node:
+	def __init__(self, action=None, parent=None, state=None, nodetype=None):
 		self.action = action
-		self.state = state.currentState
+		self.state = state
 		self.parent = parent
 		self.children = []
+		self.nodetype = nodetype
 		
 		self.utility = 0
 		self.visits = 0
@@ -199,8 +193,10 @@ class decisionNode:
 	
 		self.depth = 0	#the current depth of the node in the tree
 
-		availableActions = state.GetActions()
-		self.untriedActions = deepcopy(state.GetActions())
+		if self.nodetype == Nodetype.decision:
+			self.actions = deepcopy(state.GetActions())
+			self.untriedActions = deepcopy(state.GetActions())
+		
 		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
@@ -208,22 +204,9 @@ class decisionNode:
 		s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
 		return s[-1]
 		#find the highest valued child node
-        '''
-		topNode = None
-		topValue = None
 
-		for n in self.children:
-			value = n.utility/n.visits + C * math.sqrt(2*math.log(self.visits/n.visits))
-			if(value is None):
-				topValue = value
-				topNode = n
-			elif(value > topValue):
-				topValue = value
-				topNode = n	
-        '''
-
-	def RandomUntriedAction(self):
-		actions = self.untriedActions
+	def RandomAction(self):
+		actions = self.actions
 		r = randint(1,len(actions)) -1
 		return actions[r]
 
@@ -237,34 +220,32 @@ class decisionNode:
 		self.risk = risk
 
 	#A new sample has been taken, add this as a child node to this node
-	def AddChild(self, Caction, Cstate):
-		childNode = Node(action=Caction, parent=self, state=Cstate)
+	def AddChild(self, Caction, Cstate, nodetype):
+		childNode = Node(action=Caction, parent=self, state=Cstate, nodetype=nodetype)
 		self.children.append(childNode)
 		#self.untriedActions.remove(Caction)
-		
-		print Caction.name
-		print Cstate.currentState.name
-		print "-----------------------------"
 
 		return childNode
 
+	def GetRandomChild(self):
+		r = randint(0,len(self.children))
+		return self.children[r]
+
 	def __repr__(self):
-		astring = "None"
-		if(self.action != None):
-			astring = str(self.action.name)
-		#return astring
-		return "Action: "+ astring + " Utility = " + str(self.utility) + "/" + str(self.visits) + " = " + str(self.utility/self.visits) + " Risk = " + str(self.risk) + " Mean = " + str(self.mean)
+		if self.nodetype == Nodetype.decision:
+			return "Decision: "+ self.state.currentState.name
+		else:
+			return "Chance: "+ self.action.name
 	
-def chanceNode():
-	def __init__(self, state, parent, children):
-		self.state = state.currentState
-		self.parent = parent
-		self.children = []
-	
+
+
+
+
+
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
 def UCT(rootState, i, gamma, R):
-	rootNode = decisionNode(state = rootState)
+	rootNode = Node(state=rootState, nodetype=Nodetype.decision)
 
 	#depth = 0
 
@@ -273,58 +254,59 @@ def UCT(rootState, i, gamma, R):
 		node = rootNode
 		state = rootState
 
-		#print "-------------------------------"
 		depth = 0
 
 		#Select a new node oce all actions have been tried
 		while node.untriedActions == [] and node.children != []:
+			print node			
 			node = node.SelectChild()
-			state.DoAction(node.action)
-			node.state = state.currentState
+			print node
+			node = node.GetRandomChild()	#get a random state outcome for a new decison node
+			#state.DoAction(node.action)
+			#node.state = state.currentState
 			depth += 1
 
-		'''
-		#Expand randomly through the tree while there are untried actions
-		if node.untriedActions != []:
-			randomAction = node.RandomUntriedAction()
-			state.DoAction(randomAction)
-			
-			#print str(randomAction.name)
-			#print str(state.currentState.name)
-			#print "------------"
-			
-			node = node.AddChild(randomAction, state)
-			node.depth = depth
-		'''	
-		
-		#Expand randomly through the tree while there are untried actions
-		#Modified expansion to handle uncertain action outcomes
-		randomAction = node.RandomUntriedAction()
-		state.DoAction(randomAction)
-		
-		#print str(randomAction.name)
-		#print str(state.currentState.name)
-		#print "------------"
-		nodeExists = False
-		for c in node.children:
-			#print c.action.name + " = " + randomAction.name
-			#print c.state.name + " = " + state.currentState.name
-			#print 
-			if c.action == randomAction and c.state == state.currentState:
-				print "This node exists already"
-				nodeExists = True
-		if not nodeExists:
-			print "wa"
-			node = node.AddChild(randomAction, state)
-			node.depth = depth
 
-	
+		#Expand randomly through the tree while there are untried actions
+		if node.nodetype == Nodetype.decision:		#this may be unecessary as it should always be anyway
+
+			#if node.untriedActions != []:
+			randomAction = node.RandomAction()
+			newState = node.state.DoAction(randomAction)
+
+			#print randomAction.name
+			#print newState.currentState.name
+
+			dnodeexists = False			#only add a new node if this node hasn't been sampled yet
+			for c in node.children:
+				if c.action == randomAction: # action has a node here, so move to that node in case we sample a new outcome
+					node = c			
+					dnodeexists = True
+					
+					cnodeexists = False
+					for c in node.children:
+						if c.state.currentState == newState:
+							cnodeexists == True	#this state already been sampled, don't go to this node
+							node = node.parent
+					if not cnodeexists:	#this state hasnt been sampled yet, add a new decison node
+						node = node.AddChild(None, newState, nodetype=Nodetype.decision)
+						node.depth = depth
+
+			if not dnodeexists:	#this is a new action which hasnt beens ampled, so that state will definitely be new, add two new nodes, a chance a decision
+				for a in node.untriedActions:
+					if a.name == randomAction.name:
+						node.untriedActions.remove(a)	#indicate that this action has now been tried atleast once
+
+				node = node.AddChild(randomAction, None, nodetype=Nodetype.chance)
+				node = node.AddChild(None, newState, nodetype=Nodetype.decision)
+				node.depth = depth
+
+		
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
-		while state.GetActions() != []:
-			action = state.GetRandomAction()
-			state.DoAction(action)
-
-		
+		while node.children != []:	
+			node = node.state.GetRandomChild()	#get a random action
+			node = node.state.GetRandomChild()	#get random decision node
+					
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
 		#UBcumulativeReward = 0
@@ -351,7 +333,7 @@ def UCT(rootState, i, gamma, R):
 						cumulativeRisk = None  #this path has a higher risk than alternatives,dont update risk from this path
 			node = node.parent
 
-
+		
 
 
 	#sort the list of root child nodes by their utility
@@ -367,75 +349,12 @@ def UCT(rootState, i, gamma, R):
 			print "\t"+str(n) 
 			for m in n.children:
 				print "\t\t"+str(m)
-		
-	#decision = riskAwareDecision.rankRiskAwareRatio(actionList, 1)
-	#decision = riskAwareDecision.rankRiskAwareCI(actionList)
-	#decision = riskAwareDecision.rankRiskAwareNormalisedComparison(actionList, 0.1)
+
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
 
 	print "\nDecision:"
 	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
-
-def playScenario(gamma, R):
-
-	SetActions()
-	initialState = StateWrapper(s0)
-	currentState = initialState
-
-	#UCT(currentState, 10000)
-
-	success = 0		#this will remain 0 is failed, but be one if successful (s5 reached)
-	rewardObtained = 0 #This, in this scenario, corresponds to the speed witht which the reactor was reached
-	#More generally, it would correspond to the amount of critical resource consumed.
-
-	#print "\n\n#################################################################################\n\n\n"	#for readability
-	#Play out the scenario
-	while (currentState.GetActions() != []):
-		#plan and get the next best action
-		bestAction = UCT(currentState, 10000, gamma, R)
-
-		print "Doing "+bestAction.action.name
-
-		currentState.DoAction(bestAction.action)    #Actually 'do' the action
-		rewardObtained += currentState.GetReward(currentState.currentState, bestAction.action)
-
-		outcome = currentState.currentState.name
-		print "Outcome: "+outcome 
-		if(outcome == 's5'):
-			success = 1
-		print "---------------------------------------------------------------------------------------------\n"
-		SetActions()    #This must be done after each planning phase as the algorithm removes these actions during planning
-
-	#print "Total reward obtained: "+ str(rewardObtained)
-
-	return success, rewardObtained
-
-
-def iterateScenario(n, gamma, R):
-	
-	successCount = 0
-	totalReward = 0
-	successReward = 0	#total reward obtained from successful plays only
-	
-	for i in range(n):
-		s, r = playScenario(gamma, R)
-		successCount += s
-		totalReward += r
-		if(s == 1):
-			successReward += r
-
-	successProb = successCount/n
-	avgReward = totalReward/n
-	avgSuccessReward = successReward/successCount
-	
-	print "\n\n\n__________________________________________________________________________\n"
-	print "Average Total Reward: "+str(avgReward)
-	print "Average Total Reward when successful: "+str(avgSuccessReward)
-	print "Probability of success: "+str(successProb)
-	
-
-	return avgReward, successProb, avgSuccessReward
 
 
 SetActions()
