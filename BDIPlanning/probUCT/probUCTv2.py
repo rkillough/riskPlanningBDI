@@ -265,7 +265,7 @@ def UCT(rootState, i, gamma, R):
 
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
-		#UBcumulativeReward = 0
+		UBcumulativeReward = 0
 		#cumulativeRisk = 0
 		
 		while node != None:
@@ -275,7 +275,7 @@ def UCT(rootState, i, gamma, R):
 	
 			#print "_________________\n"
 
-			if(node.action is not None):
+			if(node.action is not None): # is not root node
 				#print str(node.action.name) + ", " + str(node.state.name)
 			#attempt at unbiasing risk
 			#calculate the total visitations to all siblings
@@ -284,13 +284,15 @@ def UCT(rootState, i, gamma, R):
 				for s in node.parent.children:
 					siblingVisit += s.visits
 				#unbiasedCReward = (cumulativeReward/node.visits) * (siblingVisit * state.GetProb(node.state, node.action))
-				unbiasedCReward = (node.utility/node.visits) * (siblingVisit / siblingCount)
-				#print str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(cumulativeReward)+"\tis now "+str(unbiasedCReward)
+				unbiasedReward = (reward/node.visits) * (siblingVisit / siblingCount)
+				
+				UBcumulativeReward += unbiasedReward
+				print str(node.action.name)+": "+str(siblingVisit)+","+str(node.visits)+","+str(siblingCount) +" was "+str(reward)+"\tis now "+str(unbiasedReward)
 			else:
-				unbiasedCReward = node.utility #handles the top node (which we arent interested in anyway since the action is null
+				unbiasedReward = reward #handles the top node (which we arent interested in anyway since the action is null
 								
 			#Note: using cumulative reward here to calculate risk
-			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, cumulativeReward)
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, UBcumulativeReward)
 
 			node.Update(cumulativeReward, mean, M2, risk)#cumulativeRisk)
 			node = node.parent
@@ -380,10 +382,10 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 10000
+iters = 1000
 gamma = 0.9
-R = 0
-exploreBias = 1000
+R = 3
+exploreBias = 600
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
