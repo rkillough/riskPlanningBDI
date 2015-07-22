@@ -255,7 +255,8 @@ def UCT(rootState, i, gamma, R):
 		
 			node = node.AddChild(randomAction, state)
 			node.depth = depth
-			
+		
+	
 		
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
 		while state.GetActions() != []:
@@ -382,7 +383,7 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 1000
+iters = 100
 gamma = 0.9
 R = 3
 exploreBias = 600

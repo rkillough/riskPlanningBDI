@@ -109,7 +109,7 @@ def SetActions():
 
 def printTree(parent, indent):
 	#print "XX:"+str(parent)
-	print indent + str(parent) + " Utility/Visits:" + str(parent.utility)+"/"+str(parent.visits)
+	print indent + str(parent) + "\tU/V:" + str(parent.utility)+"/"+str(parent.visits)+"="+str(round(parent.utility/parent.visits,2))+"\tRisk:"+str(parent.risk)
 	indent += "____"
 	for n in parent.children:
 		#print "X:"+str(n)
@@ -228,17 +228,26 @@ class Node:
 	#A new sample has been taken, add this as a child node to this node
 	def AddChild(self, Caction, Cstate, nodetype):
 		childNode = Node(action=Caction, parent=self, state=Cstate, nodetype=nodetype)
-		
+		'''	
 		print "Adding new node!"
 		print "i:"+str(childNode)
 		for c in self.children:
 			print c
 		print "---------"
+		'''
 		self.children.append(childNode)
 		#self.untriedActions.remove(Caction)
 
 		return childNode
 
+	#return a child decision node based on the probability of occurance
+	def SimulateAction(self):
+		outcome = GetOutcome(self.action)
+		for c in self.children:
+			if(outcome.name == c.state.currentState.name):
+				return c
+
+	#return a purely random child node
 	def GetRandomChild(self):
 		n = len(self.children)	
 		r = randint(0,n-1)
@@ -257,96 +266,74 @@ class Node:
 
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
-def UCT(rootState, i, gamma, R):
+def UCT(rootState, iters, gamma, R):
 	rootNode = Node(state=rootState, nodetype=Nodetype.decision)
 
 	#depth = 0
 
-	shit = 0
-
-	for i in range(i):
+	for i in range(iters):
 		#Initialise
 		node = rootNode
-		state = rootState
+		#state = rootState
 
 		depth = 0
-
-		print str(node) + "-----------------------------------------"	
 
 		#Select a new node oce all actions have been tried
 		#print node
 		#should enter here on decsion node
 		while node.untriedActions == [] and node.children != []:
 			#print "selecting from children of "+str(node) + str(node.children)
-		
 			node = node.SelectChild()
 			#print "outcome "+str(node) + str(node.children)
 
-			#weve selected a new decision node but we need ot end up in a chance node, so select a random one		
-			if node.children == []:
-				#print "No child decision nodes, create one and move there"
-				newState = GetOutcome(node.action)
-				node = node.AddChild(None, newState, nodetype=Nodetype.decision)
-			else:
-				#print "moving to child decision node"
-				#print node.children
-				node = node.GetRandomChild()
+			#now we have selected a chance node according to UCB1, we move to an outcome (decsion node) according to probability of occurance
+			node = node.SimulateAction()
 			
 			depth += 1
 
 
 		#Expand randomly through the tree while there are untried actions
 		#if node.nodetype == Nodetype.decision:		#this may be unecessary as it should always be anyway
-		print "YYY"+node.state.currentState.name + str(node.actions)
-		if(node.actions != []):	#if not a terminal decision node
-			shit += 1
-			randomAction = node.RandomAction()
-			newState = node.state.DoAction(randomAction)
 
+		if node.untriedActions != []:	#if not a terminal decision node
+			randomAction = node.RandomAction()
+	
 			dnodeexists = False			#only add a new decision node if this node hasn't been sampled yet
 			for c in node.children:
-				print "XX: "+str(c.action.name)+ " "+str(randomAction.name)
-				if c.action.name == randomAction.name: # action has a node here, so move to that node in case we sample a new outcome
-					node = c			
+				#print "XX: "+str(c.action.name)+ " "+str(randomAction.name)
+				if c.action.name == randomAction.name: # action has a node here, do nothing
 					dnodeexists = True
-					
-					cnodeexists = False	#now check if the state we sampled already exists as a chance node
-					for h in node.children:
-						#print "\t\t"+str(c.state.currentState.name) + " "+str(newState.currentState.name)
-						if h.state.currentState.name == newState.currentState.name:
-							cnodeexists = True	#this state already been sampled, don't go to this node
-							node = node.parent
-					if not cnodeexists:	#this state hasnt been sampled yet, add a new decison node
-						print "Adding new child decision "+str(newState.currentState.name)+" node to exisitng chance node "+str(node)
-						node = node.AddChild(None, newState, nodetype=Nodetype.decision)
-					
 
-			if not dnodeexists:	#this is a new action which hasnt been sampled, so that state will definitely be new, add two new nodes, a chance a decision
+			if not dnodeexists:	#this is a new action which hasnt been sampled, we add nodes for every state outcome
+				#indicate that this action has now been tried atleast once
 				for a in node.untriedActions:
 					if a.name == randomAction.name:
-						node.untriedActions.remove(a)	#indicate that this action has now been tried atleast once
-				print "Adding new chance and decision node"
+						node.untriedActions.remove(a)
+						
+				#Adding new chance node
 				node = node.AddChild(randomAction, None, nodetype=Nodetype.chance)
 				node.depth = depth
-				node = node.AddChild(None, newState, nodetype=Nodetype.decision)
-				
 
-		#This should never happen, but leave in for testing	
-		elif node.nodetype == Nodetype.chance:		#This means weve just selected a new chance node in the select
-			print "this shouldnt happen"
-			if node.children == []:
-				newState = node.state.DoAction()
-				node = node.AddChild(None, newState, nodetype=Nodetype.decision)
-			else:
+				#adding node for each outcome of this state
+				for outcome in node.action.outcomes:
+					node.AddChild(None, StateWrapper(outcome), nodetype=Nodetype.decision)
+				#randomly select from these outcomes
 				node = node.GetRandomChild()
-		
+			
+
 
 		#this is wronggggg	
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached
-		while node.children != []:	
-			node = node.GetRandomChild()	#get a random action
-			node = node.GetRandomChild()	#get random decision node
 		
+		state = node.state
+		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
+		print node
+		while state.GetActions() != []:	
+			print "Rolling out"
+			action = state.GetRandomAction()
+			state =	state.DoAction(action) 
+			rolloutReward += GetReward(state.currentState, action)
+		print state.currentState.name + " " + str(rolloutReward)		
 					
 		#Backpropogate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
@@ -359,7 +346,10 @@ def UCT(rootState, i, gamma, R):
 			node.AddVisit()
 			node = node.parent	#go to parent (chance node) to get action
 			action = node.action
-			reward = GetReward(state, action)	 #get reward obtained for taking the action and arriving in the state 
+			
+			reward = rolloutReward 		#we first add the reward from the simultion (rollout) of lower states (if any)
+			reward += GetReward(state, action)	 #get reward obtained for taking the action and arriving in the state 
+			
 			#print "Got "+str(reward)+" for taking "+action.name+" and arriving in "+state.name
 
 			cumulativeReward += reward * (gamma ** node.depth)
@@ -403,7 +393,7 @@ def UCT(rootState, i, gamma, R):
 
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
 
-	print shit
+
 	print "\nDecision:"
 	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
