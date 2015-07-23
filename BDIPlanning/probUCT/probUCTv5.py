@@ -44,9 +44,9 @@ class Action():
 class Nodetype:
 	decision, chance = range(2)
 
-'''
-Here we construct the states and actions of the scenario
-All these items are globally avaialble to the algorithm
+
+#Here we construct the states and actions of the scenario
+#all these items are globally avaialble to the algorithm
 
 #states
 s0 = State("s0",[])
@@ -82,8 +82,8 @@ def SetActions():
     s4.actions = [a8,a9,a13]
     s5.actions = []   # This is the goal state
     s6.actions = []   # This is the fail state
-'''
 
+'''
 #Example tree for testing
 s0 = State("s0", [])
 s1 = State("s1", [])
@@ -105,11 +105,25 @@ def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
+'''
+
+#display info about the node
+def printNode(n):
+	tUtil = n.utility
+	visits = n.visits
+	risk = str(n.risk)
+	
+	utility = 0
+	if(visits > 0):
+		utility = round(tUtil/visits,2) 
+
+	return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+risk
 
 
+#recursivley print the whole tree given the root node
 def printTree(parent, indent):
 	#print "XX:"+str(parent)
-	print indent + str(parent) + "\tU/V:" + str(parent.utility)+"/"+str(parent.visits)+"="+str(round(parent.utility/parent.visits,2))+"\tRisk:"+str(parent.risk)
+	print indent + printNode(parent)
 	indent += "____"
 	for n in parent.children:
 		#print "X:"+str(n)
@@ -266,7 +280,7 @@ class Node:
 
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
-def UCT(rootState, iters, gamma, R):
+def UCT(rootState, iters, gamma, horizon, R):
 	rootNode = Node(state=rootState, nodetype=Nodetype.decision)
 
 	#depth = 0
@@ -295,7 +309,7 @@ def UCT(rootState, iters, gamma, R):
 		#Expand randomly through the tree while there are untried actions
 		#if node.nodetype == Nodetype.decision:		#this may be unecessary as it should always be anyway
 
-		if node.untriedActions != []:	#if not a terminal decision node
+		if node.untriedActions != [] and depth<horizon:	#if not a terminal decision node or too deep in the tree
 			randomAction = node.RandomAction()
 	
 			dnodeexists = False			#only add a new decision node if this node hasn't been sampled yet
@@ -322,23 +336,19 @@ def UCT(rootState, iters, gamma, R):
 			
 
 
-		#this is wronggggg	
-		#Rollout, carry out a random walk through the tree untila  terminal state is reached
-		
+	
+		#Rollout, carry out a random walk through the tree untila  terminal state is reached		
 		state = node.state
 		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
-		print node
-		while state.GetActions() != []:	
-			print "Rolling out"
+		while state.GetActions() != []:		
 			action = state.GetRandomAction()
 			state =	state.DoAction(action) 
 			rolloutReward += GetReward(state.currentState, action)
-		print state.currentState.name + " " + str(rolloutReward)		
+		#print state.currentState.name + " " + str(rolloutReward)		
 					
-		#Backpropogate the cumulative reward and risk back up through the tree
+		#Backpropagate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
 		cumulativeRisk = 0
-
 		while node != None and node.parent != None:	#while we havent gone above the root of the tree
 
 			state = node.state.currentState
@@ -379,23 +389,18 @@ def UCT(rootState, iters, gamma, R):
 	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
-	'''
-	for a in actionList:
-		print str(a)
-		for n in a.children:
-			
-			print "\t"+str(n) 
-			for m in n.children:
-				print "\t\t"+str(m)
-	'''
 	for a in actionList:
 		printTree(a, '')
 
+	print "\nOptions:"
+	for a in actionList:
+		print printNode(a)
+
+	#Make a decision
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
-
-
+	
 	print "\nDecision:"
-	return decision		#USe the decision rule
+	return printNode(decision)		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
 
@@ -403,16 +408,17 @@ SetActions()
 initialState = StateWrapper(s0)
 currentState = initialState
 
-iters = 100
+iters = 10000
 gamma = 1
 R = 0
 exploreBias = 100
+horizon = 1
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
 print "Risk value: "+str(R)+"\n"
 
-print UCT (currentState, iters, gamma, R)
+print UCT (currentState, iters, gamma, horizon, R)
 
 #print playScenario(gamma,R)
 
