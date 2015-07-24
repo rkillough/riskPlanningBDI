@@ -14,6 +14,7 @@ import math
 import riskAwareDecision
 import riskDecisionMaxMin
 from copy import deepcopy
+from datetime import datetime
 
 exploreBias = 0
 
@@ -47,7 +48,7 @@ class Nodetype:
 
 #Here we construct the states and actions of the scenario
 #all these items are globally avaialble to the algorithm
-
+'''
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -99,25 +100,25 @@ a2 = Action("a2", [goal,fail], [.7,.3], [20,-10])
 a3 = Action("a3", [goal,fail], [.5,.5], [10,-5])
 a4 = Action("a4", [goal,fail], [.5,.5], [5,-2])
 
-
-
 def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
-'''
+
 
 #display info about the node
 def printNode(n):
 	tUtil = n.utility
 	visits = n.visits
-	risk = str(n.risk)
+	tRisk = n.risk
 	
 	utility = 0
-	if(visits > 0):
+	risk = 0
+	if(visits > 0):		#if there are no visits to the node, things will break due to division by zero, so..
 		utility = round(tUtil/visits,2) 
+		risk = round(tRisk/visits,2)
 
-	return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+risk
+	return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+str(risk)
 
 
 #recursivley print the whole tree given the root node
@@ -208,7 +209,7 @@ class Node:
 		
 		self.mean = 0
 		self.M2 = 0
-		self.risk = None	#currently modelled as plain variance
+		self.risk = 0	#currently modelled as plain variance
 	
 		self.depth = 0	#the current depth of the node in the tree
 
@@ -233,11 +234,13 @@ class Node:
 	def AddVisit(self):
 		self.visits += 1
 
-	def Update(self, reward, mean, M2, risk):
+	def UpdateReward(self, reward):
 		self.utility += reward
+
+	def UpdateRisk(self, mean, M2, risk):
 		self.mean = mean
 		self.M2 = M2
-		self.risk = risk
+		self.risk += risk
 
 	#A new sample has been taken, add this as a child node to this node
 	def AddChild(self, Caction, Cstate, nodetype):
@@ -364,19 +367,45 @@ def UCT(rootState, iters, gamma, horizon, R):
 
 			cumulativeReward += reward * (gamma ** node.depth)
 			node.AddVisit()
-				
+		
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
+			cumulativeRisk += risk
+	
+			#s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
+		
+			noderisk = cumulativeRisk
 
-			#Check if risk is lower than risk of siblings
-			if cumulativeRisk is not None:
-				cumulativeRisk += risk
-				node.Update(cumulativeReward, mean, M2, cumulativeRisk)
+			#we want to determien the lowest risk sibling, but risk will be zero for unsampled or low sampled nodes, construct a list of nodes we know have been sampled a few times
+
+#TODO here!!
+
+			lowestRiskSibling = sorted(node.parent.children, key = lambda r: r.risk/r.visits)[-1]
+			riskofLRS = lowestRiskSibling.risk/lowestRiskSibling.visits
+			#print str(noderisk) + ">" +str(n.risk/n.visits)
+			if noderisk > riskofLRS:
+				cumulativeRisk = riskofLRS #this path has a higher risk than alternatives,dont update risk from this path
 			
-			isSmallest = True
-			if node.parent:
+			node.UpdateRisk(mean, M2, cumulativeRisk)
+
+			'''	
+			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
+			#Check if risk is lower than risk of siblings
+			if cumulativeRisk is not None and node.parent is not None:	#no point updating root nodes, they wont BP anyway
+				cumulativeRisk += risk
+				node.UpdateRisk(mean, M2, cumulativeRisk)
+
+			if cumulativeRisk is not None:
+				noderisk = cumulativeRisk
 				for n in node.parent.children:
-					if cumulativeRisk > n.risk:
-						cumulativeRisk = None  #this path has a higher risk than alternatives,dont update risk from this path
+					#print str(noderisk) + ">" +str(n.risk/n.visits)
+					if noderisk > n.risk/n.visits:
+						cumulativeRisk = None #this path has a higher risk than alternatives,dont update risk from this path
+						print "X:"+str(node)						
+				#print str(node) + " " + str(cumulativeRisk)
+			'''
+			
+			node.UpdateReward(cumulativeReward)
+			
 			node = node.parent
 			if node.parent == None:
 				node.AddVisit()
@@ -412,14 +441,17 @@ iters = 10000
 gamma = 1
 R = 0
 exploreBias = 100
-horizon = 1
+horizon = 10
 
 print "\nRunning UCT with parameters:\nIterations: "+str(iters)
 print "Discount: "+str(gamma)
 print "Risk value: "+str(R)+"\n"
 
+starttime = datetime.now()
 print UCT (currentState, iters, gamma, horizon, R)
+endtime = datetime.now()
 
-#print playScenario(gamma,R)
+print "\nResults obtained in: "+str(endtime-starttime)
+
 
 print "\n"
