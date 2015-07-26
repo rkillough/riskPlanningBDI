@@ -21,16 +21,20 @@ def removeRedundantActions(aList):
 #pick an action form alist using the max min deviation approach
 def pickAction(aList, R):
 
-	aList = removeRedundantActions(aList)
+	#aList = removeRedundantActions(aList)
 
 	#R is a number in sigma (standard deviations). 0 represents total risk tolerance. 
 
+	#risk = node.risk/node.visits
+
 	#sortedList = sorted(aList, key=lambda action: action.utility - (R * (math.sqrt(action.risk))), reverse=True)
-	sortedList = sorted(aList, key=lambda node: (node.utility/node.visits) - (R * (math.sqrt(node.risk))), reverse=True)	
+	sortedList = sorted(aList, key=lambda node: (node.utility/node.visits) - (R * (math.sqrt(node.risk/node.visits))), reverse=True)	
 
 	#print "\n\n"
 	#for a in sortedList:
-		#print str(a) + " lbound:" +  str((a.utility/a.visits) - (R* math.sqrt(a.risk)))	#recalcuated here for display, this is already done in the sort lambda
+		#print str(a.utility/a.visits)
+		#print a.risk
+		#print str(a) + " lbound:" +  str((a.utility/a.visits) - (R* math.sqrt(a.risk/a.visits)))	#recalcuated here for display, this is already done in the sort lambda
 
 	#print "Best Action = "+str(sortedList[0])
 	return sortedList[0] #return the best action

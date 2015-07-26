@@ -48,7 +48,7 @@ class Nodetype:
 
 #Here we construct the states and actions of the scenario
 #all these items are globally avaialble to the algorithm
-'''
+
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -104,22 +104,23 @@ def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
-
+'''
 
 #display info about the node
 def printNode(n):
-	tUtil = n.utility
-	visits = n.visits
-	tRisk = n.risk
-	
-	utility = 0
-	risk = 0
-	if(visits > 0):		#if there are no visits to the node, things will break due to division by zero, so..
-		utility = round(tUtil/visits,2) 
-		risk = round(tRisk/visits,2)
-
-	return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+str(risk)
-
+	if n.nodetype == Nodetype.chance:
+		tUtil = n.utility
+		visits = n.visits
+		tRisk = n.risk
+		
+		utility = 0
+		risk = 0
+		if(visits > 0):		#if there are no visits to the node, things will break due to division by zero, so..
+			utility = round(tUtil/visits,2) 
+			risk = round(tRisk/visits,2)
+		return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+str(risk)
+	else:
+		return str(n) + " visits:"+str(n.visits)
 
 #recursivley print the whole tree given the root node
 def printTree(parent, indent):
@@ -348,7 +349,9 @@ def UCT(rootState, iters, gamma, horizon, R):
 			state =	state.DoAction(action) 
 			rolloutReward += GetReward(state.currentState, action)
 		#print state.currentState.name + " " + str(rolloutReward)		
-					
+		
+		rolloutReward = 0
+			
 		#Backpropagate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
 		cumulativeRisk = 0
@@ -369,40 +372,27 @@ def UCT(rootState, iters, gamma, horizon, R):
 			node.AddVisit()
 		
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			cumulativeRisk += risk
-	
-			#s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
-		
+			cumulativeRisk += risk * (gamma ** node.depth)
+
+			node.UpdateRisk(mean, M2, cumulativeRisk)	
 			noderisk = cumulativeRisk
 
+			#print "Was BPing "+str(cumulativeRisk)
 			#we want to determien the lowest risk sibling, but risk will be zero for unsampled or low sampled nodes, construct a list of nodes we know have been sampled a few times
-
-#TODO here!!
-
-			lowestRiskSibling = sorted(node.parent.children, key = lambda r: r.risk/r.visits)[-1]
-			riskofLRS = lowestRiskSibling.risk/lowestRiskSibling.visits
-			#print str(noderisk) + ">" +str(n.risk/n.visits)
-			if noderisk > riskofLRS:
-				cumulativeRisk = riskofLRS #this path has a higher risk than alternatives,dont update risk from this path
-			
-			node.UpdateRisk(mean, M2, cumulativeRisk)
-
-			'''	
-			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-			#Check if risk is lower than risk of siblings
-			if cumulativeRisk is not None and node.parent is not None:	#no point updating root nodes, they wont BP anyway
-				cumulativeRisk += risk
-				node.UpdateRisk(mean, M2, cumulativeRisk)
-
-			if cumulativeRisk is not None:
-				noderisk = cumulativeRisk
-				for n in node.parent.children:
-					#print str(noderisk) + ">" +str(n.risk/n.visits)
-					if noderisk > n.risk/n.visits:
-						cumulativeRisk = None #this path has a higher risk than alternatives,dont update risk from this path
-						print "X:"+str(node)						
-				#print str(node) + " " + str(cumulativeRisk)
-			'''
+			sampledNodes = []
+			for n in node.parent.children:
+				#Dont onsider low sampled actions or the current action for comparison
+				if n.visits >= 4 and n.action.name != node.action.name:	
+					sampledNodes.append(n)
+			if sampledNodes != []:
+				
+				lowestRiskSibling = sorted(sampledNodes, key = lambda r: r.risk/r.visits)[-1]
+				riskofLRS = lowestRiskSibling.risk/lowestRiskSibling.visits
+				#print str(noderisk) + ">" +str(n.risk/n.visits)
+				if noderisk > riskofLRS:	#There is a path which has lower risk, BP that instead
+					cumulativeRisk = riskofLRS 
+					
+				#print "Now BPing: "+str(cumulativeRisk) +" of "+str(lowestRiskSibling)
 			
 			node.UpdateReward(cumulativeReward)
 			
@@ -418,8 +408,11 @@ def UCT(rootState, iters, gamma, horizon, R):
 	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
+	#Print the whole tree
+	'''
 	for a in actionList:
 		printTree(a, '')
+	'''
 
 	print "\nOptions:"
 	for a in actionList:
@@ -428,30 +421,39 @@ def UCT(rootState, iters, gamma, horizon, R):
 	#Make a decision
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
 	
-	print "\nDecision:"
-	return printNode(decision)		#USe the decision rule
+	print "\nDecision:\n"+printNode(decision)
+	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
 
-SetActions()
-initialState = StateWrapper(s0)
-currentState = initialState
+def runUCT(initState, iters, gamma, R, eb, horizon):
 
+	initialState = StateWrapper(initState)
+
+	global exploreBias 
+	exploreBias = eb
+
+	#print "\nRunning UCT with parameters:\nIterations: "+str(iters)
+	#print "Discount: "+str(gamma)
+	#print "Risk value: "+str(R)+"\n"
+
+	starttime = datetime.now()
+	decision = UCT (initialState, iters, gamma, horizon, R)
+	endtime = datetime.now()
+	
+	#print "\nResults obtained in: "+str(endtime-starttime)
+	
+	return decision
+
+SetActions()
+
+'''
 iters = 10000
-gamma = 1
+gamma = 0.9
 R = 0
 exploreBias = 100
-horizon = 10
+horizon = 100
 
-print "\nRunning UCT with parameters:\nIterations: "+str(iters)
-print "Discount: "+str(gamma)
-print "Risk value: "+str(R)+"\n"
+runUCT(iters, gamma, R, exploreBias, horizon)
+'''
 
-starttime = datetime.now()
-print UCT (currentState, iters, gamma, horizon, R)
-endtime = datetime.now()
-
-print "\nResults obtained in: "+str(endtime-starttime)
-
-
-print "\n"
