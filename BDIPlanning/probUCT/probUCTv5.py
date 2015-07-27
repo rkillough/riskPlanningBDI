@@ -48,7 +48,7 @@ class Nodetype:
 
 #Here we construct the states and actions of the scenario
 #all these items are globally avaialble to the algorithm
-
+'''
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -84,7 +84,7 @@ def SetActions():
     s5.actions = []   # This is the goal state
     s6.actions = []   # This is the fail state
 
-'''
+
 #Example tree for testing
 s0 = State("s0", [])
 s1 = State("s1", [])
@@ -105,6 +105,50 @@ def SetActions():
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
 '''
+
+#Kims issue proof example
+s0 = State("s0", [])
+s1 = State("s1", [])
+s2 = State("s2", [])
+s3 = State("s3", [])
+s4 = State("s4", [])
+s5 = State("s5", [])
+s6 = State("s6", [])
+s7 = State("s7", [])
+s8 = State("s8", [])
+s9 = State("s9", [])
+s10 = State("s10", [])
+s11 = State("s11", [])
+s12 = State("s12", [])
+s13 = State("s13", [])
+s14 = State("s14", [])
+s15 = State("s15", [])
+s16 = State("s16", [])
+s17 = State("s17", [])
+s18 = State("s18", [])
+s19 = State("s19", [])
+s20 = State("s20", [])
+
+a0 = Action('a0', [s1,s2], [.5,.5], [0,0])
+a1 = Action('a1', [s3,s4], [.5,.5], [0,0])
+
+a2 = Action('a2', [s5,s6], [.5,.5], [100,100])
+a3 = Action('a3', [s7,s8], [.5,.5], [-100,-100])
+a4 = Action('a4', [s9,s10], [.5,.5], [100,100])
+a5 = Action('a5', [s11,s12], [.5,.5], [-100,-100])
+
+a6 = Action('a6', [s13,s14], [.5,.5], [50,-50])
+a7 = Action('a7', [s15,s16], [.5,.5], [50,-50])
+a8 = Action('a8', [s17,s18], [.5,.5], [50,-50])
+a9 = Action('a9', [s19,s20], [.5,.5], [50,-50])
+
+def SetActions():
+	s0.actions = [a0,a1]
+	s1.actions = [a2,a3]
+	s2.actions = [a4,a5]
+	s3.actions = [a6,a7]
+	s4.actions = [a8,a9]
+
 
 #display info about the node
 def printNode(n):
@@ -340,16 +384,18 @@ def UCT(rootState, iters, gamma, horizon, R):
 			
 
 
-	
+		
 		#Rollout, carry out a random walk through the tree untila  terminal state is reached		
 		state = node.state
 		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
-		while state.GetActions() != []:		
+		while state.GetActions() != []:	
+			print "rolling out"	
 			action = state.GetRandomAction()
-			state =	state.DoAction(action) 
-			rolloutReward += GetReward(state.currentState, action)
+			state =	state.DoAction(action)
+			depth += 1 
+			rolloutReward += GetReward(state.currentState, action) * (gamma ** depth)
 		#print state.currentState.name + " " + str(rolloutReward)		
-		
+			
 		rolloutReward = 0
 			
 		#Backpropagate the cumulative reward and risk back up through the tree
@@ -409,10 +455,10 @@ def UCT(rootState, iters, gamma, horizon, R):
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 	#Print the whole tree
-	'''
+	#'''
 	for a in actionList:
 		printTree(a, '')
-	'''
+	#'''
 
 	print "\nOptions:"
 	for a in actionList:
@@ -441,19 +487,21 @@ def runUCT(initState, iters, gamma, R, eb, horizon):
 	decision = UCT (initialState, iters, gamma, horizon, R)
 	endtime = datetime.now()
 	
-	#print "\nResults obtained in: "+str(endtime-starttime)
-	
+	print "\nResults obtained in: "+str(endtime-starttime)
+	SetActions()	
 	return decision
 
 SetActions()
 
-'''
+#'''
+
+
 iters = 10000
-gamma = 0.9
+gamma = 1
 R = 0
-exploreBias = 100
+exploreBias = 500
 horizon = 100
 
-runUCT(iters, gamma, R, exploreBias, horizon)
-'''
+runUCT(s0, iters, gamma, R, exploreBias, horizon)
+#'''
 
