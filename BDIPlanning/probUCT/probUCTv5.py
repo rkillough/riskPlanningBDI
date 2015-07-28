@@ -3,8 +3,6 @@ This implementation consists of a UCB1 based algorithm which (unlike plain UCT) 
 
 The scenario privided is a single robot navigation problem. The robot must choose between routes toward an end goal over bridges of varying widths.
 
-This particulr version implement accurate, non biased variance calculation (as well as discounting)
-We also made the mistake in previous  version that while we were just ocnsidering immediate risk, we should have been using the backpropagated utility values for the calcultion
 '''
 
 
@@ -83,7 +81,7 @@ def SetActions():
     s4.actions = [a8,a9,a13]
     s5.actions = []   # This is the goal state
     s6.actions = []   # This is the fail state
-
+'''
 
 #Example tree for testing
 s0 = State("s0", [])
@@ -93,7 +91,7 @@ s2 = State("s2", [])
 fail = State("fail", [])
 goal = State("goal", [])
 
-a0 = Action("a0", [s1,s2], [.5,.5], [2,2])
+a0 = Action("a0", [s1,s2], [.9,.1], [2,-10])
 a1 = Action("a1", [s2], [1], [2])
 
 a2 = Action("a2", [goal,fail], [.7,.3], [20,-10])
@@ -148,15 +146,14 @@ def SetActions():
 	s2.actions = [a4,a5]
 	s3.actions = [a6,a7]
 	s4.actions = [a8,a9]
-
+'''
 
 #display info about the node
 def printNode(n):
 	if n.nodetype == Nodetype.chance:
 		tUtil = n.utility
 		visits = n.visits
-		tRisk = n.risk
-		
+		tRisk = n.risk		
 		utility = 0
 		risk = 0
 		if(visits > 0):		#if there are no visits to the node, things will break due to division by zero, so..
@@ -165,6 +162,7 @@ def printNode(n):
 		return str(n) + "\tU/V:" + str(tUtil)+"/"+str(visits)+"="+str(utility)+"\tRisk:"+str(risk)
 	else:
 		return str(n) + " visits:"+str(n.visits)
+
 
 #recursivley print the whole tree given the root node
 def printTree(parent, indent):
@@ -175,8 +173,6 @@ def printTree(parent, indent):
 		#print "X:"+str(n)
 		printTree(n, indent)
 
-	
-	
 
 #This method returns a 'random' probability adjusted state outcome given an action
 def GetOutcome(action):
@@ -188,10 +184,10 @@ def GetOutcome(action):
         distribution.append([l, ((t+p)*1000)+1])
         l = p*1000
         t = t+p
-
     for i in range(len(action.outcomes)):
         if(r >= distribution[i][0] and r < distribution[i][1]):
             return action.outcomes[i]
+
 
 #Return the immediate reward of taking action and arriving in state
 def GetReward(state, action):
@@ -207,20 +203,16 @@ def GetReward(state, action):
 #The mean of all the rewards
 #M2, which is the sum of squares of differences from the current mean
 def calculateRisk(count, cMean, M2, newValue):
-
     delta = newValue - cMean
     mean = cMean + delta/count
     M2 = M2 + delta*(newValue - mean)
-			
     if(count < 2):
         return mean, M2, 0
-								
     variance = M2/(count-1)
     return mean, M2, variance
 											
 
-
-#This is wrapper around a State class instance to provide methods for its manipulation but allow the state to be easily changed
+#This is wrapper around a State class instance to provide methods for its manipulation but allow the current state to be easily changed
 class StateWrapper():
     def __init__(self,cState):
         self.currentState = cState
@@ -236,7 +228,6 @@ class StateWrapper():
         r = randint(1,len(actions)) -1
         return actions[r]
 
-
 	def __repr__(self):
 		return self.currentState.name
 
@@ -248,28 +239,22 @@ class Node:
 		self.parent = parent
 		self.children = []
 		self.nodetype = nodetype
-		
 		self.utility = 0
 		self.visits = 0
-		
 		self.mean = 0
 		self.M2 = 0
 		self.risk = 0	#currently modelled as plain variance
-	
 		self.depth = 0	#the current depth of the node in the tree
 
 		if self.nodetype == Nodetype.decision:
 			self.actions = deepcopy(state.GetActions())
 			self.untriedActions = deepcopy(state.GetActions())
 		
-		
 	#Select a child node using the UCB1 formula
 	def SelectChild(self):
 		C = exploreBias		#Exploration exploitation tradeoff constant
-		#print "Vals: "+str(n.utility) + " " + str(n.visits) +" "+ str(self.visits)
 		s = sorted(self.children, key = lambda n: n.utility/n.visits + C* math.sqrt(2*math.log(self.visits)/n.visits))
 		return s[-1]
-		#find the highest valued child node
 
 	def RandomAction(self):
 		actions = self.actions
@@ -290,16 +275,7 @@ class Node:
 	#A new sample has been taken, add this as a child node to this node
 	def AddChild(self, Caction, Cstate, nodetype):
 		childNode = Node(action=Caction, parent=self, state=Cstate, nodetype=nodetype)
-		'''	
-		print "Adding new node!"
-		print "i:"+str(childNode)
-		for c in self.children:
-			print c
-		print "---------"
-		'''
 		self.children.append(childNode)
-		#self.untriedActions.remove(Caction)
-
 		return childNode
 
 	#return a child decision node based on the probability of occurance
@@ -322,108 +298,73 @@ class Node:
 			return "Chance: "+ self.action.name
 	
 
-
-
-
-
-
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
 def UCT(rootState, iters, gamma, horizon, R):
 	rootNode = Node(state=rootState, nodetype=Nodetype.decision)
 
-	#depth = 0
-
 	for i in range(iters):
 		#Initialise
 		node = rootNode
-		#state = rootState
-
 		depth = 0
 
-		#Select a new node oce all actions have been tried
-		#print node
-		#should enter here on decsion node
+		#Select a new node once all actions have been tried
 		while node.untriedActions == [] and node.children != []:
-			#print "selecting from children of "+str(node) + str(node.children)
 			node = node.SelectChild()
-			#print "outcome "+str(node) + str(node.children)
-
-			#now we have selected a chance node according to UCB1, we move to an outcome (decsion node) according to probability of occurance
 			node = node.SimulateAction()
-			
 			depth += 1
 
-
 		#Expand randomly through the tree while there are untried actions
-		#if node.nodetype == Nodetype.decision:		#this may be unecessary as it should always be anyway
-
 		if node.untriedActions != [] and depth<horizon:	#if not a terminal decision node or too deep in the tree
 			randomAction = node.RandomAction()
-	
 			dnodeexists = False			#only add a new decision node if this node hasn't been sampled yet
 			for c in node.children:
 				#print "XX: "+str(c.action.name)+ " "+str(randomAction.name)
 				if c.action.name == randomAction.name: # action has a node here, do nothing
 					dnodeexists = True
-
 			if not dnodeexists:	#this is a new action which hasnt been sampled, we add nodes for every state outcome
 				#indicate that this action has now been tried atleast once
 				for a in node.untriedActions:
 					if a.name == randomAction.name:
 						node.untriedActions.remove(a)
-						
 				#Adding new chance node
 				node = node.AddChild(randomAction, None, nodetype=Nodetype.chance)
 				node.depth = depth
-
 				#adding node for each outcome of this state
 				for outcome in node.action.outcomes:
 					node.AddChild(None, StateWrapper(outcome), nodetype=Nodetype.decision)
 				#randomly select from these outcomes
 				node = node.GetRandomChild()
 			
-
-
-		
-		#Rollout, carry out a random walk through the tree untila  terminal state is reached		
+		#Rollout, carry out a random walk through the tree		
 		state = node.state
 		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
 		while state.GetActions() != []:	
-			print "rolling out"	
 			action = state.GetRandomAction()
 			state =	state.DoAction(action)
 			depth += 1 
 			rolloutReward += GetReward(state.currentState, action) * (gamma ** depth)
-		#print state.currentState.name + " " + str(rolloutReward)		
-			
-		rolloutReward = 0
-			
+		
 		#Backpropagate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
 		cumulativeRisk = 0
 		while node != None and node.parent != None:	#while we havent gone above the root of the tree
-
 			state = node.state.currentState
-			#get state (this will initially be a leaf node, or the deepest we traversed in rollout)
+			#get state (this will initially be a leaf node, or the deepest we traversed in expansion)
 			node.AddVisit()
 			node = node.parent	#go to parent (chance node) to get action
 			action = node.action
-			
-			reward = rolloutReward 		#we first add the reward from the simultion (rollout) of lower states (if any)
-			reward += GetReward(state, action)	 #get reward obtained for taking the action and arriving in the state 
-			
-			#print "Got "+str(reward)+" for taking "+action.name+" and arriving in "+state.name
 
-			cumulativeReward += reward * (gamma ** node.depth)
 			node.AddVisit()
-		
+			reward = GetReward(state, action)	 #get reward obtained for taking the action and arriving in the state
+			#We update the risk only using the immediate reward, rather than that plus the rollout reward
 			mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
 			cumulativeRisk += risk * (gamma ** node.depth)
 
+			reward += rolloutReward 		#add the reward from the simultion (rollout) of lower states (if any) before updateing the nodes reward
+			cumulativeReward += reward * (gamma ** node.depth)	
 			node.UpdateRisk(mean, M2, cumulativeRisk)	
 			noderisk = cumulativeRisk
 
-			#print "Was BPing "+str(cumulativeRisk)
 			#we want to determien the lowest risk sibling, but risk will be zero for unsampled or low sampled nodes, construct a list of nodes we know have been sampled a few times
 			sampledNodes = []
 			for n in node.parent.children:
@@ -437,29 +378,23 @@ def UCT(rootState, iters, gamma, horizon, R):
 				#print str(noderisk) + ">" +str(n.risk/n.visits)
 				if noderisk > riskofLRS:	#There is a path which has lower risk, BP that instead
 					cumulativeRisk = riskofLRS 
-					
-				#print "Now BPing: "+str(cumulativeRisk) +" of "+str(lowestRiskSibling)
-			
+		
 			node.UpdateReward(cumulativeReward)
-			
+
 			node = node.parent
 			if node.parent == None:
 				node.AddVisit()
 		
 
-
 	#sort the list of root child nodes by their utility
-	#actionList = sorted(rootNode.children, key= lambda c: c.utility/c.visits, reverse=True)
-	
-	#sort the list by the desired metric (should be utility in the final version ... utility/visits)
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 	#Print the whole tree
 	#'''
+	print "\n\n"
 	for a in actionList:
 		printTree(a, '')
 	#'''
-
 	print "\nOptions:"
 	for a in actionList:
 		print printNode(a)
@@ -493,15 +428,12 @@ def runUCT(initState, iters, gamma, R, eb, horizon):
 
 SetActions()
 
-#'''
-
-
 iters = 10000
 gamma = 1
 R = 0
-exploreBias = 500
+exploreBias = 100
 horizon = 100
 
 runUCT(s0, iters, gamma, R, exploreBias, horizon)
-#'''
+
 
