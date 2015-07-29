@@ -329,7 +329,7 @@ def UCT(rootState, iters, gamma, horizon, R):
 				#Adding new chance node
 				node = node.AddChild(randomAction, None, nodetype=Nodetype.chance)
 				node.depth = depth
-				#adding node for each outcome of this state
+				#adding node for each outcome of this action
 				for outcome in node.action.outcomes:
 					node.AddChild(None, StateWrapper(outcome), nodetype=Nodetype.decision)
 				#randomly select from these outcomes
