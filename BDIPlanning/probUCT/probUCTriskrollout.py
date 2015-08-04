@@ -338,23 +338,29 @@ def UCT(rootState, iters, gamma, horizon, R, rolloutCount):
 		#ROLLOUT PHASE
 		state = node.state
 
-		#Risk rollout, randomly sample a set of decision nodes from the last chance node to give an approximation of the risk
-		if node.parent != None:	#if not leaf chance node and not root state
+		#Risk rollout, randomly sample a set of decision nodes from the last chance node to give an approximation of the risk, only do this if the node has never been sampled and thus has a totally innacurate risk assessment
+		if node.parent != None:	
 			node = node.parent	#move to parent node
-			for i in range(rolloutCount):
-				action = node.action
-				node.AddVisit()
-				outcomenode = node.SimulateAction()
-				outcomenode.AddVisit()
-				outcomestate = outcomenode.state.currentState
-				reward = GetReward(outcomestate, action)
-				mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
-				node.UpdateRisk(mean, M2, risk)				
-				#print "Updating risk of "+str(node)+ " with "+ str(reward)
-			#print printNode(node)	
-			node = node.GetRandomChild()
+			#print str(node) +", "+ str(node.visits)
+			if node.visits == 0:	#only consider non visited nodes
+				node.AddVisit()		#add a single visit
+				action = node.action		#get the action
+				for i in range(rolloutCount):
+					outcomenode = node.SimulateAction()		#sample a state outcome
+					outcomestate = outcomenode.state.currentState
+					reward = GetReward(outcomestate, action)	#get the reward for this state sample
+					mean, M2, risk = calculateRisk(i+1, node.mean, node.M2, reward)	
+					node.UpdateRisk(mean, M2, risk)					#get risk and update node
+					#print "Updating risk of "+str(node)+ " with "+ str(reward)
+				#print printNode(node)
+				node.risk = node.risk/rolloutCount	#important: normalise cumul risk as if wed only sampled once
+				node.M2 = 0
+				node.mean = 0
+				#print printNode(node)
+			node = node.SimulateAction()	#move to a random decision node for next stage of rollout
+		
+
 		#Rollout, carry out a random walk through the tree until a terminal state		
-	
 		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
 		while state.GetActions() != []:	
 			action = state.GetRandomAction()
@@ -387,7 +393,7 @@ def UCT(rootState, iters, gamma, horizon, R, rolloutCount):
 			#we want to determien the lowest risk sibling, but risk will be zero for unsampled or low sampled nodes, construct a list of nodes we know have been sampled a few times
 			sampledNodes = []
 			for n in node.parent.children:
-				#Dont onsider low sampled actions or the current action for comparison
+				#Dont consider low sampled actions or the current action for comparison
 				if n.visits > 0 and n.action.name != node.action.name:	
 					sampledNodes.append(n)
 			if sampledNodes != []:
@@ -446,12 +452,12 @@ def runUCT(initState, iters, gamma, R, eb, horizon, rolloutCount):
 
 SetActions()
 
-iters = 100000
-gamma = 1
+iters = 10000
+gamma = 0.9
 R = 0
-exploreBias = 500
-horizon = 100
-rolloutCount = 5
+exploreBias = 100
+horizon = 10
+rolloutCount = 20
 
 runUCT(s0, iters, gamma, R, exploreBias, horizon, rolloutCount)
 

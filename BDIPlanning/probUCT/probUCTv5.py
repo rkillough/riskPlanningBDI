@@ -46,7 +46,7 @@ class Nodetype:
 
 #Here we construct the states and actions of the scenario
 #all these items are globally avaialble to the algorithm
-#'''
+'''
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -102,7 +102,7 @@ def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
-'''
+#'''
 
 #display info about the node
 def printNode(n):
@@ -386,7 +386,7 @@ SetActions()
 iters = 10000
 gamma = 1
 R = 0
-exploreBias = 200
+exploreBias = 100
 horizon = 100
 sampleThreshold = 5
 
