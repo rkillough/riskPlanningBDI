@@ -102,6 +102,50 @@ def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
+
+
+#Kims issue proof example
+s0 = State("s0", [])
+s1 = State("s1", [])
+s2 = State("s2", [])
+s3 = State("s3", [])
+s4 = State("s4", [])
+s5 = State("s5", [])
+s6 = State("s6", [])
+s7 = State("s7", [])
+s8 = State("s8", [])
+s9 = State("s9", [])
+s10 = State("s10", [])
+s11 = State("s11", [])
+s12 = State("s12", [])
+s13 = State("s13", [])
+s14 = State("s14", [])
+s15 = State("s15", [])
+s16 = State("s16", [])
+s17 = State("s17", [])
+s18 = State("s18", [])
+s19 = State("s19", [])
+s20 = State("s20", [])
+
+a0 = Action('a0', [s1,s2], [.5,.5], [0,0])
+a1 = Action('a1', [s3,s4], [.5,.5], [0,0])
+
+a2 = Action('a2', [s5,s6], [.5,.5], [100,100])
+a3 = Action('a3', [s7,s8], [.5,.5], [-100,-100])
+a4 = Action('a4', [s9,s10], [.5,.5], [100,100])
+a5 = Action('a5', [s11,s12], [.5,.5], [-100,-100])
+
+a6 = Action('a6', [s13,s14], [.5,.5], [50,-50])
+a7 = Action('a7', [s15,s16], [.5,.5], [50,-50])
+a8 = Action('a8', [s17,s18], [.5,.5], [50,-50])
+a9 = Action('a9', [s19,s20], [.5,.5], [50,-50])
+
+def SetActions():
+	s0.actions = [a0,a1]
+	s1.actions = [a2,a3]
+	s2.actions = [a4,a5]
+	s3.actions = [a6,a7]
+	s4.actions = [a8,a9]
 '''
 
 #display info about the node
@@ -255,7 +299,7 @@ class Node:
 	
 
 #Takes a root state, an iter depth, a discount factor and a risk tolerance factor
-def UCT(rootState, iters, gamma, horizon, R, sampleThreshold):
+def UCT(rootState, iters, gamma, horizon, R, rolloutCount):
 	rootNode = Node(state=rootState, nodetype=Nodetype.decision)
 
 	for i in range(iters):
@@ -291,14 +335,33 @@ def UCT(rootState, iters, gamma, horizon, R, sampleThreshold):
 				#randomly select from these outcomes (dont do this until riskrollout complete)
 				node = node.GetRandomChild()
 		
-		#Rollout, carry out a random walk through the tree until a terminal state			
+		#ROLLOUT PHASE
 		state = node.state
+
+		#Risk rollout, randomly sample a set of decision nodes from the last chance node to give an approximation of the risk
+		if node.parent != None:	#if not leaf chance node and not root state
+			node = node.parent	#move to parent node
+			for i in range(rolloutCount):
+				action = node.action
+				node.AddVisit()
+				outcomenode = node.SimulateAction()
+				outcomenode.AddVisit()
+				outcomestate = outcomenode.state.currentState
+				reward = GetReward(outcomestate, action)
+				mean, M2, risk = calculateRisk(node.visits, node.mean, node.M2, reward)
+				node.UpdateRisk(mean, M2, risk)				
+				#print "Updating risk of "+str(node)+ " with "+ str(reward)
+			#print printNode(node)	
+			node = node.GetRandomChild()
+		#Rollout, carry out a random walk through the tree until a terminal state		
+	
 		rolloutReward = 0	#since we have intermediate rewards, we need to accumalate these in the rollout
 		while state.GetActions() != []:	
 			action = state.GetRandomAction()
 			state =	state.DoAction(action)
 			depth += 1 
 			rolloutReward += GetReward(state.currentState, action) * (gamma ** depth)
+				
 
 		#Backpropagate the cumulative reward and risk back up through the tree
 		cumulativeReward = 0
@@ -325,7 +388,7 @@ def UCT(rootState, iters, gamma, horizon, R, sampleThreshold):
 			sampledNodes = []
 			for n in node.parent.children:
 				#Dont onsider low sampled actions or the current action for comparison
-				if n.visits > sampleThreshold and n.action.name != node.action.name:	
+				if n.visits > 0 and n.action.name != node.action.name:	
 					sampledNodes.append(n)
 			if sampledNodes != []:
 				lowestRiskSibling = sorted(sampledNodes, key = lambda r: r.risk/r.visits)[-1]
@@ -362,7 +425,7 @@ def UCT(rootState, iters, gamma, horizon, R, sampleThreshold):
 	#return actionList[0]				#Just use utility
 
 
-def runUCT(initState, iters, gamma, R, eb, horizon, sampleThreshold):
+def runUCT(initState, iters, gamma, R, eb, horizon, rolloutCount):
 
 	initialState = StateWrapper(initState)
 
@@ -374,7 +437,7 @@ def runUCT(initState, iters, gamma, R, eb, horizon, sampleThreshold):
 	#print "Risk value: "+str(R)+"\n"
 
 	starttime = datetime.now()
-	decision = UCT (initialState, iters, gamma, horizon, R, sampleThreshold)
+	decision = UCT (initialState, iters, gamma, horizon, R, rolloutCount)
 	endtime = datetime.now()
 	
 	print "\nResults obtained in: "+str(endtime-starttime)
@@ -383,13 +446,13 @@ def runUCT(initState, iters, gamma, R, eb, horizon, sampleThreshold):
 
 SetActions()
 
-iters = 10000
+iters = 100000
 gamma = 1
 R = 0
-exploreBias = 200
+exploreBias = 500
 horizon = 100
-sampleThreshold = 5
+rolloutCount = 5
 
-runUCT(s0, iters, gamma, R, exploreBias, horizon, sampleThreshold)
+runUCT(s0, iters, gamma, R, exploreBias, horizon, rolloutCount)
 
 
