@@ -414,7 +414,7 @@ def UCT(rootState, iters, gamma, horizon, R, rolloutCount):
 	actionList = sorted(rootNode.children, key= lambda c: (c.utility/c.visits), reverse=True)
 
 	#Print the whole tree
-	#'''
+	'''
 	print "\n\n"
 	for a in actionList:
 		printTree(a, '')
@@ -446,7 +446,7 @@ def runUCT(initState, iters, gamma, R, eb, horizon, rolloutCount):
 	decision = UCT (initialState, iters, gamma, horizon, R, rolloutCount)
 	endtime = datetime.now()
 	
-	print "\nResults obtained in: "+str(endtime-starttime)
+	#print "\nResults obtained in: "+str(endtime-starttime)
 	SetActions()	
 	return decision
 
@@ -455,10 +455,10 @@ SetActions()
 iters = 10000
 gamma = 0.9
 R = 0
-exploreBias = 100
+exploreBias = 50
 horizon = 10
-rolloutCount = 20
+rolloutCount = 10
 
-runUCT(s0, iters, gamma, R, exploreBias, horizon, rolloutCount)
+#runUCT(s4, iters, gamma, R, exploreBias, horizon, rolloutCount)
 
 
