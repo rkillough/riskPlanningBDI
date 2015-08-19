@@ -419,14 +419,14 @@ def UCT(rootState, iters, gamma, horizon, R, rolloutCount):
 	for a in actionList:
 		printTree(a, '')
 	#'''
-	print "\nOptions:"
-	for a in actionList:
-		print printNode(a)
+	#print "\nOptions:"
+	#for a in actionList:
+	#	print printNode(a)
 
 	#Make a decision
 	decision = riskDecisionMaxMin.pickAction(actionList, R)
 	
-	print "\nDecision:\n"+printNode(decision)
+	#print "\nDecision:\n"+printNode(decision)
 	return decision		#USe the decision rule
 	#return actionList[0]				#Just use utility
 
@@ -452,13 +452,14 @@ def runUCT(initState, iters, gamma, R, eb, horizon, rolloutCount):
 
 SetActions()
 
+'''
 iters = 10000
 gamma = 0.9
 R = 0
 exploreBias = 50
 horizon = 10
 rolloutCount = 10
-
+'''
 #runUCT(s4, iters, gamma, R, exploreBias, horizon, rolloutCount)
 
 
