@@ -46,7 +46,7 @@ class Nodetype:
 
 #Here we construct the states and actions of the scenario
 #all these items are globally avaialble to the algorithm
-'''
+#'''
 #states
 s0 = State("s0",[])
 s1 = State("s1",[])
@@ -102,7 +102,7 @@ def SetActions():
 	s0.actions = [a0,a1]
 	s1.actions = [a2]
 	s2.actions = [a3,a4]
-#'''
+'''
 
 #display info about the node
 def printNode(n):
@@ -384,12 +384,12 @@ def runUCT(initState, iters, gamma, R, eb, horizon, sampleThreshold):
 SetActions()
 
 iters = 10000
-gamma = 1
+gamma = 0.9
 R = 0
-exploreBias = 100
-horizon = 100
-sampleThreshold = 5
+exploreBias = 50
+horizon = 10
+sampleThreshold = 10
 
-runUCT(s0, iters, gamma, R, exploreBias, horizon, sampleThreshold)
+runUCT(s4, iters, gamma, R, exploreBias, horizon, sampleThreshold)
 
 
