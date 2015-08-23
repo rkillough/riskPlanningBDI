@@ -48,12 +48,29 @@ def updateVariance2(count, cMean, M2, newValue):
 def test():
 	x = 0
 	y = 0
-	for i in range(10000):
+	for i in range(20):
 		r = random.randint(0,99)
-		if(r<80):
-			x,y,z = updateVariance2(i+1, x, y, -30)
+		if(r<50):
+			x,y,z = updateVariance2(i+1, x, y, 100)
 		else:
 			x,y,z = updateVariance2(i+1, x, y, -100)
-		print x,y,z
+	print x,y,z
 		
-test()	
+#test()	
+
+mean = 0
+m2 = 0
+c = 1
+variance = 0
+
+for i in range(10):
+	mean, m2, variance = updateVariance2(c, mean, m2, 15)
+	c+=1
+for i in range(9):	
+	mean, m2, variance = updateVariance2(c, mean, m2, 8)
+	c+=1
+for i in range(1):
+	mean, m2, variance = updateVariance2(c, mean, m2, -10)
+	c+=1
+
+print mean, variance
