@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
+import matplotlib.pylab
 
-f = open('results.txt', 'r')
+f = open('results3.txt', 'r')
 raw = f.read()
 #print string
 
@@ -19,10 +20,12 @@ for x in rSets:
 
 	
 
-plt.plot(rLevels,avgR,'g-')
-plt.plot(rLevels,avgS,'r-')
-plt.plot(rLevels,avgSR,'b-')
-plt.axis([0,5,-100,100])
+plt.plot(rLevels,avgR,'g-', label='Average Reward')
+plt.plot(rLevels,avgS,'r-', label='Success Rate (%)')
+plt.plot(rLevels,avgSR,'b-', label='Average Reward when Successful')
+plt.axis([0,10,-100,100])
 plt.ylabel('Total reward, Success rate')
 plt.xlabel('R value')
+plt.legend()
+plt.savefig('graph1.png')
 plt.show()

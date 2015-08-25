@@ -6,10 +6,10 @@ gamma = 0.9
 #R = 0#int(sys.argv[1])
 exploreBias = 100
 horizon = 100
-rolloutcount = 5
+rolloutcount = 10
 state = riskUCT.s0
 
-f = open('results.txt', 'w')
+f = open('results3.txt', 'w')
 
 def play(state, iters, gamma, R, exploreBias, horizon, rolloutcount):
 	totalReward = 0
@@ -54,9 +54,9 @@ def iterate(iters, R):
 
 def riskAdjust():
 	R = 0
-	for i in range(11):
+	for i in range(16):
 		print "For R="+str(R)+":"
-		iterate(10, R)
+		iterate(1000, R)
 		print "\n"
 		R+=0.5
 
