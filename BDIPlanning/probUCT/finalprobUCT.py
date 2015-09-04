@@ -56,22 +56,23 @@ s4 = State("s4",[])
 s5 = State("s5",[])
 s6 = State("s6",[])
 
-
+goalreward = 100
+failreward = -100
 #actions
-a0 = Action("a0", [s2,s6], [0.4,0.6], [-5,-100])
-a1 = Action("a1", [s1,s6], [0.9,0.1], [-30,-100])
-a2 = Action("a2", [s5,s6], [0.1,0.9], [100,-100])
-a3 = Action("a3", [s3,s6], [0.99,0.01], [-20,-100])
-a4 = Action("a4", [s5,s6], [0.4,0.6], [100,-100])
-a5 = Action("a5", [s2,s6], [0.95,0.05], [-20,-100])
-a6 = Action("a6", [s3,s6], [0.95,0.05], [-20,-100])
-a7 = Action("a7", [s4,s6], [0.9,0.1], [-5,-100])
-a8 = Action("a8", [s5,s6], [0.8,0.2], [100,-100])
-a9 = Action("a9", [s5,s6], [0.95,0.05], [65,-100])
-a10 = Action("a10", [s0,s6], [0.8,0.2], [-30,-100])
-a11 = Action("a11", [s0,s6], [0.4,0.6], [-5,-100])
-a12 = Action("a12", [s1,s6], [0.95,0.05], [-10,-100])
-a13 = Action("a13", [s2,s6], [0.9,0.1], [-5,-100])
+a0 = Action("a0", [s2,s6], [0.4,0.6], [-5,failreward])
+a1 = Action("a1", [s1,s6], [0.9,0.1], [-30,failreward])
+a2 = Action("a2", [s5,s6], [0.1,0.9], [goalreward,failreward])
+a3 = Action("a3", [s3,s6], [0.99,0.01], [-20,failreward])
+a4 = Action("a4", [s5,s6], [0.4,0.6], [goalreward,failreward])
+a5 = Action("a5", [s2,s6], [0.95,0.05], [-20,failreward])
+a6 = Action("a6", [s3,s6], [0.95,0.05], [-20,failreward])
+a7 = Action("a7", [s4,s6], [0.9,0.1], [-5,failreward])
+a8 = Action("a8", [s5,s6], [0.8,0.2], [goalreward,failreward])
+a9 = Action("a9", [s5,s6], [0.95,0.05], [goalreward*.65,failreward])
+a10 = Action("a10", [s0,s6], [0.8,0.2], [-30,failreward])
+a11 = Action("a11", [s0,s6], [0.4,0.6], [-5,failreward])
+a12 = Action("a12", [s1,s6], [0.95,0.05], [-10,failreward])
+a13 = Action("a13", [s2,s6], [0.9,0.1], [-5,failreward])
 
 def SetActions():
     s0.actions = [a0,a1]

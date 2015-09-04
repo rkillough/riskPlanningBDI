@@ -1,5 +1,6 @@
 import sys
-import probUCTriskrollout as riskUCT
+#import probUCTriskrollout as riskUCT
+import finalprobUCT as riskUCT
 
 iters = 10000
 gamma = 0.9
@@ -9,7 +10,7 @@ horizon = 100
 rolloutcount = 10
 state = riskUCT.s0
 
-f = open('results3.txt', 'w')
+f = open('probGraphs/results2plus.txt', 'w+')
 
 def play(state, iters, gamma, R, exploreBias, horizon, rolloutcount):
 	totalReward = 0
@@ -53,11 +54,12 @@ def iterate(iters, R):
 	f.write(fstring)
 
 def riskAdjust():
-	R = 0
-	for i in range(16):
+	R = 5.5
+	for i in range(10):
 		print "For R="+str(R)+":"
 		iterate(1000, R)
 		print "\n"
 		R+=0.5
 
+#print play(state, iters, gamma, 0, exploreBias, horizon, rolloutcount)
 riskAdjust()
