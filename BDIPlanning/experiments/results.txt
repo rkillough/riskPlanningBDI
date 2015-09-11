@@ -1,0 +1,1 @@
+Static 0,57,90;Static 2,69,55;Static 4.5,93,9.7;Variable,81,52.77;
